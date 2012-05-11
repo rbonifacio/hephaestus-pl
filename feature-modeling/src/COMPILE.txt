@@ -1,0 +1,4 @@
+bnfc -m -p FeatureModel.Parsers.FMIde FMIde.cf 
+ 
+ghc -o ../dist/afml --make FeatureModel/Main
+

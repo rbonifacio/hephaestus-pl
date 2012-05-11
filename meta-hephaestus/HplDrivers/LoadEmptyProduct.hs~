@@ -1,0 +1,7 @@
+module HplDrivers.LoadEmptyProduct where
+
+import HplProducts.Empty
+
+main :: IO ()
+main = do return ()
+

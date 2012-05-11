@@ -1,0 +1,159 @@
+-- 
+-- We include instructions for customizing the empty product.
+--
+
+-- Set the module name to the product's main module
+module HplProducts.Empty where
+
+-- Add imports for product-specific modules
+import FeatureModel.Types
+import FeatureModel.Parsers.GenericParser 
+import CK.Parsers.XML.XmlConfigurationParser
+import qualified BasicTypes as Core
+import System.Directory
+import System.FilePath
+import Maybe 
+
+--import EmptyTypes
+
+-- Add equations for product-specific transformations
+transform :: TransformationModel -> SPLModel -> InstanceModel -> InstanceModel
+transform UndefinedTransformation _ _ = undefined
+
+mkEmptyInstance :: FeatureConfiguration -> SPLModel -> InstanceModel
+mkEmptyInstance fc spl =
+  InstanceModel {
+       featureConfiguration = fc
+       -- Add product-specific model parts
+  }
+  
+  
+build :: FeatureModel                 -- ^ SPL feature model    
+      -> FeatureConfiguration         -- ^ selection of features, which characterizes t
+      -> ConfigurationKnowledge       -- ^ relationships between features and transformations
+      -> SPLModel                     -- ^ SPL assets
+      -> InstanceModel             -- ^ resulting instance of the build process
+build fm fc ck spl = stepRefinement ts spl emptyInstance       
+ where 
+  emptyInstance = mkEmptyInstance fc spl
+  ts = tasks ck fc      
+        
+tasks :: ConfigurationKnowledge -> FeatureConfiguration -> [TransformationModel]
+tasks ck fc = concat [transformations c | c <- ck, eval fc (expression c)]
+stepRefinement :: [TransformationModel] -> SPLModel -> InstanceModel -> InstanceModel
+stepRefinement [] splModel instanceModel = instanceModel
+stepRefinement (t:ts) splModel instanceModel
+ = stepRefinement ts splModel (transform t splModel instanceModel)
+
+
+
+
+-- Add equations for product-specific export
+export :: ExportModel -> FilePath -> InstanceModel -> IO()
+export UndefinedExport _ _ = undefined
+
+
+--
+-- input para function sequence_ :: Monad m => [m a] -> m ()
+--
+--lstCommandsBegin :: Monad m => [m a]
+--lstCommandsBegin = [leFileProperties, parserFM, parserFC, parserCK]
+
+--lstCommandsAssets :: Monad m => [m a]
+--lstCommandsAssets = []
+
+--lstCommandsEnd :: Monad m => [m a]
+--lstCommandsEnd = [buildProduct, map export lstExport]
+
+
+-- fm não está dentro do SPLModel ??? Confirmar com Vander e Rodrigo  
+--createSPL :: SPLModel
+--createSPL = SPLModel { }  
+
+-- the function Main it will be in another module out here
+main :: IO()
+main = do 
+--  let cmds = lstCommandsBegin ++ lstCommandsAssets ++ lstCommandsEnd in 
+--    sequence_ cmds
+--  return ()
+
+ cDir <- getCurrentDirectory
+ let ns = normalizedSchema cDir
+     
+ f <- getLine	             -- read the name of the project file 
+ s <- readFile f             -- read the file contents
+ let l = lines s             -- split the content in several lines
+
+ -- read all properties 
+ let ps  = map fromJust (filter (isJust) (map readPropertyValue l))
+ 
+-- retrieve the specific property values we are interested in
+ let n = fromJust (findPropertyValue "name" ps)
+ let f = fromJust (findPropertyValue "feature-model" ps)
+ let i = fromJust (findPropertyValue "instance-model" ps) 
+ let c = fromJust (findPropertyValue "configuration-model" ps)
+ let t = fromJust (findPropertyValue "target-dir" ps)
+ --let u = fromJust (findPropertyValue "usecase-model" ps)
+          
+ (Core.Success fm) <- parseFeatureModel  ((ns fmSchema), snd f) FMPlugin
+ (Core.Success cm) <- parseConfigurationKnowledge (ns ckSchema) (snd c)
+-- let cm = criaCK
+ (Core.Success im) <- parseInstanceModel (ns fcSchema) (snd i)  
+ --(Core.Success ucpl) <- parseUseCaseFile (ns ucSchema) (snd u)  
+ 
+ let fc = FeatureConfiguration im
+ let spl = SPLModel { }
+ let product = build fm fc cm spl
+ let out = (outputFile (snd t) (snd n)) -- a função "export" vai gerar a extensão (.tex, .xml, etc) do nome de output dado por "n" em Properties
+ 
+ -- isso também é variabilidade Saída do UCM. Criar também saída para o BPM
+ --let ucp = ucm product
+ --exportUcmToLatex (out ++ ".tex") ucp
+ 
+ sequence_ [export x out product | x<-lstExport]
+ --sequence_ (map export lstExport)
+ 
+ print $ "Ok, the output file was genarated at: " ++ out
+  
+ return()
+ 
+ 
+-----------------------------------------------------------------------------------------
+-- definitions brought from module Main.hs of Hephaestus 
+-----------------------------------------------------------------------------------------       
+type PropertyValue = (String, String)
+
+fmSchema :: String 
+fmSchema = "schema_feature-model.rng"
+
+fcSchema :: String
+fcSchema = "schema_feature-configuration.rng"
+
+ckSchema :: String 
+ckSchema = "schema-configuration-knowledge.rng"
+
+normalizedSchema:: FilePath -> String -> FilePath
+normalizedSchema cDir sch = cDir </> sch 
+
+outputFile :: FilePath -> String -> FilePath
+outputFile  f n = f </> n 
+--outputFile :: FilePath -> String -> FilePath
+--outputFile  f n = f </> (n ++ ".tex") 
+
+-- given a String s, it returns just a property, 
+-- if s matches "key=value". Otherwise, it returns 
+-- Nothing.
+readPropertyValue :: String -> Maybe PropertyValue
+readPropertyValue s =
+ let p = break (== '=') s
+ in case p of 
+     ([], _) -> Nothing
+     (k , v) -> Just (k, tail v)  
+
+findPropertyValue:: String -> [PropertyValue] -> Maybe PropertyValue  
+findPropertyValue k [] = Nothing
+findPropertyValue k (x:xs) =   
+ if (k == fst x) then Just x
+ else findPropertyValue k xs    
+ 
+

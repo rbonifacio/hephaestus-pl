@@ -1,0 +1,29 @@
+TGrammar. Grammar ::= [Production] [AddConstraint];
+
+TBaseProduction. Production ::= BaseProd [Term] "::" ProdName ";" ;
+TAltProduction.  Production ::= AltProd  [Option] ";" ;
+
+TBaseProd. BaseProd ::= Ident ":" ;
+TAltProd.  AltProd  ::= Ident "|" ;
+
+TProdName. ProdName  ::= Ident ;
+TProdNameL. ProdName ::= "_"Ident ;
+TProdNameR. ProdName ::= Ident"_" ;
+
+TTerm. Term::= Ident ;
+TOptionalTerm. Term ::= "["Ident"]" ;
+TOrTerm.       Term ::= Ident"+" ;
+TXorTerm.      Term ::= Ident"*" ;
+
+TOption.        Option ::= Ident ; 
+
+separator Production "" ; 
+separator Term "" ; 
+separator Option "|" ;
+
+comment "%%" ;
+
+
+
+
+ 

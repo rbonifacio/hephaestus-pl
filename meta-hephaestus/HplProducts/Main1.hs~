@@ -1,0 +1,11 @@
+-- 
+-- This is a command line module 
+-- of Hephaestus, target to manage 
+-- variability in use case models.
+-- 
+module Main1 where 
+
+main :: IO ()
+main = do
+   return
+

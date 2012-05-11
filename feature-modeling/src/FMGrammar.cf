@@ -1,0 +1,30 @@
+FMGrammar. FMGrammar ::= [Production] [Expression];
+
+BaseProduction. Production ::= Ident ":" [Child] ";/" ;
+XorProduction. Production  ::= Ident ":" "(" [Option] ")" ";/"   ;
+OrProduction. Production   ::= Ident ":" "(" [Option] ")+" ";/"  ;  
+
+MandatoryChild.  Child  ::= Ident ;
+OptionalChild.   Child  ::= Ident "?" ;
+
+
+Option.  Option ::= Ident ;
+
+
+BasicExp. Expression ::= Ident ;
+ImpliesExp. Expression ::= "(" Expression "->"  Expression ")"   ;
+IffExp.     Expression ::= "(" Expression "<->" Expression ")"   ;
+AndExp.     Expression ::= "(" Expression "&"   Expression ")"   ;
+OrExp.      Expression ::= "(" Expression "|"   Expression ")"   ; 
+NotExp.     Expression ::= "!" Expression ;
+
+separator Option  "|" ;
+separator Production "" ; 
+separator Child "" ; 
+separator Expression ";/" ;
+
+comment "--" ;
+
+
+
+

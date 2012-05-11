@@ -1,0 +1,9 @@
+<requirementModel>
+  <requirement>
+    <id>FR_BANKING_0001</id>
+    <name>Withdraw</name>
+    <description>
+     The user shall be able to withdraw money from a selected account. 
+    </description>
+  </requirement>
+</requirementModel>

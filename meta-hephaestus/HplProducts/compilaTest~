@@ -1,0 +1,6 @@
+# options = -i../:../../core/src:../../feature-modeling/src
+
+# ghci Test.hs Hephaestus.hs ${options}
+
+ghci -i../:../../core/src:../../feature-modeling/src:../../ckp/src -fglasgow-exts  Hephaestus.hs 
+

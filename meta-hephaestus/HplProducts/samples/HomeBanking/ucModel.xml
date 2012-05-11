@@ -1,0 +1,336 @@
+<phone>
+	<feature>
+	  <featureId>F01</featureId>
+	  <name>Banking Automation Product Line</name>
+		<useCase>
+			<id>UC01</id>
+			<name>User transactions.</name>
+			<description>It describes the supported transactions with the banking
+				system.</description>
+			<setup>-</setup>
+			<flow>
+				<id>SC01</id>
+				<description>This scenario allows a customer to withdraw money from
+					a previously selected account.</description>
+
+				<fromSteps>START</fromSteps>
+
+				<toSteps>END</toSteps>
+
+				<step>
+					<stepId>SC0101</stepId>
+					<action>
+						The customer selects the withdraw option.
+				</action>
+					<condition>-</condition>
+					<response>
+						The system creates a new withdrawal and asks for the
+						amount to withdraw.
+				</response>
+				</step>
+				<step>
+					<stepId>SC0102</stepId>
+					<action>
+						The customer fills in the amount to withdraw.
+				</action>
+					<condition>-</condition>
+					<response>
+						The system retrieves the current balance of the selected
+						account.
+					</response>
+				</step>
+				<step>
+					<stepId>SC0103</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>
+						The system verifies that the requested amount is not
+						greater than current balance plus U$ {LIMIT}. @authentication
+					</response>
+				</step>
+				<step>
+					<stepId>SC0104</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>
+						The bank system withdraws the amount from the account.
+					</response>
+				</step>
+				<step>
+					<stepId>SC0105</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>
+						The cash money is provided to the customer.
+					</response>
+				</step>
+			</flow>
+			<flow>
+				<id>SC02</id>
+				<description>This scenario allows a customer to transfer money from
+					a previously selected account to a
+					destination account.
+				</description>
+
+				<fromSteps>START</fromSteps>
+
+				<toSteps>END</toSteps>
+
+				<step>
+					<stepId>SC0201</stepId>
+					<action>
+						The customer selects the transfer option.
+				</action>
+					<condition>-</condition>
+					<response>
+						The system asks the customer to inform the
+						destination
+						bank and account.
+				</response>
+				</step>
+				<step>
+					<stepId>SC0202</stepId>
+					<action>
+						The customer informs the destination bank and
+						account.
+					</action>
+					<condition>-</condition>
+					<response>
+						The system asks for the amount to transfer.
+					</response>
+				</step>
+				<step>
+					<stepId>SC0203</stepId>
+					<action>The customer fills in the amount to transfer.</action>
+					<condition>-</condition>
+					<response>
+						The system retrieves the current balance of the selected
+						account.
+					</response>
+				</step>
+				<step>
+					<stepId>SC0204</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>
+						The system verifies that the requested amount is not
+						greater than current balance plus U$ {LIMIT}. @authentication
+					</response>
+				</step>
+				<step>
+					<stepId>SC0205</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>
+						The bank system withdraws the transfer amount from
+						the
+						originating account.
+					</response>
+				</step>
+				<step>
+					<stepId>SC0206</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>
+						The bank system requests a transfer from the bank's own
+						account to the account of the bank of the
+						destination account.
+					</response>
+				</step>
+			</flow>
+			<flow>
+				<id>SC03</id>
+				<description>This scenario allows a customer to buy stocks.
+				</description>
+
+				<fromSteps>START</fromSteps>
+
+				<toSteps>END</toSteps>
+
+				<step>
+					<stepId>SC0301</stepId>
+					<action>
+						The customer selects Buy Stock option.
+				</action>
+					<condition>-</condition>
+					<response>
+						The system asks the customer to inform the
+						stock code (ISIN).
+				</response>
+				</step>
+				<step>
+					<stepId>SC0302</stepId>
+					<action>
+						The customer informs the ISIN code.
+					</action>
+					<condition>-</condition>
+					<response>
+						The system verifies that the ISIN code is valid.
+					</response>
+				</step>
+				<step>
+					<stepId>SC0303</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>
+						The system asks for the amount of stocks involved.
+					</response>
+				</step>
+				<step>
+					<stepId>SC0304</stepId>
+					<action>The customer gives the amount.</action>
+					<condition>-</condition>
+					<response>
+						The system verifies that the requested amount of stocks 
+						is valid. @authentication
+					</response>
+				</step>
+				<step>
+					<stepId>SC0305</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>
+						The bank system creates a new pending order and sends it 
+						to the stock market.
+					</response>
+				</step>
+				<step>
+					<stepId>SC0306</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>
+						The stock market confirms the receipt of the order.
+					</response>
+				</step>
+				<step>
+					<stepId>SC0307</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>
+						The bank system adds the order to the pending orders of the account and 
+						notifies the actor.
+					</response>
+				</step>
+			</flow>			
+		</useCase>
+		<aspect>
+			<id>ADV01</id>
+			<name>Authenticates using a PIN as the main mechanism.</name>
+			<advice>
+				<id>ADV01</id>
+				<type>after</type>
+				<description>Describes the authentication process using a PIN as the
+					main mechanism.</description>
+				<pointCut>@authentication</pointCut>
+				<step>
+					<stepId>ADV0101</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>The system asks the customer to enter her personal
+						identification number.</response>
+				</step>
+				<step>
+					<stepId>ADV0102</stepId>
+					<action>The customer fills in the personal identification number.
+					</action>
+					<condition>-</condition>
+					<response>The system authenticates the customer's personal
+						identification number.</response>
+				</step>
+			</advice>
+		</aspect>
+		<aspect>
+			<id>ADV02</id>
+			<name>Authenticates using Fingerprint as the main mechanism.</name>
+			<advice>
+				<id>ADV02</id>
+				<type>after</type>
+				<description>Describes the authentication process using the customer
+					Fingerprint as the
+					main mechanism.</description>
+				<pointCut>@authentication</pointCut>
+				<step>
+					<stepId>ADV0201</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>The system asks the customer to put her finger in the
+						fingerprint reader</response>
+				</step>
+				<step>
+					<stepId>ADV0202</stepId>
+					<action>The customer puts her finger in the fingerprint reader
+						device.
+					</action>
+					<condition>-</condition>
+					<response>The system authenticates the customer, according to
+						the analysis of the captured fingerprint data.</response>
+				</step>
+			</advice>
+		</aspect>
+		<aspect>
+			<id>ADV03</id>
+			<name>Detailed transaction.</name>
+			<advice>
+				<id>ADV03</id>
+				<type>around</type>
+				<description>Describes the transaction process.</description>
+				<pointCut>SC0104,SC0205</pointCut>
+				<step>
+					<stepId>ADV0301</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>The transaction handler starts the processing of a
+						transaction.</response>
+				</step>
+				<step>
+					<stepId>PROCEED</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>-</response>
+				</step>
+				<step>
+					<stepId>ADV0302</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>An entry with the transaction information is logged to
+						the overview of the completed transactions of the customers
+						account.</response>
+				</step>
+				<step>
+					<stepId>ADV0303</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>The transaction is removed from the transaction queue.
+					</response>
+				</step>
+			</advice>
+		</aspect>
+		<aspect>
+			<id>ADV04</id>
+			<name>Fraud detection.</name>
+			<advice>
+				<id>ADV04</id>
+				<type>before</type>
+				<description>Describes the fraud detection process.</description>
+				<pointCut>SC0104</pointCut>
+				<step>
+					<stepId>ADV0401</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>The system sends a message to the Fraud Detection System,
+						requesting a validation of the operation.</response>
+				</step>
+				<step>
+					<stepId>ADV0402</stepId>
+					<action>-</action>
+					<condition>-</condition>
+					<response>The Fraud Detection System authorizes the operation. If
+						the
+						operation is not authorized by the Fraud Detection System, a
+						message is reported to the customer and this scenario finishes.
+					</response>
+				</step>
+			</advice>
+		</aspect>
+	</feature>
+</phone>

@@ -1,0 +1,21 @@
+<process-definition
+       name="homologaResultadoConcurso"
+       xmlns="urn:jbpm.org:jpdl-3.2"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="urn:jbpm.org:jpdl-3.2 http://jbpm.org/xsd/jpdl-3.2.xsd"
+       >
+       <start-state name="submeterResultadoConcurso">
+               <transition to="homologaResultadoConcurso"></transition>
+       </start-state>
+       <task-node name="homologaResultadoConcurso2" >
+               <task name="homologarResultado">
+                       <description>
+                               Homologar resultado do concurso número #{edital}
+                       </description>
+                       <assignment pooled-actors="Coordenador"></assignment>
+               </task>
+               <transition to="concluido"></transition>
+       </task-node>
+       <end-state name="concluido">
+       </end-state>
+</process-definition>

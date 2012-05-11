@@ -1,0 +1,20 @@
+TSxFM. SxFM ::= SxFeatureRoot ;
+
+TSxFeatureRoot. SxFeatureRoot ::= ":r" SxFeatureName SxFeatureId "(" [SxFeature] ")";
+
+TSxFeatureName. SxFeatureName ::= Ident ;
+TSxFeatureId. SxFeatureId ::= "("Ident")" ;
+
+TSxMandatoryFeature.   SxFeature ::= ":m" SxFeatureName "(" [SxFeature] ")" ;
+TSxOptionalFeature.    SxFeature ::= ":o" SxFeatureName "(" [SxFeature] ")" ;
+TSxAlternativeFeature. SxFeature ::= ":g [1,1]" "(" [SxOption] ")" ;
+TSxOrFeature.          SxFeature ::= ":g [1,*]" "(" [SxOption] ")" ;
+
+TSxOption. SxOption ::= ":option" Ident "("Ident")" "("[SxFeature]")" ;
+
+separator SxFeature "" ;
+separator SxOption ""  ;
+
+
+
+ 

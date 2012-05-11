@@ -1,0 +1,20 @@
+import Language.Haskell.Syntax
+import Language.Haskell.Parser
+
+data ExportModel = UndefinedExport
+                 | ExportUcmXML 
+                 | ExportBpmXML 
+ 
+export :: ExportModel -> String -> String -> IO ()
+export (UndefinedExport) _ _ = undefined
+export (ExportUcmXML) x1 x2 = putStr "exportUcmToXML (ucm x1) x2" ++ x1 ++ x2
+export (ExportBpmXML) x1 x2 = putStr "exportBpmToXML (bpm x1) x2" ++ x1 ++ x2
+ 
+lstExport :: [ExportModel]
+lstExport = [ExportUcmXML, ExportBpmXML]
+
+main :: IO ()
+main = do 
+  sequence_ [export x "./saida.txt" "produto"| x<-lstExport]
+  --sequence_ (map export lstExport "./saida.txt" "produto" )
+  

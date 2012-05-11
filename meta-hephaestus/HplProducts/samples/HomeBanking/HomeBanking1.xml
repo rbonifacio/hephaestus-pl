@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<phone xmlns="user-view.target.v20071129">
+<feature>
+<featureId>01</featureId> 
+<name>Banking Automation Product Line</name>
+<useCase>
+<id>UC01</id>
+<name>User transactions.</name>
+<description>It describes the supported transactions with the banking
+				system.</description>
+<setup></setup>
+<flow>
+<description>This scenario allows a customer to withdraw money from
+					a previously selected account.</description>
+<fromSteps>START</fromSteps>
+<toSteps>END</toSteps>
+<step>
+<stepId>SC0101</stepId>
+<action>
+						The customer selects the withdraw option.
+				</action>
+<condition>-</condition>
+<response>
+						The system creates a new withdrawal and asks for the
+						amount to withdraw.
+				</response>
+</step>
+<step>
+<stepId>SC0102</stepId>
+<action>
+						The customer fills in the amount to withdraw.
+				</action>
+<condition>-</condition>
+<response>
+						The system retrieves the current balance of the selected
+						account.
+					</response>
+</step>
+<step>
+<stepId>SC0103</stepId>
+<action>-</action>
+<condition>-</condition>
+<response>
+						The system verifies that the requested amount is not
+						greater than current balance plus U$ (v5000). @authentication
+					</response>
+</step>
+<step>
+<stepId>ADV0101</stepId>
+<action>-</action>
+<condition>-</condition>
+<response>The system asks the customer to enter her personal
+						identification number.</response>
+</step>
+<step>
+<stepId>ADV0102</stepId>
+<action>The customer fills in the personal identification number.
+					</action>
+<condition>-</condition>
+<response>The system authenticates the customer's personal
+						identification number.</response>
+</step>
+<step>
+<stepId>SC0104</stepId>
+<action>-</action>
+<condition>-</condition>
+<response>
+						The bank system withdraws the amount from the account.
+					</response>
+</step>
+<step>
+<stepId>SC0105</stepId>
+<action>-</action>
+<condition>-</condition>
+<response>
+						The cash money is provided to the customer.
+					</response>
+</step>
+</flow>
+<flow>
+<description>This scenario allows a customer to transfer money from
+					a previously selected account to a
+					destination account.
+				</description>
+<fromSteps>START</fromSteps>
+<toSteps>END</toSteps>
+<step>
+<stepId>SC0201</stepId>
+<action>
+						The customer selects the transfer option.
+				</action>
+<condition>-</condition>
+<response>
+						The system asks the customer to inform the
+						destination
+						bank and account.
+				</response>
+</step>
+<step>
+<stepId>SC0202</stepId>
+<action>
+						The customer informs the destination bank and
+						account.
+					</action>
+<condition>-</condition>
+<response>
+						The system asks for the amount to transfer.
+					</response>
+</step>
+<step>
+<stepId>SC0203</stepId>
+<action>The customer fills in the amount to transfer.</action>
+<condition>-</condition>
+<response>
+						The system retrieves the current balance of the selected
+						account.
+					</response>
+</step>
+<step>
+<stepId>SC0204</stepId>
+<action>-</action>
+<condition>-</condition>
+<response>
+						The system verifies that the requested amount is not
+						greater than current balance plus U$ (v5000). @authentication
+					</response>
+</step>
+<step>
+<stepId>ADV0101</stepId>
+<action>-</action>
+<condition>-</condition>
+<response>The system asks the customer to enter her personal
+						identification number.</response>
+</step>
+<step>
+<stepId>ADV0102</stepId>
+<action>The customer fills in the personal identification number.
+					</action>
+<condition>-</condition>
+<response>The system authenticates the customer's personal
+						identification number.</response>
+</step>
+<step>
+<stepId>SC0205</stepId>
+<action>-</action>
+<condition>-</condition>
+<response>
+						The bank system withdraws the transfer amount from
+						the
+						originating account.
+					</response>
+</step>
+<step>
+<stepId>SC0206</stepId>
+<action>-</action>
+<condition>-</condition>
+<response>
+						The bank system requests a transfer from the bank's own
+						account to the account of the bank of the
+						destination account.
+					</response>
+</step>
+</flow>
+</useCase>
+</feature>
+</phone>

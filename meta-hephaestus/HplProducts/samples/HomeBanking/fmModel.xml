@@ -1,0 +1,54 @@
+<feature min="1" max="1" name="Banking" type="NONE" id="banking">
+	<feature min="1" max="1" name="Services" type="NONE" id="services">
+		<featureGroup min="1" max="2" id="availableServices">
+			<feature min="0" max="1" name="Withdraw" type="NONE" id="withdraw">
+			</feature>
+			<feature min="0" max="1" name="Buy Stocks" type="NONE" id="buyStocks">
+			</feature>
+			<feature min="0" max="1" name="Transfer" type="NONE" id="transfer">
+				<featureGroup min="1" max="1" id="transferOptions">
+					<feature min="0" max="1" name="Identified" type="NONE"
+						id="identified">
+					</feature>
+					<feature min="0" max="1" name="NonIdentified" type="NONE"
+						id="nonIdentified">
+					</feature>
+				</featureGroup>
+			</feature>
+		</featureGroup>
+	</feature>
+	<feature min="0" max="1" name="DetailedTransaction" type="NONE"
+		id="detailedTransaction">
+	</feature>
+	<feature min="0" max="1" name="FraudDetection" type="NONE"
+		id="fraudDetection">
+	</feature>
+	<feature min="1" max="1" name="OperationLimit" type="NONE"
+		id="operationlimit">
+		<featureGroup min="1" max="1" id="limitOptions">
+			<feature min="0" max="1" name="V5000" type="NONE" id="v5000">
+			</feature>
+			<feature min="0" max="1" name="V10000" type="NONE" id="v10000">
+			</feature>
+		</featureGroup>
+	</feature>
+	<feature min="1" max="1" name="AuthenticationMechanism" type="NONE"
+		id="authenticationMechanism">
+		<featureGroup min="1" max="1" id="authenticationOptions">
+			<feature min="0" max="1" name="PIN" type="NONE" id="PIN">
+			</feature>
+			<feature min="0" max="1" name="Biometrics" type="NONE" id="biometrics">
+			</feature>
+		</featureGroup>
+	</feature>
+	<feature min="0" max="1" name="Devices" type="NONE" id="devices">
+		<featureGroup min="1" max="1" id="deviceOptions">
+			<feature min="0" max="1" name="Fingerprint" type="NONE"
+				id="fingerprint">
+			</feature>
+			<feature min="0" max="1" name="IrisRecognition" type="NONE"
+				id="irisRecognition">
+			</feature>
+		</featureGroup>
+	</feature>
+</feature>
