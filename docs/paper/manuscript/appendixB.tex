@@ -1,0 +1,84 @@
+\section{Appendice B: Description of Activities of the \hpl{} Reactive Process}
+\label{sec:activitiesReactiveProcess}
+
+In particular, the activities of the reactive process are described in the following:
+
+\begin{enumerate}
+
+  \item \textbf{Define tool requirements}: based on the need for a tool for derivation of products with a new configuration of artifacts, the customer defines the requirements of the tool specifying the artifacts that the tool must support, for example, a tool with BPM and UCM assets. He/she then sends it to the application engineer that will analyse tool requirements and generate the desired configuration tool.
+
+  \item \textbf{Receiving the Hephaestus product}: the customer receives of the application engineer a product Hephaestus instance with the desired requirements.
+
+  \item \textbf{Analyse tool requirements}: the application engineer analyzes the tool requirements demanded by the customer checking if Hephaestus-PL already supports these requirements. If so, it creates an instance of product that meets these requirements. If Hephaestus-PL does not yet support all the requirements of the tool required, then is demanded to domain engineer the evolution of Hephaestus-PL to support the new requirements (reactive process) increasing configurability of Hephaesuts-PL. In this case, must be negotiated with the customer because there will be a greater effort (cost and time) involved to deliver the desired tool.
+
+  \item \textbf{Generate the Hephaestus product}: considering that Hephaestus-PL supports all the customer's tool requirements, the application engineer generates the Hephaestus product with the configuration desired by the customer.
+
+  \item \textbf{Test the Hephaestus product}: before delivering the Hephaestus product to the customer, the application engineer tests the product verifying that it meets all the tool requirements requested.
+
+  \item \textbf{Define asset type structures}:  implement a new \texttt{Types.hs} module containing \textit{(i)} the abstract data types representing the artifacts of asset product line and \textit{(ii)} the \texttt{<NewAsset>Transformation} data type representing the constructors of the transformations of the new asset. The definition \texttt{<NewAsset>Transformation} must have the clause \texttt{deriving (Show, Eq, Ord)} to allow the ordering and viewing of the asset transformations. The internal name of the \texttt{Types.hs} module must be \texttt{HplAssets.<NewAssetDirectory>.Types}.
+
+  \item \textbf{Define asset transformations}: implement a new \texttt{<NewAsset>.hs} module containing \textit{(i)} the \texttt{empty<NewAsset>} function representing an empty product of new asset used by \texttt{mkEmptyInstance} function in the beginning of \emph{build} function for generating an product Hephaestus instance; \textit{(ii)} the \texttt{transform<NewAsset>} function with the signature \texttt{transform<NewAsset>::<NewAsset>Transformation->SPLModel->InstanceModel->InstanceModel}; \textit{(iii)} for each constructor of \texttt{<NewAsset>Transformation} data type defined in \texttt{Types.hs} module to define a new \texttt{transform<NewAsset>} function using pattern matching concept; \textit{(iv)} the \textit{import} clause to \texttt{HplProducts.TestTypes} module which contains the \emph{SPLModel} and \emph{InstanceModel} data types used by \texttt{transform<NewAsset>} functions; and \textit{(v)} the \texttt{empty<NewAsset>} and \texttt{transform<NewAsset>} functions in the \texttt{<NewAsset>.hs} module interface because they will be used by generated product Hephaestus instance.
+The internal name of the \texttt{<NewAsset>.hs} module must be \texttt{HplAssets.<NewAsset>}.
+
+  \item \textbf{Implement asset parser}: implement a new \texttt{<NewAssetFomartParser>.hs} module which contains a \texttt{<newAssetFormatParser>} function to reading the artifacts of asset product line from a public representation format such as XML, into the abstract data types defined in \texttt{Types.hs} module of asset in Hephaestus-PL.
+  The internal name of the \texttt{<NewAssetFomartParser>.hs} module must be \texttt{ HplAssets.<NewAssetDiectory>.Parsers.<NewAssetFomartParser>}.
+
+  \item \textbf{Implement asset output format}: implement a new \texttt{<NewAssetOutputFormat>.hs} module with a \texttt{<newAssetOutputFormat>} function that enables the exportation of asset product instance out Hephaestus.
+
+  \item \textbf{Integrate new modules to \hpl's infrastructure}: host the new asset modules in the directory tree of Hephaestus-PL as follows: (i) the \texttt{Types.hs} module is below \texttt{HplAssets/<NewAssetDiectory>/} directory; (ii) the \texttt{<NewAsset>.hs} module is below \texttt{HplAssets/} directory; (iii) the \texttt{<NewAssetFomartParser>.hs} module is below \texttt{HplAssets/<NewAssetDiectory>/Parsers/} directory; (iv) the \texttt{<NewAssetOutputFormat>.hs} module  is below \texttt{HplAssets/<NewAssetDiectory>/PrettyPrinter/} directory.
+
+  \item \textbf{Define values to \texttt{AssetMetaData} data type}: The \texttt{AssetMetaData} data structure stores information used by the metaprogramming operations to extend the source code of empty instance of Hephaestus with the selected assets. Such information allow:
+
+\begin{itemize}
+
+\item in the \texttt{EmptyTypes.hs} to extend module the \texttt{SPLModel}, \texttt{InstanceModel} and \texttt{TransformationModel} data types, \texttt{xml2Transformation} function and insert \textit{import} clauses to the \texttt{Types.hs} modules of the selected assets.
+
+\item in the \texttt{Empty.hs} to extend module \texttt{transform}, \texttt{mkEmptyInstance} and \texttt{main} functions. Also insert \textit{import} clauses to the  \texttt{<NewAssetFomartParser>.hs} and  \texttt{<NewAsset>.hs} modules containing respectively the \textit{parser} function and \textit{transformation} functions of selected assets.
+
+\end{itemize}
+
+In the Section~\ref{sec:designRules} we propose a set of conventions (Design Rules) to be observed in the implementation of the artifacts of the new asset for getting a minimal meta data structure to the asset and allowing the automation of the asset information generation to the metaprogramming operations that manage the variability of \hpl.
+
+  \item \textbf{Insert tuple in \texttt{assetMetaData} list}: Update the \texttt{assetMetaData} list containing a new tuple that associates the \textit{<newAsset>} feature with \texttt{AssetMetaData} data structure. This list is used by metaprogramming operations that treat the children OR-features of \textit{SPL Models} feature, i.e., extends the source code in the \texttt{Empty.hs} module (empty instance of Hephaestus) for support the selected assets.
+
+  \item \textbf{Define values to \texttt{ExportMetaData} data type}: The \texttt{ExportMetaData} data structure stores informations used by the metaprogramming operations to extend the source code of empty instance of Hephaestus with the selected asset output formats. These informations allow:
+
+\begin{itemize}
+
+\item in the \texttt{Empty.hs} module to extend \texttt{ExportModel} data type, \texttt{export} function, \texttt{lstExport} list and insert \textit{import} clauses to the \texttt{<NewAssetOutputFormat>.hs} modules containing the selected asset output formats.
+
+\end{itemize}
+
+  \item \textbf{Insert tuple in \texttt{exportMetaData} list}: Update the \texttt{exportMetaData} list containing a new tuple that associates the \textit{<newAssetFormat>} feature with \texttt{ExportMetaData} data structure. This list is used by metaprogramming operations that treat the children OR-features of \textit{Output Format} feature, i.e., extends the source code in the \texttt{Empty.hs} module (empty instance of Hephaestus) for the export of asset in the selected format.
+  
+  \item \textbf{Update \hpl's FM and CK}: the feature model and configuration knowledge of \hpl{} are defined in \texttt{MetaData.hs} module located in \texttt{HplAssets/Hephaestus/} directory. We relied on a set of safe evolution templates~\cite{DBLP:conf/gpce/NevesTSAKB11} of software product lines to define the transformations in the FM and CK and modeling the changes them by evolution of the \hpl. The application of these templates is important to perform safe modifications in the product line and preserve existing products behavior by evolution of the product line. It is a guidance which may prevent errors in the evolution of Hephaestus product line's artifacts (in this case, FM and CK) usually caused by ad-hoc changes. The templates have a declarative specification whose automation is planned to be implemented in future work. In particular, their application led to the following:
+
+\begin{itemize}
+\item FM: in the \texttt{featuremodel} function we introduce the \texttt{<NewAsset>} name into \textit{SPLModel} OR-feature
+
+\item CK: Hephaestus-PL supports two types of transformations associated with assets: \texttt{SelectAsset} and \texttt{SelectExport}. The introduction of a new asset in Hephaestus-PL should always insert a new row to the \texttt{SelectAsset} transformation. Then, in the \texttt{configurationKnowledge} function must be inserted a new tuple in the \textit{(feature expression, transformation)} format which represents the selection new asset,i.e., \texttt{(FeatureRef "<NewAsset>", [SelectAsset "<NewAsset>"])}.
+If specified a new asset output format must be inserted a new tuple \texttt{(And (FeatureRef "<NewAsset>") (FeatureRef "<NewAssetFormat>"), [SelectExport "<NewAssetFormat>"])}.
+
+\end{itemize}  
+
+  \item \textbf{Validate the integration of the new asset in \hpl{}}: this activity occurs with the generation of a simplified Hephaestus product containing only the new asset integrated into Hephaestus-PL and the checking whether the generated instance contains the correct definitions of the new asset into points of variability of the Hephaestus source code. If the integration of the new asset into \hpl{} is not validated properly, then it is necessary to return to \textit{Assess impact in \hpl{}} activity to analyze errors.  
+   
+  
+  \item \textbf{Assess impact in \hpl{}}: assess the need for updates to the Hephaestus-PL's kernel APIs to support the new tool requirements. \hpl{} comprises high and low-level APIs, where high-level APIs correspond to Hephaestus-PL's transformations (\textit{SelectAsset} and \textit{SelectExport}) and low-level APIs correspond to the metaprogramming operations. This activity is reexecuted after the execution of \textit{Update Kernel's APIs} activity and after the \textit{Validate the integration of the new asset in \hpl{}} activity. The second only if the \hpl{} product generation with the new asset does not validated successfully. This activity includes to assess impact on the:
+  
+\begin{itemize}  
+  
+  \item \textbf{metaprogramming operations}: evaluate the need to change or to define new metaprogramming operations to address the new asset in \hpl.
+
+  \item \textbf{meta data structures}: evaluate the need to change or to define new fields on meta data structures to address the new asset in \hpl. 
+  
+  \item \textbf{Hephaestus-PL's transformations}: evaluate the need to change or to define new Hephaestus-PL's transformations to address the new asset in \hpl.
+  
+\end{itemize}  
+
+If necessary to change some Hephaestus-PL's Kernel APIs (metaprogramming operations, meta data structures or Hephaestus-PL's transformations) then we must also assess and validate impact in others assets already existing into \hpl. The \textit{Update Kernel's APIs} activity does it.  
+  
+   \item \textbf{Update Kernel's APIs}: it is possible that integration of a new asset into \hpl{} requires changes in the Kernel low-level APIs (metaprogramming operations and meta data structures). In this case, after to do that, we must perform a validation in all existing assets of \hpl{} (\textit{regression testing}) generating a simplified instance of \hp{} product for each asset supported by \hpl{} and checking the extensions points of empty instance of \hp{} to verify the asset were not impacted and continue working properly. It is also important to generate products with combinations of assets because the changes in the Kernel low-level APIs can invalidate the generated \hpl{} instances. For example, when we use the same values of the metadata fields to reference different assets.
+Although less probable but maybe need to occur changes in the Kernel high-level APIs to support the new tool requirements.
+
+\end{enumerate}

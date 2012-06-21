@@ -1,0 +1,307 @@
+%%
+%% Copyright 2007, 2008, 2009 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%%
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%%
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%%
+
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%% SP 2008/03/01
+%%
+%%
+%%
+%% $Id: elsarticle-template-num.tex 4 2009-10-24 08:22:58Z rishi $
+%%
+%%
+\documentclass[preprint,12pt]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+
+
+
+
+\newcommand{\hpl}{Hephaestus-PL}
+\newcommand{\hp}{Hephaestus}
+
+
+%% if you use PostScript figures in your article
+%% use the graphics package for simple commands
+%% \usepackage{graphics}
+%% or use the graphicx package for more complicated commands
+%% \usepackage{graphicx}
+%% or use the epsfig package if you prefer to use the old commands
+%% \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+%% \usepackage{lineno}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+%% \biboptions{comma,round}
+
+% \biboptions{}
+
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{subfigure}
+
+%\usepackage{color}
+\usepackage{listings}
+
+\definecolor{gray}{RGB}{220,220,220}
+\journal{Science of Computer Programming}
+
+%\lstloadlanguages{Haskell}
+%\lstnewenvironment{code}
+%    {\lstset{}%
+%      \csname lst@SetFirstLabel\endcsname}
+%    {\csname lst@SaveFirstLabel\endcsname}
+%    \lstset{
+%      basicstyle=\small\ttfamily,
+%      backgroundcolor=\color{gray},
+%      flexiblecolumns=false,
+%      basewidth={0.5em,0.45em},
+%      literate={+}{{$+$}}1 {/}{{$/$}}1 {*}{{$*$}}1 {=}{{$=$}}1
+%               {>}{{$>$}}1 {<}{{$<$}}1 {\\}{{$\lambda$}}1
+%               {\\\\}{{\char`\\\char`\\}}1
+%               {->}{{$\rightarrow$}}2 {>=}{{$\geq$}}2 {<-}{{$\leftarrow$}}2
+%               {<=}{{$\leq$}}2 {=>}{{$\Rightarrow$}}2
+%               {\ .}{{$\circ$}}2 {\ .\ }{{$\circ$}}2
+%               {>>}{{>>}}2 {>>=}{{>>=}}2
+%               {|}{{$\mid$}}1
+%    }
+
+\lstdefinelanguage{haskell}{%
+%  numbers=none,
+  morekeywords={do,module,qualified,import,let,case,of,in,class,instance,data,newtype,where,otherwise,deriving,type,extends,public,forall},
+  sensitive=true,
+  morecomment=[l]{--},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+}
+
+\lstset{%
+  frame=none,
+  xleftmargin=2pt,
+  stepnumber=1,
+  numbers=left,
+  numbersep=5pt,
+  numberstyle=\ttfamily\tiny\color[gray]{0.3},
+  belowcaptionskip=\bigskipamount,
+  captionpos=b,
+  escapeinside={*'}{'*},
+  language=haskell,
+  tabsize=2,
+  emphstyle={\bf},
+  commentstyle=\it,
+  stringstyle=\mdseries\rmfamily,
+  showspaces=false,
+  keywordstyle=\bfseries\rmfamily,
+  columns=flexible,
+  basicstyle=\small\sffamily,
+  showstringspaces=false,
+  morecomment=[l]\%,
+}
+
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for the associated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for the associated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for the associated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%%
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+\title{Supporting Configurability and Flexibility in Software Product Line Tool Development: the \hpl{} Case}
+%\title{On the Design and Implementation of \hpl: a Software Product Line of Software Product Line Tools}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{<author name>}
+%% \address[label1]{<address>}
+%% \address[label2]{<address>}
+
+\author[unb]{Lucin\'{e}ia Turnes}
+\ead{lucineiaturnes@gmail.com}
+\author[ukob]{Ralf L\"{a}mmel}
+\ead{rlaemmel@gmail.com}
+\author[unb]{Vander Alves\corref{cor1}}
+\author[unb]{Rodrigo Bonif\'{a}cio}
+\ead{rbonifacio@cic.unb.br}
+\cortext[cor1]{Corresponding author. Telephone: +55 61 8157-1464. Fax: +55 61 3107-7414.}
+\ead{valves@unb.br}
+
+\address[unb]{Departamento de Ci\^{e}ncia da Computa\c{c}\~{a}o, Universidade de Bras\'{i}lia, Campus Darcy Ribeiro, Bras\'{i}lia, Brazil, 70910-900}
+\address[ukob]{Software Languages Team, Universit\"{a}t Koblenz-Landau, Institut f\"{u}r Informatik, Universittsstrae 1, D-56070 Koblenz, Germany}
+
+
+
+
+\author{}
+
+\address{}
+
+\begin{abstract}
+%context
+Tool support is essential for application engineering in software product lines.
+%problem
+Despite a myriad of existing tools, most still lack adequate support for configurability and flexibility, so that it is hard for them to be applied in different contexts, e.g., addressing variability in an arbitrary combination of different artifacts and introducing and managing variability in new artifacts.
+% solution
+Addressing this issue requires systematically exploring underlying commonality and adequately managing variability of such tools. Accordingly, this paper presents domain analysis, design, implementation, and a supporting process for extending \hpl, a software product line of software product line tools. Hephaestus-PL is supported by a process allowing instantiating product line tools for modeling variability in new and in any combination of artifacts, and has been developed by bootstrapping previous versions of the Hephaestus tool.
+%Evidence
+An assessment reveals that it has improved configurability and flexibility when compared to previous evolution of Hephaestus.
+
+\end{abstract}
+
+\begin{keyword}
+%% keywords here, in the form: keyword \sep keyword
+Software Product Line Tools \sep Multi-artifact variability management \sep  Bootstrapping
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+\end{keyword}
+
+\end{frontmatter}
+
+%%
+%% Start line numbering here if you want
+%%
+% \linenumbers
+
+\input {introduction}
+
+\input {hephaestus}
+
+\input {domainAnalysis}
+
+\input {domainDesign}
+
+\input {implementation}
+
+\input {process}
+
+\input {resultDiscussion}
+
+\input {relatedWork}
+
+\input {conclusion}
+
+
+%\section{Hephaestus}
+%\label{sec:hephaestus}
+
+
+
+
+
+
+
+
+
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%%\appendix
+
+%\input {appendixA}
+
+%% \section{}
+%% \label{}
+
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \cite{key}         ==>>  [#]
+%%   \cite[chap. 2]{key} ==>> [#, chap. 2]
+%%
+
+
+
+
+
+%% References with bibTeX database:
+
+\bibliographystyle{elsarticle-num}
+\bibliography{references}
+
+%% Authors are advised to submit their bibtex database files. They are
+%% requested to list a bibtex style file in the manuscript if they do
+%% not want to use elsarticle-num.bst.
+
+%% References without bibTeX database:
+
+% \begin{thebibliography}{00}
+
+%% \bibitem must have the following form:
+%%   \bibitem{key}...
+%%
+
+% \bibitem{}
+
+% \end{thebibliography}
+
+
+\end{document}
+
+%%
+%% End of file `elsarticle-template-num.tex'.
