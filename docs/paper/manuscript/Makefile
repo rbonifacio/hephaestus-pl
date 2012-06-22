@@ -1,0 +1,2 @@
+all:
+	pdflatex hephaestus-pl
