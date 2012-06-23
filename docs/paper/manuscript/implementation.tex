@@ -66,7 +66,7 @@ Because of the objective of self-application of Hephaestus (bootstrapping design
 \begin{tabular}{ | l | p{7cm} |}
   \hline
   \textbf{\hpl{} Transformations}            & \textbf{Metaprogramming Operations}  \\  \hline
-  \multirow {\textit{SelectAsset assetName}} & addUpdateCase \\ \cline{2-2}
+  \multirow {9} {*} {\textit{SelectAsset assetName}} & addUpdateCase \\ \cline{2-2}
                                              & initializeFieldWithFun \\ \cline{2-2}
                                              & addImportDecl (4x) \\ \cline{2-2}
                                              & addLetInstruction \\ \cline{2-2}
@@ -75,15 +75,15 @@ Because of the objective of self-application of Hephaestus (bootstrapping design
                                              & addField (2x)  \\ \cline{2-2}
                                              & addConstructor  \\ \cline{2-2}
                                              & addUpdateCaseList \\  \hline
- \multirow {\textit{SelectExport assetFormat}} & addUpdateCase  \\ \cline{2-2}
+ \multirow {4} {*} {\textit{SelectExport assetFormat}} & addUpdateCase  \\ \cline{2-2}
                                                & addImportDecl  \\ \cline{2-2}
                                                & addConstructor \\ \cline{2-2}
                                                & addListElem \\ \hline
- \textit{SelectBaseProduct}}         & setModuleName (2x)  \\ \cline{2-2}
+ \multirow {2} {*} {\textit{SelectBaseProduct}} & setModuleName (2x)  \\ \cline{2-2}
                                      & removeImportDecl \\ \hline
- \textit{BindProductName}}           & setModuleName (2x)  \\ \hline
- \textit{RemoveProductMainFunction}} & removeFunction \\ \hline
- \textit{SelectCKParser}             & addImportDecl \\ \cline{2-2}
+ \textit{BindProductName}            & setModuleName (2x)  \\ \hline
+ \textit{RemoveProductMainFunction}  & removeFunction \\ \hline
+ \multirow {3} {*} {\textit{SelectCKParser}}  & addImportDecl \\ \cline{2-2}
                                      & addGeneratorInstruction  \\ \cline{2-2}
                                      & addLetInstruction (2x) \\ \hline
 \end{tabular}
