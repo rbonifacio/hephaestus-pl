@@ -42,8 +42,8 @@
 
 
 
-\newcommand{\hpl}{Hephaestus-PL}
-\newcommand{\hp}{Hephaestus}
+\newcommand{\hpl}{\textsf{Hephaestus-PL}}
+\newcommand{\hp}{\textsf{Hephaestus}}
 
 
 %% if you use PostScript figures in your article
@@ -175,7 +175,8 @@
 %% \address{Address\fnref{label3}}
 %% \fntext[label3]{}
 
-\title{Supporting Configurability and Flexibility in Software Product Line Tool Development: the \hpl{} Case}
+\title{\hpl: a Software Product Line for Software Product Lines}
+%\title{Supporting Configurability and Flexibility in Software Product Line Tool Development: the \hpl{} Case}
 %\title{On the Design and Implementation of \hpl: a Software Product Line of Software Product Line Tools}
 
 %% use optional labels to link authors explicitly to addresses:
@@ -186,7 +187,7 @@
 \author[unb]{Lucin\'{e}ia Turnes}
 \ead{lucineiaturnes@gmail.com}
 \author[ukob]{Ralf L\"{a}mmel}
-\ead{rlaemmel@gmail.com}
+\ead{rlaemmel@acm.org}
 \author[unb]{Vander Alves\corref{cor1}}
 \author[unb]{Rodrigo Bonif\'{a}cio}
 \ead{rbonifacio@cic.unb.br}
@@ -196,28 +197,38 @@
 \address[unb]{Departamento de Ci\^{e}ncia da Computa\c{c}\~{a}o, Universidade de Bras\'{i}lia, Campus Darcy Ribeiro, Bras\'{i}lia, Brazil, 70910-900}
 \address[ukob]{Software Languages Team, Universit\"{a}t Koblenz-Landau, Institut f\"{u}r Informatik, Universittsstrae 1, D-56070 Koblenz, Germany}
 
-
-
-
 \author{}
 
 \address{}
 
 \begin{abstract}
-%context
-Tool support is essential for application engineering in software product lines.
-%problem
-Despite a myriad of existing tools, most still lack adequate support for configurability and flexibility, so that it is hard for them to be applied in different contexts, e.g., addressing variability in an arbitrary combination of different artifacts and introducing and managing variability in new artifacts.
-% solution
-Addressing this issue requires systematically exploring underlying commonality and adequately managing variability of such tools. Accordingly, this paper presents domain analysis, design, implementation, and a supporting process for extending \hpl, a software product line of software product line tools. Hephaestus-PL is supported by a process allowing instantiating product line tools for modeling variability in new and in any combination of artifacts, and has been developed by bootstrapping previous versions of the Hephaestus tool.
-%Evidence
-An assessment reveals that it has improved configurability and flexibility when compared to previous evolution of Hephaestus.
 
+% Context
+  Tool support is essential for application engineering in software
+  product lines.
+% Problem
+  Existing tools are more or less specialized in terms of the
+  artifacts and the variability mechanisms that they address. There is
+  the open problem of providing general configurability and
+  extensibility with regard to the artifacts and variability
+  mechanisms for such tools.
+% Solution
+  This paper addresses the problem by exploring the underlying
+  commonality and adequately managing variability of such tools. More
+  specifically, the paper presents domain analysis, design,
+  implementation, and a supporting process for enhancing the existing
+  \hp{} tool for software product lines into \hpl---a proper product
+  line for such tools. Such enhancement is essentially a form of
+  bootstrapping.
+% Evidence
+  An assessment substantiates that \hpl{} actually provides improved
+  configurability and flexibility when compared to previous variations
+  of \hp{}.
 \end{abstract}
 
 \begin{keyword}
 %% keywords here, in the form: keyword \sep keyword
-Software Product Line Tools \sep Multi-artifact variability management \sep  Bootstrapping
+Software Product Line Tools \sep \hp \sep Configurability \sep Extensibility \sep  Bootstrapping
 
 %% MSC codes here, in the form: \MSC code \sep code
 %% or \MSC[2008] code \sep code (2000 is the default)
