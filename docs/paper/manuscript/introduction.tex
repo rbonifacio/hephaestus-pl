@@ -28,7 +28,7 @@ The requested configurability, flexibility, and extensibility may be obtainable,
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection*{Contribution of the paper}
+\subsection*{Contributions of the paper}
 
 \begin{itemize}
 
@@ -37,11 +37,15 @@ The requested configurability, flexibility, and extensibility may be obtainable,
 
 \item We describe a process for evolving \hpl{} to address new artifacts. That is, \hpl{} is supported by a process allowing instantiating product line tools for modeling variability in new artifacts. An assessment reveals that \hpl{} has improved configurability and flexibility when compared to previous evolution of \hp. In this manner, the present paper provides evidence for the effectiveness of addressing the problem of configurable, flexible, and extensible tools for product derivation.
 
+\item Conceptually, \hpl's configurability, flexibility, and extensibility is essentially achieved by solving \hp's non-trivial instance of the `Expression Problem'~\cite{Wadler98,Lopez-HerrejonBC05} within Haskell---the implementation language of \hp{} and \hpl{}. Existing modularity mechanisms and techniques for addressing the expression problem, specifically type classes~\cite{LaemmelO06}, were not leveraged. Instead, a metaprogramming approach was adoped, as it could not only provide the necessary variability management, but also enable bootstrapping of \hpl.
+
 \end{itemize}
 
-We believe that these contributions could be leveraged to other contexts in which configurability, flexibility, extensibility of tools for product derivation are key requirements. \hpl{} is publicly available  and has been developed by managing commonality and variability from existing variants of \hp~\cite{rbonifacio:sbcars2009}, a SPL tool developed in Haskell and originally aimed at managing variability in use case scenarios, but which has evolved to handle variability independently in different kinds of artifacts (a detailed description of \hp, including usage scenarios can be found elsewhere~\cite{rbonifacio:sbcars2009}). \hpl's design is centered around bootstrapping--with a kernel representing the key common elements of the existing \hp{} variants--and whose variability management was implemented using metaprogramming in Haskell.
+We believe that these contributions and experiences could be leveraged to other contexts in which configurability, flexibility, extensibility of tools for product derivation are key requirements. \hpl{} is publicly available  and has been developed by managing commonality and variability from existing variants of \hp~\cite{rbonifacio:sbcars2009}, a SPL tool developed in Haskell and originally aimed at managing variability in use case scenarios, but which has evolved to handle variability independently in different kinds of artifacts (a detailed description of \hp, including usage scenarios can be found elsewhere~\cite{rbonifacio:sbcars2009}). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bigskip
 
 \subsection*{Road-map of the paper}
 
