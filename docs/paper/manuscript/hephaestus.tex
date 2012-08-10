@@ -65,9 +65,9 @@ applied to the generated product.  In addition, this code snippet also
 shows the initial representation of the \texttt{SPLModel} (lines
 \ref{splmodel-i-1}-\ref{splmodel-f-1}) and \texttt{InstanceModel}
 (lines \ref{instancemodel-i-1}-\ref{instancemodel-f-1}) data
-types. \texttt{SPLModel} wraps artifacts whose variability management
+types. \texttt{SPLModel} collects artifacts whose variability management
 addressed by the tool and their variability as described by the
-feature model field, whereas \texttt{InstanceModel} wraps assets after
+feature model field, whereas \texttt{InstanceModel} collects assets after
 a transformation reducing variability has been applied to
 them. Eventually, all such variability is removed and the
 \texttt{InstanceModel} value corresponds to the encompassed
@@ -185,7 +185,7 @@ the following implementation and evolution steps were necessary:
   function.
 
 \item Evolution of both, \texttt{SPLModel} and \texttt{InstanceModel}
-  data types, to wrap new assets.
+  data types, to collect new assets.
 
 \end{enumerate}
 
@@ -330,24 +330,26 @@ to properly revise existing code.
 
 The well-known `Expression Problem'
 (EP~\cite{Wadler98,Lopez-HerrejonBC05}) captures this sort of
-challenge in a principle manner. Given a family of data variants and a
-family of operations on the data, how do can design an implementation
-of data and operations such that new variants and new operations can
-be added without revising existing code, while possibly also providing
-some degree of separate compilation, modular type checking, and
-modular reasoning?
+challenge in a principle manner: \emph{Given a family of data variants
+  and a family of operations on the data, how do can design an
+  implementation of data and operations such that new variants and new
+  operations can be added without revising existing code, while
+  possibly also providing some degree of separate compilation, modular
+  type checking, and modular reasoning?}
 
 Hinze and L\"oh proposed a Haskell extension for open data types and
 functions for Haskell~\cite{LoehH06}, which would provide a solution
-to the EP in Haskell. This extension is not available in Haskell
-systems. Also, none of the proposed implementation options provides
-full separate compilation. Further, the extension allows adding new
-cases to data types and new equations to functions, but it does not
-deal with additional adaptation patterns encountered in
+to the EP in Haskell. The extension allows adding new cases to data
+types and new equations to functions, but it does not deal with
+additional adaptation patterns encountered in
 Figure~\ref{fig:spl-model-with-req-and-code}. Specifically, the
-evolution of \hp{} also involved extending `products' (see the data types 
-\texttt{SPLModel} and \texttt{InstanceModel}) and `function
+evolution of \hp{} also involved extending `products' (see the data
+types \texttt{SPLModel} and \texttt{InstanceModel}) and `function
 compositions' (see the the function \texttt{exportProduct}).
+Arguably, these adaptation patterns could be eliminated by using a
+different data and program design that treats the products instead as
+more generic containers. Ultimately, the extension in not available in
+actual Haskell systems.
 
 L\"ammel and Ostermann proposed a type class-based encoding for
 solving the EP in Haskell with established extensions (in fact, in
@@ -365,8 +367,8 @@ and more subtly, the approach also fails a function extension
 scenarios that are not readily based on different constructors; see 
 \texttt{xml2Transformation}, where all equations match on strings.
 
-Both approaches also share their lack of managing variability
-explicitly. The engineer, who derives a SPL, would need engage in
+Importantly, both approaches share a lack of managing variability
+explicitly. The engineer, who derives a SPL, would need to engage in
 programming activities of importing modules appropriately, without a
 clear mapping to a feature model of a product line for tools for SPL
 derivation.
@@ -375,8 +377,8 @@ Consequently, we decided to provide extensibility by means of
 metaprograms on top of object programs in standard Haskell (Haskell~98
 in the case of \hpl). The approach effectively supports extensible
 data types (both sums and products) and extensible functions (both
-adding equations and extending equations for some simple cases).  The
-metaprogramming approach does not only provide the necessary
+adding equations and extending equations for the relevant idioms).
+The metaprogramming approach does not only provide the necessary
 extensibility, it can also be easily used with a SPL-like approach for
 variable management because the metaprogramming transformations can be
 represented by configuration knowledge. \hpl{} is modularized in a way
