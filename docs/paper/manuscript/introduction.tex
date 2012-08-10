@@ -37,7 +37,7 @@ The requested configurability, flexibility, and extensibility may be obtainable,
 
 \item We describe a process for evolving \hpl{} to address new artifacts. That is, \hpl{} is supported by a process allowing instantiating product line tools for modeling variability in new artifacts. An assessment reveals that \hpl{} has improved configurability and flexibility when compared to previous evolution of \hp. In this manner, the present paper provides evidence for the effectiveness of addressing the problem of configurable, flexible, and extensible tools for product derivation.
 
-\item Conceptually, \hpl's configurability, flexibility, and extensibility is essentially achieved by solving \hp's non-trivial instance of the `Expression Problem'~\cite{Wadler98,Lopez-HerrejonBC05} within Haskell---the implementation language of \hp{} and \hpl{}. Existing modularity mechanisms and techniques for addressing the expression problem, specifically type classes~\cite{LaemmelO06}, were not leveraged. Instead, a metaprogramming approach was adoped, as it could not only provide the necessary variability management, but also enable bootstrapping of \hpl.
+\item We describe a metaprogramming approach, which enables \hpl's configurability, flexibility, and extensibility.  Haskell is the implementation language of \hp{} and \hpl{}; it also serves as the metaprogramming language.  Technically, we had to solve an \hp-specific variation on the `Expression Problem'~\cite{Wadler98,Lopez-HerrejonBC05} within Haskell. The approach enables bootstrapping of \hpl{}, modular code organization for all components of \hpl{}, and separate compilation within limits.
 
 \end{itemize}
 
@@ -49,6 +49,6 @@ We believe that these contributions and experiences could be leveraged to other 
 
 \subsection*{Road-map of the paper}
 
-The remainder of this paper is organized as follows. First, Section~\ref{sec:hephaestus} briefly describes \hp{} and its evolution to address different artifacts. Next, based on such versions of \hp, Sections~\ref{sec:domainAnalysis} and~\ref{sec:domainDesign} presents the domain analysis and design of \hpl, respectively, whereas its implementation is explained in Section~\ref{sec:implementation}. Section~\ref{sec:process} then presents a supporting process for extending \hpl, and  Section~\ref{sec:results-discussion} provides an assessment and discussion of \hpl. Related work is addressed in Section~\ref{related-work}, and Section~\ref{conclusion} offers concluding remarks.
+The remainder of this paper is organized as follows. First, Section~\ref{sec:hephaestus} briefly describes \hp{} and its evolution to address different artifacts. Next, based on such versions of \hp, Sections~\ref{sec:domainAnalysis} and~\ref{sec:domainDesign} presents the domain analysis and design of \hpl, respectively, whereas its implementation is explained in Section~\ref{sec:implementation}. Section~\ref{sec:process} then presents a supporting process for extending \hpl, and Section~\ref{sec:results-discussion} provides an assessment and discussion of \hpl. Related work is addressed in Section~\ref{related-work}, and Section~\ref{conclusion} offers concluding remarks.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
