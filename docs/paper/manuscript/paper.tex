@@ -38,13 +38,8 @@
 %% \documentclass[final,5p,times]{elsarticle}
 %% \documentclass[final,5p,times,twocolumn]{elsarticle}
 
-
-
-
-
 \newcommand{\hpl}{\textsf{Hephaestus-PL}}
 \newcommand{\hp}{\textsf{Hephaestus}}
-
 
 %% if you use PostScript figures in your article
 %% use the graphics package for simple commands
@@ -175,7 +170,8 @@
 %% \address{Address\fnref{label3}}
 %% \fntext[label3]{}
 
-\title{\hpl: a Software Product Line for Software Product Lines}
+\title{\hpl: A Product Line for Tools for Product Derivation}
+%\title{A configurable, flexible, and extensible tool for software-product derivation}
 %\title{Supporting Configurability and Flexibility in Software Product Line Tool Development: the \hpl{} Case}
 %\title{On the Design and Implementation of \hpl: a Software Product Line of Software Product Line Tools}
 
@@ -205,30 +201,32 @@
 
 % Context
   Tool support is essential for application engineering in software
-  product lines.
+  product lines for the derivation of products from reusable assets.
 % Problem
   Existing tools are more or less specialized in terms of the
   artifacts and the variability mechanisms that they address. There is
-  the open problem of providing general configurability and
+  the open problem of providing general configurability, flexibility, and
   extensibility with regard to the artifacts and variability
   mechanisms for such tools.
 % Solution
   This paper addresses the problem by exploring the underlying
-  commonality and adequately managing variability of such tools. More
-  specifically, the paper presents domain analysis, design,
-  implementation, and a supporting process for enhancing the existing
-  \hp{} tool for software product lines into \hpl---a proper product
-  line for such tools. Such enhancement is essentially a form of
-  bootstrapping.
+  commonality and adequately managing variability of tools for product
+  derivation. More specifically, the paper presents domain analysis,
+  design, implementation, and a supporting process for enhancing the
+  existing \hp{} tool for software product lines into \hpl---a proper
+  product line for such tools. Such enhancement is essentially a form
+  of bootstrapping.
 % Evidence
   An assessment substantiates that \hpl{} actually provides improved
-  configurability and flexibility when compared to previous variations
-  of \hp{}.
+  configurability, flexibility, and extensibility when compared to
+  previous versions of \hp{}.
 \end{abstract}
 
 \begin{keyword}
 %% keywords here, in the form: keyword \sep keyword
-Software Product Line Tools \sep \hp \sep Configurability \sep Extensibility \sep  Bootstrapping
+Software Product Line Tools \sep Variability Management \sep \hp \sep
+Configurability \sep Flexibility \sep Extensibility \sep
+Bootstrapping \sep Expression Problem \sep Metaprogramming \sep Haskell
 
 %% MSC codes here, in the form: \MSC code \sep code
 %% or \MSC[2008] code \sep code (2000 is the default)
