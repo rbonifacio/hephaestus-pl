@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel>
+		<struct>
+			<and mandatory="true" name="HephaestusPL">
+				<or mandatory="true" name="SPLAsset">
+					<feature mandatory="true" name="Hephaestus"/>
+					<feature mandatory="true" name="UseCase"/>
+					<feature mandatory="true" name="BusinessProcess"/>
+				</or>
+				<or mandatory="true" name="OutputFormat">
+					<feature mandatory="true" name="UcmToXML"/>
+					<feature mandatory="true" name="UcmToLatex"/>
+					<feature mandatory="true" name="BpmToXML"/>
+				</or>
+			</and>
+		</struct>
+		<constraints>
+			<rule>
+				<imp>
+					<disj>
+						<var>UcmToXML</var>
+						<var>UcmToLatex</var>
+					</disj>
+					<var>UseCase</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>BpmToXML</var>
+					<var>BusinessProcess</var>
+				</imp>
+			</rule>
+		</constraints>
+		<comments/>
+	</featureModel>

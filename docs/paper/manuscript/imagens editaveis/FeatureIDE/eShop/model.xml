@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel>
+		<struct>
+			<and abstract="true" mandatory="true" name="eShop">
+				<feature name="ShoppingCart"/>
+				<feature name="Bonus"/>
+				<or mandatory="true" name="ShippingMethod">
+					<feature mandatory="true" name="Economical"/>
+					<feature mandatory="true" name="Fast"/>
+					<feature mandatory="true" name="ForeignShip"/>
+				</or>
+				<feature name="UpdateUserPreferences"/>
+				<alt mandatory="true" name="SearchOptions">
+					<feature mandatory="true" name="Hints"/>
+					<feature mandatory="true" name="SimilarResults"/>
+				</alt>
+			</and>
+		</struct>
+		<constraints>
+			<rule>
+				<eq>
+					<var>ShoppingCart</var>
+					<var>Bonus</var>
+				</eq>
+			</rule>
+		</constraints>
+		<comments/>
+	</featureModel>

@@ -1,11 +1,13 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Domain Design of \hpl}
 \label{sec:domainDesign}
 
-This section introduces \hpl's design presenting a static view when we describe in Subsection~\ref{architectural-view-hpl} its architecture and a dynamic view in Subsection~\ref{product-derivation-hpl} when we describe the derivation process of new \hpl's instances. Besides, we describe the main elements of \hpl's architecture in  Subsection~\ref{architectural-elements-hpl}.
+This section introduces \hpl's design presenting a static view when we describe in Subsection~\ref{architectural-view-hpl} its architecture and a dynamic view in Subsection~\ref{product-derivation-hpl} when we describe the derivation process of new \hpl's instances. Besides, we describe the main elements of \hpl's architecture in Subsection~\ref{architectural-elements-hpl}.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{\hpl's Architecture} \label{architectural-view-hpl}
-
 
 %The commonality and variability components are represented in Figure~\ref{fig:commonalityVariability}.
 %
@@ -20,6 +22,7 @@ This section introduces \hpl's design presenting a static view when we describe 
 
 %@Ralf: please check below the justification for using bootstrapping.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure*}[bth]
 \begin{center}
@@ -29,10 +32,11 @@ This section introduces \hpl's design presenting a static view when we describe 
 \label{fig:architecture-hpl}
 \end{figure*}
 
-In order to achieve the key requirements of configurability and flexibility in product derivation tools such as \hp{}, we proposed the development of these tools as product lines themselves, in this case~\hpl{} as a product live over existing  \hp{} variants, and a transformational approach to variability management within these product lines. To realize the domain model identified in Section~\ref{sec:domainAnalysis} and thus manage the underlying variability, the design of \hpl{} comprises the architecture depicted in Figure~\ref{fig:architecture-hpl}. Key in this architecture is the \textit{Kernel} representing the minimum structure necessary for generation of product \hpl{} instances besides generating itself in a bootstrapping process. Within the kernel,  \emph{Base Product} represents the commonality among all \hpl{}'s instances and it has  variability points which are resolved by transformations defined in \emph{\hp{} SPL Asset}, in a derivation process driven by \emph{\hp{} Product}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Besides the \textit{Kernel}, \hpl's architecture also presents the \textit{Core Assets} and \textit{SPL Assets} which contribute to the kernel in the generation of \hpl{} instances. \textit{Core Assets} contains the definition of the representation of the Feature Model and Configuration Knowledge which are key elements of a \hpl{} instance in the  product derivation process. \textit{SPL Assets} represents the definition of each asset and corresponding transformations allowing the generation of \hpl{} instances that support variability management and the derivation of products in the domain of these assets. In Subsection~\ref{architectural-elements-hpl}, we present details on the elements depicted in the Figure~\ref{fig:architecture-hpl}.
+In order to achieve the key requirements of configurability and flexibility in product derivation tools such as \hp{}, we proposed the development of these tools as product lines themselves, in this case~\hpl{} as a product live over existing \hp{} variants, and a transformational approach to variability management within these product lines. To realize the domain model identified in Section~\ref{sec:domainAnalysis} and thus manage the underlying variability, the design of \hpl{} comprises the architecture depicted in Figure~\ref{fig:architecture-hpl}. Key in this architecture is the \textit{Kernel} representing the minimum structure necessary for generation of product \hpl{} instances besides generating itself in a bootstrapping process. Within the kernel, \emph{Base Product} represents the commonality among all \hpl{}'s instances and it has variability points which are resolved by transformations defined in \emph{\hp{} SPL Asset}, in a derivation process driven by \emph{\hp{} Product}.
 
+Besides the \textit{Kernel}, \hpl's architecture also presents the \textit{Core Assets} and \textit{SPL Assets} which contribute to the kernel in the generation of \hpl{} instances. \textit{Core Assets} contains the definition of the representation of the Feature Model and Configuration Knowledge which are key elements of a \hpl{} instance in the product derivation process. \textit{SPL Assets} represents the definition of each asset and corresponding transformations allowing the generation of \hpl{} instances that support variability management and the derivation of products in the domain of these assets. In Subsection~\ref{architectural-elements-hpl}, we present details on the elements depicted in the Figure~\ref{fig:architecture-hpl}.
 
 We adopt a transformational approach~\cite{deltaSchaefer} to variability management because of the expressiveness needed to address the heterogeneity of the variability patterns observed in Section~\ref{domain-analysis-hpl} without compromising modularity and comprehensibility, and thus flexibility, which are issues in annotative approaches~\cite{kastner:2008}. Although these patterns involve scattering and tangling, a compositional approach (e.g., AOP) does not meet the expressiveness requirement given the heterogeneity in granularity. With this transformational approach, 1) configurability is addressed by enabling \hpl{} with an automatic support to generate product instances with different combinations of assets; 2) flexibility is guaranteed by \hpl{}'s architectural design allowing support to variability management of different assets, independence between the assets and mostly no impact on kernel when inserting new assets in \hpl.
 
@@ -41,12 +45,13 @@ We adopt a transformational approach~\cite{deltaSchaefer} to variability managem
 %Figure~\ref{fig:apis-hpl-asset} shows that each \hpl's transformation (high level API) was implemented with a set of transformations in Haskell code (low level API) implemented by operations of metaprogramming that solve the variation points in the base product. Both high and low level API were defined from the domain analysis and the variability analysis in \hpl{}.
 %From a selected product configuration, the kernel of \hpl{} runs the refinement of the base product using the transformations of \hpl{} (high level API) contained in CK corresponding to the selected features, which in turn, invoke the Haskell code transformations (low level API) implemented by operations of metaprogramming that solve the variability in the base product for the selected feature. Both high- and low-level APIs were defined from the domain analysis and the variability analysis in \hpl{} and the APIs represent the suport to the \hpl{} kernel.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{\hpl's Product Derivation Process} \label{product-derivation-hpl}
 
-To illustrate a key scenario of \hpl's product derivation process,
-suppose a specific feature configuration (FC) contains four features: use case model (\emph{UseCase}), business process model (\emph{BusinessProcess}),
-use case in xml format (\emph{UcmToXML}), and business process in xml format (\emph{BpmToXML}), as shown in the Figure~\ref{fig:fc-ucm-bpm}.
+To illustrate a key scenario of \hpl's product derivation process, suppose a specific feature configuration (FC) contains four features: use case model (\emph{UseCase}), business process model (\emph{BusinessProcess}), use case in xml format (\emph{UcmToXML}), and business process in xml format (\emph{BpmToXML}), as shown in the Figure~\ref{fig:fc-ucm-bpm}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure*}[bth]
 \begin{center}
@@ -56,9 +61,9 @@ use case in xml format (\emph{UcmToXML}), and business process in xml format (\e
 \label{fig:fc-ucm-bpm}
 \end{figure*}
 
-\hpl's product derivation process is based on \hpl's Configuration Knowledge (CK), an excerpt of which is shown in Table~\ref{tab:ck-hpl}. 
-This CK relates feature expressions to transformations that solve \hpl{}'s variability.
-As shown in the \textit{transformations} column of Table~\ref{tab:ck-hpl}, we defined \hpl's transformations which are detailed in Subsection~\ref{hephaestus-spl-asset}, and when applied they progressively bind variability in the base product (cf. Figure~\ref{fig:derivationHPL}) as  \hpl's instance is generated.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\hpl's product derivation process is based on \hpl's Configuration Knowledge (CK), an excerpt of which is shown in Table~\ref{tab:ck-hpl}.  This CK relates feature expressions to transformations that solve \hpl{}'s variability.  As shown in the \textit{transformations} column of Table~\ref{tab:ck-hpl}, we defined \hpl's transformations which are detailed in Subsection~\ref{hephaestus-spl-asset}, and when applied they progressively bind variability in the base product (cf. Figure~\ref{fig:derivationHPL}) as \hpl's instance is generated.
 
 
 %\begin{figure*}[bth]
@@ -69,6 +74,7 @@ As shown in the \textit{transformations} column of Table~\ref{tab:ck-hpl}, we de
 %\label{fig:ck-hpl}
 %\end{figure*}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{table}[h]
 \begin{center}
@@ -95,17 +101,21 @@ As shown in the \textit{transformations} column of Table~\ref{tab:ck-hpl}, we de
 \end{center}
 \end{table}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Figure~\ref{fig:derivationHPL} abstractly depicts the steps taken in \hpl's product derivation process considering the feature configuration shown in  Figure~\ref{fig:fc-ucm-bpm}. \hpl{}'s CK (Table~\ref{tab:ck-hpl}) guides this transformational process in five steps towards the generation of a \hpl{} instance from the base product. \hpl{}'s CK is evaluated from first to last row, triggering execution of only those transformations whose corresponding feature expression evaluates to true according to the given configuration.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{figure*}[bth]
 \begin{center}
-\includegraphics[scale=0.4]{imagens/derivation.png}
+\includegraphics[width=\textwidth]{imagens/derivation.png}
 \end{center}
 \caption{Derivation of an Hephaestus-PL instance supporting the UCM, BPM, UcmToXML and BpmToXML features.}
 \label{fig:derivationHPL}
 \end{figure*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Accordingly, \hpl's product derivation process begins with the execution of the \texttt{SelectBaseProduct} transformation associated with
 the feature expression \texttt{True} in the first line of \hpl's CK (Table ~\ref{tab:ck-hpl}). Indeed,
@@ -114,14 +124,9 @@ this transformation is always executed at the beginning of the generation of a n
 %
 %Next, since the configuration does not contain feature \emph{Hephaestus} and thus the feature expression in the second line of the evaluated to false according to the configuration, the transformations on such line are not executed. On the other hand, as the feature expression in the third line () evaluates to true according to the configuration, the corresponding transformation is executed: SelectCKParser.
 
-Next, in the second line of \hpl's CK, the \texttt{UseCase} feature expression evaluates to true according to the FC shown in Figure~\ref{fig:fc-ucm-bpm} and thus the \texttt{SelectAsset "Use Case"} transformation is executed: it performs a set of transformations in the base product, binding variation points of the base product by adding components of the \textit{UCM Asset}(Step 2 in Figure~\ref{fig:derivationHPL}).
-More specifically, the transformation introduces the UCM asset data type as field into the \texttt{SPLModel} and \texttt{InstanceModel} data
-types and imports the modules that define the UCM data types and corresponding transformations.
-Following in the Step 3, feature expression \texttt{UseCase AND UcmToXML} evaluates to true in the third line of \hpl's CK and then the
-\texttt{SelectExport "UcmToXML"} transformation is executed. This transformation extends the product under derivation, adding components of the \textit{UCM Asset} to support the exportation of use cases in the XML format, i.e., introduces the \texttt{ExportUcmXML} constructor corresponding to \textit{UcmToXML} feature into \texttt{ExportModel} data type and adds the module that implements use case's xml output format into Product'.
+Next, in the second line of \hpl's CK, the \texttt{UseCase} feature expression evaluates to true according to the FC shown in Figure~\ref{fig:fc-ucm-bpm} and thus the \texttt{SelectAsset "Use Case"} transformation is executed: it performs a set of transformations in the base product, binding variation points of the base product by adding components of the \textit{UCM Asset}(Step 2 in Figure~\ref{fig:derivationHPL}).  More specifically, the transformation introduces the UCM asset data type as field into the \texttt{SPLModel} and \texttt{InstanceModel} data types and imports the modules that define the UCM data types and corresponding transformations.  Following in the Step 3, feature expression \texttt{UseCase AND UcmToXML} evaluates to true in the third line of \hpl's CK and then the \texttt{SelectExport "UcmToXML"} transformation is executed. This transformation extends the product under derivation, adding components of the \textit{UCM Asset} to support the exportation of use cases in the XML format, i.e., introduces the \texttt{ExportUcmXML} constructor corresponding to \textit{UcmToXML} feature into \texttt{ExportModel} data type and adds the module that implements use case's xml output format into Product'.
 
-Steps 4 and 5 then execute similar transformations in the product under derivation to those performed by Steps 2 and 3 described previously.
-Therefore, the \texttt{BusinessProcess} and \texttt{BusinessProcess AND BpmToXML} feature expressions evaluate to true according to the configuration. As a result, the corresponding transformations in the CK bind some more of the remaining variation points of the product under derivation  by adding  components of the \textit{BPM Asset} into this product to support the variability management and export capability of business process model in the generated \hpl{} instance.
+Steps 4 and 5 then execute similar transformations in the product under derivation to those performed by Steps 2 and 3 described previously.  Therefore, the \texttt{BusinessProcess} and \texttt{BusinessProcess AND BpmToXML} feature expressions evaluate to true according to the configuration. As a result, the corresponding transformations in the CK bind some more of the remaining variation points of the product under derivation by adding components of the \textit{BPM Asset} into this product to support the variability management and export capability of business process model in the generated \hpl{} instance.
 
 We note that both \textit{UCM Asset} and \textit{BPM Asset} are architectural elements belonging to \textit{SPL Assets}, as represented in Figure~\ref{fig:architecture-hpl}.
 
@@ -139,25 +144,21 @@ We note that both \textit{UCM Asset} and \textit{BPM Asset} are architectural el
 
 %Finally, in Step 5 we have the selection of the \emph{BpmToXML} feature and, consequently, the execution of the \texttt{SelectExport "BpmToXML"} transformation that performs similar changes in the base product of Hephaestus instance being generated when compared to the selection of the \emph{UcmToXML} feature outlined above.
 
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{\hpl's Architectural Elements} \label{architectural-elements-hpl}
 
-In what follows we detail the main building blocks of \hpl{}'s architecture with emphasis on the kernel and its related elements (Core Assets and SPL Assets).
-The kernel consists of three elements: \hp{} Product (Section~\ref{hephaestus-product}), \hp{} SPL Asset (Section~\ref{hephaestus-spl-asset}), and
-Base Product (Section~\ref{base-product}). Together these elements comprise the minimal structure responsible for generating instances of \hpl{} products. Further, they have a certain degree of coupling and are mostly stable with respect to evolution of \hpl{}. Sections~\ref{spl-assets} and~\ref{core-assets} describe SPL Assets and Core Assets, respectively.
+In what follows we detail the main building blocks of \hpl{}'s architecture with emphasis on the kernel and its related elements (Core Assets and SPL Assets).  The kernel consists of three elements: \hp{} Product (Section~\ref{hephaestus-product}), \hp{} SPL Asset (Section~\ref{hephaestus-spl-asset}), and Base Product (Section~\ref{base-product}). Together these elements comprise the minimal structure responsible for generating instances of \hpl{} products. Further, they have a certain degree of coupling and are mostly stable with respect to evolution of \hpl{}. Sections~\ref{spl-assets} and~\ref{core-assets} describe SPL Assets and Core Assets, respectively.
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Hephaestus Product} \label{hephaestus-product}
 
-\hp{} Product is a minimal \hpl{} instance that only supports variability management of
-\hp{} SPL Asset and corresponds to a Haskell module that could be generated by bootstrapping, i.e., \hp{} Product could be used to generate itself, in which case the \hp{} feature is selected in a configuration of \hpl's FM.
+\hp{} Product is a minimal \hpl{} instance that only supports variability management of \hp{} SPL Asset and corresponds to a Haskell module that could be generated by bootstrapping, i.e., \hp{} Product could be used to generate itself, in which case the \hp{} feature is selected in a configuration of \hpl's FM.
 
-Managing variability of \hp{} SPL Asset means that \hp{} Product is used to derive products according
-to \hpl{}'s variability space. Indeed, this module declares the \texttt{build} function, which controls \hpl{}'s product derivation process--by progressive refinement of the base product--and provides a simple definition for the \texttt{transform} function (code snippet in the Figure~\ref{fig:code-hp-product}).
-In this particular instance, the \texttt{transform} function only deals with the transformations of the \hp{} SPL Asset, which are detailed in Section~\ref{hephaestus-spl-asset}.
+Managing variability of \hp{} SPL Asset means that \hp{} Product is used to derive products according to \hpl{}'s variability space. Indeed, this module declares the \texttt{build} function, which controls \hpl{}'s product derivation process--by progressive refinement of the base product--and provides a simple definition for the \texttt{transform} function (code snippet in the Figure~\ref{fig:code-hp-product}).  In this particular instance, the \texttt{transform} function only deals with the transformations of the \hp{} SPL Asset, which are detailed in Section~\ref{hephaestus-spl-asset}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure}
 %\begin{code}
@@ -183,6 +184,8 @@ transform (HephaestusTransformation t) s i = transformHpl t s i
 \label{fig:code-hp-product}
 %\end{code}
 \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %
 %\subsubsection{Hephaestus-PL's FM and CK}
@@ -211,30 +214,34 @@ transform (HephaestusTransformation t) s i = transformHpl t s i
 %the product derivation will generate an
 %\hpl{} instance that manages variability related to these assets.
 
-
 \subsubsection{Base Product} \label{base-product}
 
-The Base Product is a Haskell module serving as a base for deriving \hpl{}
-instances. It represents the commonality among \hpl's instances and was obtained as output of \hpl{}'s domain analysis  (Section~\ref{domain-analysis-hpl}). 
-When we build an \hpl{} instance, the derivation process
-first reads this module and then performs \hp{} asset transformations (mainly \texttt{SelectAsset} and \texttt{SelectExport}), refining several definitions of the \texttt{BaseProduct} module. Figure~\ref{fig:code-hpl-base-product} presents a piece of code of the \texttt{BaseProduct} module, whose definitions are explained in the following:
+The Base Product is a Haskell module serving as a base for deriving \hpl{} instances. It represents the commonality among \hpl's instances and was obtained as output of \hpl{}'s domain analysis (Section~\ref{domain-analysis-hpl}).  When we build an \hpl{} instance, the derivation process first reads this module and then performs \hp{} asset transformations (mainly \texttt{SelectAsset} and \texttt{SelectExport}), refining several definitions of the \texttt{BaseProduct} module. Figure~\ref{fig:code-hpl-base-product} presents a piece of code of the \texttt{BaseProduct} module, whose definitions are explained in the following:
+
 \begin{itemize}
-\item declares basic representations for the \texttt{SPLModel} (lines \ref{splmodelBP-i-1}-\ref{splmodelBP-f-1})
-and \texttt{InstanceModel} (lines \ref{instancemodelBP-i-1}-\ref{instancemodelBP-f-1}) data types, where the first
+
+\item declares basic representations for the \texttt{SPLModel} (lines \ref{splmodelBP-i-1}-\ref{splmodelBP-f-1}) and \texttt{InstanceModel} (lines \ref{instancemodelBP-i-1}-\ref{instancemodelBP-f-1}) data types, where the first
 %doest not have any data field
 has just the \texttt{featureModel} data field
 and the \texttt{InstanceModel} data type has just the \texttt{featureConfiguration} data field,
-\item declares \texttt{TransformationModel} data type (line \ref{transformmodelBP}) which just supports the \texttt{UndefinedTransformation} constructor,
-\item defines one case for the \texttt{transform} function (lines \ref{transformBP-i-1}-\ref{transformBP-f-1}), 
-which just supports the \texttt{UndefinedTransformation} transformation,
-\item declares \texttt{ExportModel} data type (line \ref{exportmodelBP}) which just supports the \texttt{UndefinedExport} constructor,
-\item defines an empty list (\texttt{lstExport}) (lines \ref{lstExportBP-i-1}-\ref{lstExportBP-f-1}) of export data types (used to export a product in different output formats),
-\item defines one case for the \texttt{export} function (lines \ref{exportBP-i-1}-\ref{exportBP-f-1}), which also just supports the \texttt{UndefinedExport} export format,
-\item defines a \texttt{mkEmptyInstance} function (lines \ref{mkEmptyBP-i-1}-\ref{mkEmptyBP-f-1}) that returns an \texttt{InstanceModel} having only the \texttt{featureConfiguration} data field, 
-\item defines a \texttt{xml2Transformation} function (lines \ref{xm2transfBP-i}-\ref{xm2transfBP-f}) which comprises the CK XML parser process performing the recognition of the concrete syntax of asset transformations of the Hephaestus-PL instance, and 
-\item defines a \texttt{main} function (lines \ref{mainBP-i-1}-\ref{mainBP-f-1}) to run the \hp{} instance.
-\end{itemize}
 
+\item declares \texttt{TransformationModel} data type (line \ref{transformmodelBP}) which just supports the \texttt{UndefinedTransformation} constructor,
+
+\item defines one case for the \texttt{transform} function (lines \ref{transformBP-i-1}-\ref{transformBP-f-1}), which just supports the \texttt{UndefinedTransformation} transformation,
+
+\item declares \texttt{ExportModel} data type (line \ref{exportmodelBP}) which just supports the \texttt{UndefinedExport} constructor,
+
+\item defines an empty list (\texttt{lstExport}) (lines \ref{lstExportBP-i-1}-\ref{lstExportBP-f-1}) of export data types (used to export a product in different output formats),
+
+\item defines one case for the \texttt{export} function (lines \ref{exportBP-i-1}-\ref{exportBP-f-1}), which also just supports the \texttt{UndefinedExport} export format,
+
+\item defines a \texttt{mkEmptyInstance} function (lines \ref{mkEmptyBP-i-1}-\ref{mkEmptyBP-f-1}) that returns an \texttt{InstanceModel} having only the \texttt{featureConfiguration} data field,
+
+\item defines a \texttt{xml2Transformation} function (lines \ref{xm2transfBP-i}-\ref{xm2transfBP-f}) which comprises the CK XML parser process performing the recognition of the concrete syntax of asset transformations of the Hephaestus-PL instance, and
+
+\item defines a \texttt{main} function (lines \ref{mainBP-i-1}-\ref{mainBP-f-1}) to run the \hp{} instance.
+
+\end{itemize}
 
 %The \emph{undefined transformation} could be understood as a hot spot required by the metaprogramming library to introduce new cases of transformations.
 
@@ -290,31 +297,25 @@ main = do
 %\end{code}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Moreover, instances of \hpl{} must provide one definition for the
-\texttt{transform} function for each supported SPL asset, even though
-the product derivation process of \hpl{} refines the \texttt{transform} function
-introducing those new definitions through metaprogramming.
+Moreover, instances of \hpl{} must provide one definition for the \texttt{transform} function for each supported SPL asset, even though the product derivation process of \hpl{} refines the \texttt{transform} function introducing those new definitions through metaprogramming.
 
-Line \ref{build-line} of the Figure~\ref{fig:code-hpl-base-product}
-represents a \texttt{undefined} \hpl's instance (\texttt{product} variable) and this line will be replaced in emerging product by the line \texttt{let product = build fm fc cm spl} that executes the \texttt{build} function to generation of a product \hpl{} instance from feature configuration.
+Line \ref{build-line} of the Figure~\ref{fig:code-hpl-base-product} represents a \texttt{undefined} \hpl's instance (\texttt{product} variable) and this line will be replaced in emerging product by the line \texttt{let product = build fm fc cm spl} that executes the \texttt{build} function to generation of a product \hpl{} instance from feature configuration.
 
 %The \texttt{xm2Transformation} definition (lines \ref{xm2-transf-i}-\ref{xm2-transf-f} of the Figure~\ref{fig:code-hpl-base-product}) comprises the CK parser process performing the recognition of the concrete syntax of asset transformations of the Hephaestus-PL instance.
 
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Hephaestus SPL Asset} \label{hephaestus-spl-asset}
 
-This element declares algebraic data types representing \hp{} SPL asset, which just
-corresponds to a list of Haskell modules and the set of transformations for managing \hpl{} variability (code snippet in Figure~\ref{fig:code-hp-spl-asset}). In essence, these transformations are responsible for the refinement of the base product during derivation of
-the \hpl{} instance. In addition, this module also declares the \texttt{transformHpl} function which is responsible for actually performing the corresponding \hpl{} transformations and it has the same signature of \texttt{transform} function declared in the \hp{} product described in Section~\ref{hephaestus-product}.
+This element declares algebraic data types representing \hp{} SPL asset, which just corresponds to a list of Haskell modules and the set of transformations for managing \hpl{} variability (code snippet in Figure~\ref{fig:code-hp-spl-asset}). In essence, these transformations are responsible for the refinement of the base product during derivation of the \hpl{} instance. In addition, this module also declares the \texttt{transformHpl} function which is responsible for actually performing the corresponding \hpl{} transformations and it has the same signature of \texttt{transform} function declared in the \hp{} product described in Section~\ref{hephaestus-product}.
 
-Considering the configurability and flexibility requirements driving \hpl's design, we employed a layered design as depicted in Figure~\ref{fig:apis-hpl-asset}:  we defined in \hp{} SPL Asset two sets of transformations: \hpl{} transformations (or high-level API)
-and metaprogramming operations (or low-level API). Each \hpl{} transformation is implemented using the services of metaprogramming operations.
+Considering the configurability and flexibility requirements driving \hpl's design, we employed a layered design as depicted in Figure~\ref{fig:apis-hpl-asset}: we defined in \hp{} SPL Asset two sets of transformations: \hpl{} transformations (or high-level API) and metaprogramming operations (or low-level API). Each \hpl{} transformation is implemented using the services of metaprogramming operations.
 %This complies with the layered model where the low-level API provides services to the high-level API as depicted in Figure~\ref{fig:apis-hpl-asset}.
 The design of each layer was guided by domain analysis in terms of implementation assets: the high-level API was guided by the outcome of \hpl{}'s domain analysis  (Section~\ref{domain-analysis-hpl}), whereas  the low-level API, by the domain analysis of the high-level API. Further details in Section~\ref{sec:metaprogrammingOperations}.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{center}
 \begin{figure}[htb]
@@ -324,10 +325,11 @@ The design of each layer was guided by domain analysis in terms of implementatio
 \end{figure}
 \end{center}
 
-
 %In essence, these transformations are built on top of a
 %metaprogamming library that evolves a set of minimal \hp{} modules in order to derive
 %an \hpl{} instance.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure}
 %\begin{code}
@@ -351,34 +353,34 @@ transformHpl :: HephaestusTransformation
 %\end{code}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 We defined six \hpl{} transformations, which are represented by the following type constructors:
 
 \begin{itemize}
-\item \texttt{SelectBaseProduct} is always the first transformation to be executed in the process of deriving a \hpl{} instance. This transformation selects a \hpl{} base product that represents the commonality of a \hpl{} product. The base product is detailed in section~\ref{base-product}.
-\item \texttt{SelectAsset} refines the product being derived with support for the selected asset variability as described by the feature configuration, i.e., this transformation extends the \texttt{SPLModel}, \texttt{InstanceModel} and \texttt{TransformationModel} data types and the \texttt{transform}, \texttt{xml2Transformation}, and \texttt{mkEmptyInstance} (empty instance definition to \texttt{build} function) functions to manipulate such asset. Furthermore, it incorporates the modules defining algebraic data types, the transformations, and the parser of the selected asset in the product being derived.
-It also performs extensions into \texttt{main} function introducing the asset parser instruction and extending the instance of \texttt{SPLModel} data type with the asset selected to the \texttt{build} process.
-\item \texttt{SelectExport} refines the product being derived with support for the selected output format by
-extending the \texttt{ExportModel} data type, the \texttt{lstExport} list definition and the \texttt{export} function. Furthermore, it incorporates the module implementing the selected output format function into the product being derived. We define different transformations as \texttt{SelectAsset} and \texttt{SelectExport} to represent the refinement on the base product because the set of metaprogramming operations associated with each of these \hpl{} transformations is different and independent.
 
-\item \texttt{BindProductName} sets \hpl{}'s instance module name. 
+\item \texttt{SelectBaseProduct} is always the first transformation to be executed in the process of deriving a \hpl{} instance. This transformation selects a \hpl{} base product that represents the commonality of a \hpl{} product. The base product is detailed in section~\ref{base-product}.
+
+\item \texttt{SelectAsset} refines the product being derived with support for the selected asset variability as described by the feature configuration, i.e., this transformation extends the \texttt{SPLModel}, \texttt{InstanceModel} and \texttt{TransformationModel} data types and the \texttt{transform}, \texttt{xml2Transformation}, and \texttt{mkEmptyInstance} (empty instance definition to \texttt{build} function) functions to manipulate such asset. Furthermore, it incorporates the modules defining algebraic data types, the transformations, and the parser of the selected asset in the product being derived.  It also performs extensions into \texttt{main} function introducing the asset parser instruction and extending the instance of \texttt{SPLModel} data type with the asset selected to the \texttt{build} process.
+
+\item \texttt{SelectExport} refines the product being derived with support for the selected output format by extending the \texttt{ExportModel} data type, the \texttt{lstExport} list definition and the \texttt{export} function. Furthermore, it incorporates the module implementing the selected output format function into the product being derived. We define different transformations as \texttt{SelectAsset} and \texttt{SelectExport} to represent the refinement on the base product because the set of metaprogramming operations associated with each of these \hpl{} transformations is different and independent.
+
+\item \texttt{BindProductName} sets \hpl{}'s instance module name.
 %Is only used when the \hp{} feature is in a configuration of \hpl's FM.
+
 \item \texttt{RemoveProductMainFunction} is only used when the \hp{} feature is in a configuration of \hpl's FM. This transformation removes the definition of the \texttt{main} function from the product being derived because the \hp{} feature uses the \texttt{buildHpl} function located in another module instead.
-\item \texttt{SelectCKParser} refines the product being derived with the CK parser by introducing sentences into the \texttt{main} function to execute the parsing of \hpl's instance CK and changing the \texttt{product} declaration from \texttt{undefined} to \texttt{build fm fc cm spl}, which refers to the CK defined  by the \texttt{SelectCKParser} transformation. Furthermore, it incorporates the module defining the CK XML parser into the emerging product. This transformation is only applied to the \texttt{NOT \hp{}} feature expression. When \texttt{\hp{}} feature is selected, such transformation is not applied because the instance corresponding to this feature is the Hephaestus product  and the transformations for managing variability within it are precisely the transformations described in this bullet list, which are referred to from the Hephaestus product and thus do not need to be parsed.
+
+\item \texttt{SelectCKParser} refines the product being derived with the CK parser by introducing sentences into the \texttt{main} function to execute the parsing of \hpl's instance CK and changing the \texttt{product} declaration from \texttt{undefined} to \texttt{build fm fc cm spl}, which refers to the CK defined by the \texttt{SelectCKParser} transformation. Furthermore, it incorporates the module defining the CK XML parser into the emerging product. This transformation is only applied to the \texttt{NOT \hp{}} feature expression. When \texttt{\hp{}} feature is selected, such transformation is not applied because the instance corresponding to this feature is the Hephaestus product and the transformations for managing variability within it are precisely the transformations described in this bullet list, which are referred to from the Hephaestus product and thus do not need to be parsed.
     %the CK definition to \hp{} feature is already located into MetaData.hs module and it does not use parser.
 \end{itemize}
 
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{SPL Assets} \label{spl-assets}
 
 Define the artifacts for each SPL asset, i.e., the algebraic data types representing a SPL asset, the set of transformations for solving asset's variability and the parser function to convert the external format into algebraic data types defined to \hpl.
 
-In addition, this module also needs to define a data type and a function that comprising all asset's transformations to be used in \texttt{transform} function in the refinement of the base product when the asset is selected, for example, \texttt{UseCaseTransformation} data type and \texttt{transformUcm} function to the \texttt{Use Case} asset. The \texttt{transformUcm} function must have the same signature of \texttt{transform} function declared in the base product described in 
-Section~\ref{base-product}.
-
-
-
+In addition, this module also needs to define a data type and a function that comprising all asset's transformations to be used in \texttt{transform} function in the refinement of the base product when the asset is selected, for example, \texttt{UseCaseTransformation} data type and \texttt{transformUcm} function to the \texttt{Use Case} asset. The \texttt{transformUcm} function must have the same signature of \texttt{transform} function declared in the base product described in Section~\ref{base-product}.
 
 % we employed a bootstrapping  approach, such that a kernel \hpl{}
 % bootstraps itself and also generates all other kinds of \hp,
@@ -418,23 +420,19 @@ Section~\ref{base-product}.
 % \label{fig:bootstrap}
 % \end{figure*}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Core Assets} \label{core-assets}
 
-These are Haskell modules that declare algebraic data types for representing
-feature modeling (FM) and configuration knowledge (CK) assets, as well as functions for
-type checking and other types of verification for these assets. Indeed, these modules
-were completly reused from the previous versions of \hp. For this reason, \hpl{} instances
-share these assets as they are declared in the core assets of \hpl---
-no transformations on these assets are necessary.
+These are Haskell modules that declare algebraic data types for representing feature modeling (FM) and configuration knowledge (CK) assets, as well as functions for type checking and other types of verification for these assets. Indeed, these modules were completly reused from the previous versions of \hp. For this reason, \hpl{} instances share these assets as they are declared in the core assets of \hpl--- no transformations on these assets are necessary.
 
 The instances of the \hpl{}'s FM and CK are key inputs in the \texttt{build} process of \textit{\hp{} Product} to derive new \hpl{} instances.
 
 %A Haskell module that declares instances for both \hpl{} feature model and configuration knowledge. 
 
-The \hpl{}'s FM declares the variability space of \hpl{}, as shown in Figure~\ref{fig:hephaestus-fm-03}.
-The whole \hpl{'s} CK is represented by Table~\ref{tab:ck-hpl} adding the lines related to \texttt{\hp{}} feature as shown in the Table~\ref{tab:ck-hpl-2}.
+The \hpl{}'s FM declares the variability space of \hpl{}, as shown in Figure~\ref{fig:hephaestus-fm-03}.  The whole \hpl{'s} CK is represented by Table~\ref{tab:ck-hpl} adding the lines related to \texttt{\hp{}} feature as shown in the Table~\ref{tab:ck-hpl-2}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{table}[h]
 \begin{center}
@@ -451,15 +449,8 @@ The whole \hpl{'s} CK is represented by Table~\ref{tab:ck-hpl} adding the lines 
 \end{center}
 \end{table}
 
-Whenever we want to bootstrap \hpl, we derive an instance of \hpl{}
-using a feature configuration that has only the \texttt{\hp{}} feature. This will
-trigger the product derivation of an instance that manages variability
-of the \hp{} asset. Differently, if we use a feature configuration
-that has both features \texttt{UseCase} and \texttt{BusinessProcess}, 
-the product derivation will generate an
-\hpl{} instance that manages variability related to these assets.   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Whenever we want to bootstrap \hpl, we derive an instance of \hpl{} using a feature configuration that has only the \texttt{\hp{}} feature. This will trigger the product derivation of an instance that manages variability of the \hp{} asset. Differently, if we use a feature configuration that has both features \texttt{UseCase} and \texttt{BusinessProcess}, the product derivation will generate an \hpl{} instance that manages variability related to these assets.
 
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

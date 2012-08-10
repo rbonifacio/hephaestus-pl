@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel>
+		<struct>
+			<and abstract="true" mandatory="true" name="HephaestusPL">
+				<and mandatory="true" name="SPLAsset">
+					<feature mandatory="true" name="Requirement"/>
+				</and>
+				<and mandatory="true" name="OutputFormat">
+					<feature mandatory="true" name="UcmToXML"/>
+					<feature mandatory="true" name="ReqToLatex"/>
+				</and>
+			</and>
+		</struct>
+		<constraints/>
+		<comments/>
+	</featureModel>
