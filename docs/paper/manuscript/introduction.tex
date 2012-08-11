@@ -19,7 +19,7 @@ The changing needs of users and the continuous evolution of product lines motiva
 
 % Challenge
 
-The requested configurability and extensibility may be obtainable, if the variability within tools for product derivation is managed by architecting the tools themselves as SPLs, as suggested by Gr{\"u}nbacher et al.~\cite{grunbacher:2008} and also exemplified by some efforts~\cite{grunbacher:2011,batory-ahead-bootstrap}. Overall, the major contribution of the present paper is the description of the details of the engineering process for obtaining and enhancing such a meta-product line, while using the \hp{} tool for product derivation for a comprehensive study.
+The requested configurability and extensibility may be obtainable, if the variability within tools for product derivation is managed by architecting the tools themselves as SPLs, as suggested by Gr{\"u}nbacher et al.~\cite{grunbacher:2008} and also exemplified by some efforts~\cite{grunbacher:2011,batory-ahead-bootstrap}. Overall, the major contribution of the present paper is the description of the details of the engineering process for obtaining and enhancing such a meta-product line, while using the Haskell-based \hp{} tool for product derivation for a comprehensive study.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -27,7 +27,7 @@ The requested configurability and extensibility may be obtainable, if the variab
 
 \begin{itemize}
 
-\item We describe an extractive process that enhances the existing tool \hp{} for deriving products from a SPL into a proper product line, \hpl, for product derivation tools. In particular, we describe domain analysis, design, and implementation of \hpl. Configuration is expressive; specifically, or-features (allowing for combinations) are supported as opposed to just alternative features (allowing only for exclusive choices). \hpl{} employes a general transformational approach to variable management. In this manner, the present paper provides evidence for the feasibility of configurable and extensible tools for product derivation.
+\item We describe an extractive process that enhances the existing Haskell-based tool \hp{} for deriving products from a SPL into a Haskell-based proper product line, \hpl, for product derivation tools. In particular, we describe domain analysis, design, and implementation~\cite{gpbook} of \hpl. Configuration is expressive; specifically, or-features (allowing for combinations) are supported as opposed to just alternative features (allowing only for exclusive choices). \hpl{} employes a general transformational approach to variable management. In this manner, the present paper provides evidence for the feasibility of configurable and extensible tools for product derivation.
 
 \item We describe the technicalities and implications of providing a meta-SPL in Haskell. \hpl's transformational approach is implemented through metaprogramming in Haskell. Technically, we had to solve an \hp-specific variation on the `Expression Problem'~\cite{Wadler98,Lopez-HerrejonBC05} within Haskell. The approach enables modular code organization for all components of \hpl, separate compilation within limits, and bootstrapping of \hpl, thereby achieving high uniformity across the regular SPL level and the meta-SPL level.
 
@@ -37,13 +37,13 @@ The requested configurability and extensibility may be obtainable, if the variab
 
 We believe that these contributions and experiences could be leveraged in other contexts in which configurability and extensibility of tools for product derivation are key requirements. 
 
-The source code of \hpl{} is publically available.\footnote{\url{https://gitorious.org/hephaestus-pl/hephaestus-pl}}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection*{Road-map of the Paper}
 
 The remainder of this paper is organized as follows. First, Section~\ref{sec:hephaestus} briefly describes \hp{} and it analyzes a representative evolution scenario for addressing an additional type of artifacts. Next, based on experience with variants and evolution history of \hp, Section~\ref{sec:domainAnalysis}--\ref{sec:implementation} describe 
-domain analysis, domain design, and implementation of \hpl. Section~\ref{sec:process} describes a reactive process for extending \hpl. Section~\ref{sec:results-discussion} provides an assessment and discussion of \hpl. Related work is addressed in Section~\ref{related-work}. The paper is concluded in Section~\ref{conclusion}.
+domain analysis, domain design, and implementation of \hpl. Section~\ref{sec:process} describes a reactive process for extending \hpl. Section~\ref{sec:results-discussion} provides an assessment and discussion of \hpl. Related work is addressed in Section~\ref{related-work}. The paper is concluded in Section~\ref{conclusion}. 
+
+The Haskell source code of \hpl{} is publically available.\footnote{\url{https://gitorious.org/hephaestus-pl/hephaestus-pl}} For the rest of the paper, `Haskell' refers to standardized Haskell in sense of Haskell 2012\footnote{\url{http://www.haskell.org/onlinereport/haskell2010/}}, unless noted otherwise.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,3 +1,5 @@
+Although these patterns involve scattering and tangling, a compositional approach (e.g., AOP) does not meet the expressiveness requirement given the heterogeneity in granularity. With this transformational approach, 1) configurability is addressed by enabling \hpl{} with an automatic support to generate product instances with different combinations of assets; 2) extensibility is guaranteed by \hpl{}'s architectural design allowing support to variability management of different assets, independence between the assets and mostly no impact on kernel when inserting new assets in \hpl.
+
 Consequently, we decided to provide extensibility by means of
 metaprograms on top of object programs in standard Haskell (Haskell~98
 in the case of \hpl). The approach effectively supports extensible
@@ -6,8 +8,5 @@ adding equations and extending equations for the relevant idioms).
 The metaprogramming approach does not only provide the necessary
 extensibility, it can also be easily used with a SPL-like approach for
 variable management because the metaprogramming transformations can be
-represented by configuration knowledge. \hpl{} is modularized in a way
-that metaprogramming only affects those few abstractions that require
-configurability and extensibility. Most assets are separately
-compilable and will not be affected by metaprograms.  Finally, the
+represented by configuration knowledge. Finally, the
 metaprogramming approach also enables bootstrapping of \hpl.
