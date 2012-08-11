@@ -1,6 +1,9 @@
 \section{Implementation of \hpl}
 \label{sec:implementation}
 
+In this section, we present the important details of the implementation of \hpl's architecture. That is, we focus on implementation aspects of managing variability without discussing the modules specific to the different kinds of artifacts (use cases, requirements, etc.). We also describe \hpl's metaprogramming support in detail.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure*}[bth]
 \begin{center}
@@ -10,28 +13,13 @@
 \label{fig:modules-hpl}
 \end{figure*}
 
-
-%\subsection{Objective of the experiment}
-
-%The objective was to understand whether a) Haskell metaprogramming techniques can be used to obtain instances of Hephaestus that cover selected variations of assets, e.g., use cases and business processes, and b) such a metaprogramming approach can be provided in a way that the Hephaestus product-line infrastructure is applied to itself.
-
-%\subsection{Summary of the results}
-
-%Subject to a number of simplifying assumptions, the experiment was successfully completed. One simplification concerns the assets in scope. We used mockups as opposed to the actual implementations in Hephaestus. If we were to use the actual implementations, the relevant modules may require some changes. Another simplification concerns the feature model of Hephaestus. We only consider the OR feature for the different assets.
-
-In this section we present the details of the implementation of \hpl's architecture shown in the Figure~\ref{fig:architecture-hpl} in terms of modules e their dependencies, as depicted in Figure~\ref{fig:modules-hpl}.
-The dotted line comprises the modules which compose each of the main elements in the \hpl's architecture, i.e., the \texttt{BaseProduct.hs} and \texttt{BaseTypes.hs} modules are the \textit{Base Product} of the \hpl's Kernel.
-We present the domain level's modules which support the generation of new \hpl{} intances and the instance level's modules which were developed to test \hpl{} with a selected feature configuration. Besides that, we present the metaprogramming operations which implement the transformations in Haskell code of a \textit{Base Product} of the \hp{} instance.
-The source code of \hpl{} is publicly\footnote{https://gitorious.org/hephaestus-pl/hephaestus-pl} available.
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Modules and Dependencies}
 
-At the domain level, the \texttt{IO.hs} module contains the \texttt{buildHpl} function which represents the interface to the \hpl{}'s instance level. This function is the initial point for the generation of a new \hpl{} instance by the \hpl{}'s product derivation process.  
-The \texttt{buildHpl} function receives a feature configuration of \hpl{}'s FM as input and prepares the environment to execute the generation of \hpl{} instance (guided by \texttt{build} function of \textit{\hp{} Product}). 
-The inputs to the derivation process of \hpl{} are four: a instance of the \texttt{SPLModel} data type, a valid feature configuration and the \hpl's FM and CK.
-In this context, the instance of the \texttt{SPLModel} data type wraps the \hp{} asset, i.e., the physical modules of the \textit{\hpl{} base product} are inserted into an instance of \texttt{HephastusModel} data type that represents the abstract type of \hp{} asset and it is wrapped into an \texttt{SPLModel} data type. 
-Besides, the derivation process of \hpl{} needs the \hpl{}'s feature modeling and configuration knowledge
+The modular structure of the implementation is shown in Figure~\ref{fig:architecture-hpl}; module dependencies are shown as well. The dotted line comprises the modules which compose each of the main elements in the \hpl's architecture, e.g., the \texttt{HephaestusBase.hs} and \texttt{BaseTypes.hs} modules constitute \hp{} \emph{Base} of \hpl's Kernel.
+
+At the domain level, the \texttt{IO.hs} module contains the \texttt{buildHpl} function which represents the interface to the \hpl{}'s instance level. This function is the initial point for the generation of a new \hpl{} instance by the \hpl{}'s product derivation process.  The \texttt{buildHpl} function receives a feature configuration of \hpl{}'s FM as input and prepares the environment to execute the generation of \hpl{} instance (guided by \texttt{build} function of \textit{\hp{} Product}).  The inputs to the derivation process of \hpl{} are four: a instance of the \texttt{SPLModel} data type, a valid feature configuration and the \hpl's FM and CK.  In this context, the instance of the \texttt{SPLModel} data type wraps the \hp{} asset, i.e., the physical modules of the \textit{\hpl{} base product} are inserted into an instance of \texttt{HephastusModel} data type that represents the abstract type of \hp{} asset and it is wrapped into an \texttt{SPLModel} data type.  Besides, the derivation process of \hpl{} needs the \hpl{}'s feature modeling and configuration knowledge
 %has the goal of preparing the elements (\texttt{SPLModel} data type, feature modeling and configuration knowledge) of \hp{} 
 to execute the \texttt{build} function of the \textit{\hp{} Product} that controls the generation of the new \hpl's instance. 
 The \hpl's FM and CK are contained into \texttt{MetaData.hs} module. Then, 
@@ -48,7 +36,118 @@ Besides, another module (\texttt{assetName.hs}) of each group in \textit{SPL Ass
 
 Finally, we have the \textit{Core Assets'} modules (FM and CK) that are imported by \textit{Base Product's} modules.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{figure}
+\begin{lstlisting}
+module HephaestusBase where
+
+data SPLModel = SPLModel { *'\label{splmodelBP-i-1}'*
+  featureModel :: FeatureModel
+} *'\label{splmodelBP-f-1}'*
+
+data InstanceModel = InstanceModel { *'\label{instancemodelBP-i-1}'*
+  featureConfiguration :: FeatureConfiguration
+} deriving (Data, Typeable) *'\label{instancemodelBP-f-1}'*
+
+data TransformationModel = UndefinedTransformation *'\label{transformmodelBP}'*
+
+transform :: TransformationModel -> SPLModel -> InstanceModel -> InstanceModel  *'\label{transformBP-i-1}'*
+transform UndefinedTransformation _ _ = undefined  *'\label{transformBP-f-1}'*
+
+data ExportModel = UndefinedExport *'\label{exportmodelBP}'*
+
+lstExport::[ExportModel] *'\label{lstExportBP-i-1}'*
+lstExport = []   *'\label{lstExportBP-f-1}'*
+
+export :: ExportModel -> FilePath -> InstanceModel -> IO()  *'\label{exportBP-i-1}'*
+export UndefinedExport _ _ = undefined   *'\label{exportBP-f-1}'*
+
+mkEmptyInstance :: FeatureConfiguration -> SPLModel -> InstanceModel  *'\label{mkEmptyBP-i-1}'*
+mkEmptyInstance fc spl = InstanceModel {
+  featureConfiguration = fc
+}    *'\label{mkEmptyBP-f-1}'*
+
+xml2Transformation :: String -> [String] -> ParserResult TransformationModel *'\label{xm2transfBP-i}'*
+xml2Transformation "Undefined" _ = undefined *'\label{xm2transfBP-f}'*
+
+main :: IO ()   *'\label{mainBP-i-1}'*
+main = do
+  ...
+  let spl = SPLModel { featureModel = fm }
+  let product = undefined  *'\label{build-line}'*
+  let out = (outputFile (snd t) (snd n))
+  sequence_ [export x out product | x <- lstExport]
+  ...   *'\label{mainBP-f-1}'*
+\end{lstlisting}
+\caption{Code snippet of the Haskell module for the \hp{} \emph{Base}}
+\label{fig:code-HephaestusBase}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{\hp{} Base}
+
+Figure~\ref{fig:code-HephaestusBase} presents a snippet of the Haskell module for the \hp{} \emph{Base} with explanations for the definitions as follows:
+
+\begin{itemize}
+
+\item declares basic representations for the \texttt{SPLModel} (lines \ref{splmodelBP-i-1}-\ref{splmodelBP-f-1}) and \texttt{InstanceModel} (lines \ref{instancemodelBP-i-1}-\ref{instancemodelBP-f-1}) data types, where the first has just the \texttt{featureModel} data field and the \texttt{InstanceModel} data type has just the \texttt{featureConfiguration} data field,
+
+\item declares \texttt{TransformationModel} data type (line \ref{transformmodelBP}) which just supports the \texttt{UndefinedTransformation} constructor,
+
+\item defines one case for the \texttt{transform} function (lines \ref{transformBP-i-1}-\ref{transformBP-f-1}), which just supports the \texttt{UndefinedTransformation} transformation,
+
+\item declares \texttt{ExportModel} data type (line \ref{exportmodelBP}) which just supports the \texttt{UndefinedExport} constructor,
+
+\item defines an empty list (\texttt{lstExport}) (lines \ref{lstExportBP-i-1}-\ref{lstExportBP-f-1}) of export data types (used to export a product in different output formats),
+
+\item defines one case for the \texttt{export} function (lines \ref{exportBP-i-1}-\ref{exportBP-f-1}), which also just supports the \texttt{UndefinedExport} export format,
+
+\item defines a \texttt{mkEmptyInstance} function (lines \ref{mkEmptyBP-i-1}-\ref{mkEmptyBP-f-1}) that returns an \texttt{InstanceModel} having only the \texttt{featureConfiguration} data field,
+
+\item defines a \texttt{xml2Transformation} function (lines \ref{xm2transfBP-i}-\ref{xm2transfBP-f}) which comprises the CK XML parser process performing the recognition of the concrete syntax of asset transformations of the Hephaestus-PL instance, and
+
+\item defines a \texttt{main} function (lines \ref{mainBP-i-1}-\ref{mainBP-f-1}) to run the \hp{} instance.
+
+\end{itemize}
+
+The \texttt{TransformationModel} and \texttt{ExportModel} data types could be understood as variation points which will be resolved by introducing new values ​​that will replace the \texttt{UndefinedTransformation} and \texttt{UndefinedExport} definitions, respectively, in the refinement of \hpl{} instance. Instances of \hpl{} must provide one definition for the \texttt{transform} function for each supported SPL asset, even though the product derivation process of \hpl{} refines the \texttt{transform} function introducing those new definitions through metaprogramming.
+
+Line \ref{build-line} of the Figure~\ref{fig:code-hpl-base-product} represents a \texttt{undefined} \hpl's instance (\texttt{product} variable) and this line will be replaced in emerging product by the line \texttt{let product = build fm fc cm spl} that executes the \texttt{build} function to generation of a product \hpl{} instance from feature configuration.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}
+\begin{lstlisting}
+build :: FeatureModel
+      -> FeatureConfiguration
+      -> ConfigurationKnowledge
+      -> SPLModel
+      -> InstanceModel
+
+build fm fc ck spl = stepRefinement ts spl emptyInstance
+  where emptyInstance = mkEmptyInstance fc spl
+        ts = tasks ck fc
+
+tasks :: ConfigurationKnowledge -> FeatureConfiguration -> [TransformationModel]
+tasks ck fc = concat [transformations c | c <- ck, eval fc (expression c)]
+
+transform :: TransformationModel -> SPLModel -> InstanceModel -> InstanceModel
+transform (HephaestusTransformation t) s i = transformHpl t s i
+\end{lstlisting}
+\caption{Code snippet of the \hp{} product}
+\label{fig:code-hp-product}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{\hp{} Product} 
+\label{hp-product}
+
+The module provides the \texttt{build} function, which controls \hpl{}'s product derivation process--by progressive refinement of the base product. The module also provides a simple definition for the \texttt{transform} function (code snippet in the Figure~\ref{fig:code-hp-product}).  In this particular instance, the \texttt{transform} function only deals with the transformations of the \hp{} SPL Asset, which are detailed in Section~\ref{hp-spl-asset}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Description of the Transformational Approach}
 

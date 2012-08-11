@@ -1,29 +1,3 @@
-%%
-%% Copyright 2007, 2008, 2009 Elsevier Ltd
-%%
-%% This file is part of the 'Elsarticle Bundle'.
-%% ---------------------------------------------
-%%
-%% It may be distributed under the conditions of the LaTeX Project Public
-%% License, either version 1.2 of this license or (at your option) any
-%% later version.  The latest version of this license is in
-%%    http://www.latex-project.org/lppl.txt
-%% and version 1.2 or later is part of all distributions of LaTeX
-%% version 1999/12/01 or later.
-%%
-%% The list of all files belonging to the 'Elsarticle Bundle' is
-%% given in the file `manifest.txt'.
-%%
-
-%% Template article for Elsevier's document class `elsarticle'
-%% with numbered style bibliographic references
-%% SP 2008/03/01
-%%
-%%
-%%
-%% $Id: elsarticle-template-num.tex 4 2009-10-24 08:22:58Z rishi $
-%%
-%%
 \documentclass[preprint,12pt]{elsarticle}
 
 %% Use the option review to obtain double line spacing
@@ -40,54 +14,17 @@
 
 \newcommand{\hpl}{\textsf{Hephaestus-PL}}
 \newcommand{\hp}{\textsf{Hephaestus}}
+\newcommand{\hpbase}{\hp{} \emph{Base}}
+\newcommand{\hpsplasset}{\hp{} \emph{SPL Asset}}
+\newcommand{\hpproduct}{\hp{} \emph{Product}}
 
-%% if you use PostScript figures in your article
-%% use the graphics package for simple commands
-%% \usepackage{graphics}
-%% or use the graphicx package for more complicated commands
-%% \usepackage{graphicx}
-%% or use the epsfig package if you prefer to use the old commands
-%% \usepackage{epsfig}
-
-%% The amssymb package provides various useful mathematical symbols
 \usepackage{amssymb}
-
 \usepackage{multirow}
-
-%% The amsthm package provides extended theorem environments
-%% \usepackage{amsthm}
-
-%% The lineno packages adds line numbers. Start line numbering with
-%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
-%% for the whole article with \linenumbers after \end{frontmatter}.
-%% \usepackage{lineno}
-
-%% natbib.sty is loaded by default. However, natbib options can be
-%% provided with \biboptions{...} command. Following options are
-%% valid:
-
-%%   round  -  round parentheses are used (default)
-%%   square -  square brackets are used   [option]
-%%   curly  -  curly braces are used      {option}
-%%   angle  -  angle brackets are used    <option>
-%%   semicolon  -  multiple citations separated by semi-colon
-%%   colon  - same as semicolon, an earlier confusion
-%%   comma  -  separated by comma
-%%   numbers-  selects numerical citations
-%%   super  -  numerical citations as superscripts
-%%   sort   -  sorts multiple citations according to order in ref. list
-%%   sort&compress   -  like sort, but also compresses numerical citations
-%%   compress - compresses without sorting
-%%
-%% \biboptions{comma,round}
-
-% \biboptions{}
-
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{subfigure}
-
-%\usepackage{color}
 \usepackage{listings}
+\usepackage{listings}
+\usepackage{url}
 
 \definecolor{gray}{RGB}{220,220,220}
 \journal{Science of Computer Programming}
@@ -139,7 +76,7 @@
   showspaces=false,
   keywordstyle=\bfseries\rmfamily,
   columns=flexible,
-  basicstyle=\small\sffamily,
+  basicstyle=\footnotesize\sffamily,
   showstringspaces=false,
   morecomment=[l]\%,
 }
@@ -170,7 +107,9 @@
 %% \address{Address\fnref{label3}}
 %% \fntext[label3]{}
 
-\title{\hpl: A Product Line for Tools for Product Derivation}
+\title{Configurability and Extensibility of Tools for\\ Software Product
+Lines}
+%\title{\hpl: A Product Line for Tools for Product Derivation}
 %\title{A configurable, flexible, and extensible tool for software-product derivation}
 %\title{Supporting Configurability and Flexibility in Software Product Line Tool Development: the \hpl{} Case}
 %\title{On the Design and Implementation of \hpl: a Software Product Line of Software Product Line Tools}
@@ -203,30 +142,29 @@
   Tool support is essential for application engineering in software
   product lines for the derivation of products from reusable assets.
 % Problem
-  Existing tools are more or less specialized in terms of the
-  artifacts and the variability mechanisms that they address. There is
-  the open problem of providing general configurability, flexibility, and
-  extensibility with regard to the artifacts and variability
-  mechanisms for such tools.
+  Existing tools are insufficiently configurable and extensible with
+  regard to the type of artifacts and associated variability mechanisms
+  that they target.
 % Solution
   This paper addresses the problem by exploring the underlying
   commonality and adequately managing variability of tools for product
-  derivation. More specifically, the paper presents domain analysis,
-  design, implementation, and a supporting process for enhancing the
-  existing \hp{} tool for software product lines into \hpl---a proper
-  product line for such tools. Such enhancement is essentially a form
-  of bootstrapping.
+  derivation. More specifically, the paper describes domain analysis,
+  design, implementation of \hpl---a proper product line for such
+  tools. To this end, an extractive strategy was applied to the
+  existing Haskell-based \hp{} tool. A transformational approach to
+  variability management is designed and implemented by
+  metaprogramming in Haskell. We also describe a reactive process for
+  evolving \hpl{} to address new types of artifacts.
 % Evidence
-  An assessment substantiates that \hpl{} actually provides improved
-  configurability, flexibility, and extensibility when compared to
-  previous versions of \hp.
+  Improved configurability and extensibility is substantiated
+  by an assessment.
 \end{abstract}
 
 \begin{keyword}
 %% keywords here, in the form: keyword \sep keyword
-Software Product Line Tools \sep Variability Management \sep \hp \sep
-Configurability \sep Flexibility \sep Extensibility \sep
-Bootstrapping \sep Expression Problem \sep Metaprogramming \sep Haskell
+  Software Product Line Tools \sep Variability Management \sep \hp
+  \sep Configurability \sep Extensibility \sep Bootstrapping \sep
+  Expression Problem \sep Metaprogramming \sep Haskell
 
 %% MSC codes here, in the form: \MSC code \sep code
 %% or \MSC[2008] code \sep code (2000 is the default)
@@ -235,85 +173,17 @@ Bootstrapping \sep Expression Problem \sep Metaprogramming \sep Haskell
 
 \end{frontmatter}
 
-%%
-%% Start line numbering here if you want
-%%
-% \linenumbers
-
 \input {introduction}
-
 \input {hephaestus}
-
 \input {domainAnalysis}
-
 \input {domainDesign}
-
 \input {implementation}
-
 \input {process}
-
 \input {resultDiscussion}
-
 \input {relatedWork}
-
 \input {conclusion}
-
-
-%\section{Hephaestus}
-%\label{sec:hephaestus}
-
-
-
-
-
-
-
-
-
-%% The Appendices part is started with the command \appendix;
-%% appendix sections are then done as normal sections
-%%\appendix
-
-%\input {appendixA}
-
-%% \section{}
-%% \label{}
-
-%% References
-%%
-%% Following citation commands can be used in the body text:
-%% Usage of \cite is as follows:
-%%   \cite{key}         ==>>  [#]
-%%   \cite[chap. 2]{key} ==>> [#, chap. 2]
-%%
-
-
-
-
-
-%% References with bibTeX database:
 
 \bibliographystyle{elsarticle-num}
 \bibliography{references}
 
-%% Authors are advised to submit their bibtex database files. They are
-%% requested to list a bibtex style file in the manuscript if they do
-%% not want to use elsarticle-num.bst.
-
-%% References without bibTeX database:
-
-% \begin{thebibliography}{00}
-
-%% \bibitem must have the following form:
-%%   \bibitem{key}...
-%%
-
-% \bibitem{}
-
-% \end{thebibliography}
-
-
 \end{document}
-
-%%
-%% End of file `elsarticle-template-num.tex'.

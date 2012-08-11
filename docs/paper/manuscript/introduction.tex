@@ -7,24 +7,19 @@
 
 % Context: SPL derivation tools
 
-A Software Product Line (SPL) is a set of software-intensive systems that share a common, managed set of features satisfying the specific needs of a particular market segment or mission and that are developed from a common set of core assets in a prescribed way~\cite{spl-book}. Potential benefits include improved productivity with lower development costs and time-to-market and increased quality. To achieve these benefits, tool support for the underlying activities is essential. In particular, this holds for Application Engineering, in which a product is defined by selecting a group of features and then parts of different components are carefully combined with the help of product derivation tools. Given the inherent complexity and the coordination required in the derivation process~\cite{griss}, the derivation of individual products from shared software assets is a laborious, error-prone, and expensive activity in practice~\cite{deelstra:2005}. Overall, the present paper is concerned with product derivation tools and the underlying process of product derivation.
+A Software Product Line (SPL) is a set of software-intensive systems that share a common, managed set of features satisfying the specific needs of a particular market segment or mission and that are developed from a common set of core assets in a prescribed way~\cite{spl-book}. Potential benefits include improved productivity with lower development costs and time-to-market and increased quality. To achieve these benefits, tool support for the underlying activities is essential. In particular, this holds for Application Engineering, in which a product is defined by selecting a group of features and then parts of different components are combined. Given the inherent complexity of SPLs and the coordination required for instantiation, the process of derivation of individual products from shared software assets should be supported by tools: \emph{product derivation tools}. Without such tools, the derivation process is a laborious, error-prone, and thus, expensive activity~\cite{griss,deelstra:2005}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Problem:
-%  - lack of configurability and flexibility
-%  - absence of systematic handling of variability of tools
 
-As reported by a contemporary Systematic Literature Review and expert survey~\cite{ist-2010}, key requirements of product derivation tools are configurability and flexibility, which the same study identifies as shortcoming of most existing tools. That is, derivation tools must be adapted to different contexts, e.g., dealing with any combination of different artifacts. For instance, a given tool may target artifacts such as business process models, requirement models, and source code. However, different tool configurations should be feasible so that, for example, 
-only target artifacts of interest are selected. Additionally, the changing needs of users and the continuous evolution of product lines further motivate flexibility and configurability of product derivation tools for addressing future needs, e.g., dealing with new artifacts such as new kinds of models, e.g., architectural models, if it was not considered previously. (We may also speak of extensibility instead of flexibility, if we want to emphasize that new artifacts or variability mechanisms are to be accommodated.) Ultimately, without a supporting process, dealing with such variability drivers is not effective.
+The changing needs of users and the continuous evolution of product lines motivates configurability and extensibility of product derivation tools for addressing future needs. As reported by a contemporary Systematic Literature Review and expert survey~\cite{ist-2010}, key requirements of product derivation tools are indeed configurability and extensibility (in fact, `flexibility' in the terminology of~\cite{ist-2010}) which the same study identifies as shortcoming of most existing tools. The present paper addresses such configurability and extensibility. As an illustration of insufficient configurability, consider a derivation tool that targets different types of artifacts without supporting, though, the selection of types for a specific use case of the tool. For instance, different variants of the Haskell-based \hp{} tool~\cite{rbonifacio:sbcars2009} for product derivation target use case models, requirement models, source code, and yet other types of artifacts, but the selection of only some of the types is not possible for a given variant of \hp. The present paper studies \hp{} in detail and improves it ultimately. As an illustration of insufficient extensibility, consider a derivation tool that needs to target an additional type of artifact without providing, though, any extension scheme and process to this end. For instance, \hp{} had to target architectural models at some point, but this extension could only be completed in a low-level (i.e., laborious and error-prone) manner.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Solution:
-% - development of Hephaestus-PL (analysis, design, implementation)
-% - reactive (evolution) process
+% Challenge
 
-The requested configurability, flexibility, and extensibility may be obtainable, if the variability within tools for product derivation is managed by architecting the tools themselves as SPLs, as also suggested by Gr{\"u}nbacher et al.~\cite{grunbacher:2008}. Despite existing efforts in this direction~\cite{grunbacher:2011,grunbacher:2008,batory-ahead-bootstrap}, management of the variability in new artifacts and combinations of artifacts as well as associated variability mechanisms for those artifacts has not been addressed. 
+The requested configurability and extensibility may be obtainable, if the variability within tools for product derivation is managed by architecting the tools themselves as SPLs, as suggested by Gr{\"u}nbacher et al.~\cite{grunbacher:2008} and also exemplified by some efforts~\cite{grunbacher:2011,batory-ahead-bootstrap}. Overall, the major contribution of the present paper is the description of the details of the engineering process for obtaining and enhancing such a meta-product line, while using the \hp{} tool for product derivation for a comprehensive study.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -32,23 +27,23 @@ The requested configurability, flexibility, and extensibility may be obtainable,
 
 \begin{itemize}
 
-\item We describe an effort which enhanced the existing \hp{} tool for software product lines into \hpl---a proper
-  product line for product derivation tools. To this end, we describe domain analysis, design, and implementation of \hpl. In this manner, the present paper provides evidence for the feasibility of configurable, flexible, and extensible tools for product derivation.
+\item We describe an extractive process that enhances the existing tool \hp{} for deriving products from a SPL into a proper product line, \hpl, for product derivation tools. In particular, we describe domain analysis, design, and implementation of \hpl. Configuration is expressive; specifically, or-features (allowing for combinations) are supported as opposed to just alternative features (allowing only for exclusive choices). \hpl{} employes a general transformational approach to variable management. In this manner, the present paper provides evidence for the feasibility of configurable and extensible tools for product derivation.
 
-\item We describe a process for evolving \hpl{} to address new artifacts. That is, \hpl{} is supported by a process allowing instantiating product line tools for modeling variability in new artifacts. An assessment reveals that \hpl{} has improved configurability and flexibility when compared to previous evolution of \hp. In this manner, the present paper provides evidence for the effectiveness of addressing the problem of configurable, flexible, and extensible tools for product derivation.
+\item We describe the technicalities and implications of providing a meta-SPL in Haskell. \hpl's transformational approach is implemented through metaprogramming in Haskell. Technically, we had to solve an \hp-specific variation on the `Expression Problem'~\cite{Wadler98,Lopez-HerrejonBC05} within Haskell. The approach enables modular code organization for all components of \hpl, separate compilation within limits, and bootstrapping of \hpl, thereby achieving high uniformity across the regular SPL level and the meta-SPL level.
 
-\item We describe a metaprogramming approach, which enables \hpl's configurability, flexibility, and extensibility.  Haskell is the implementation language of \hp{} and \hpl{}; it also serves as the metaprogramming language.  Technically, we had to solve an \hp-specific variation on the `Expression Problem'~\cite{Wadler98,Lopez-HerrejonBC05} within Haskell. The approach enables bootstrapping of \hpl{}, modular code organization for all components of \hpl{}, and separate compilation within limits.
+\item We describe a reactive process for evolving \hpl{} for modeling variability for new types of artifacts so that product line tools can be derived for these new types. An assessment reveals that \hpl{} has improved configurability and extensibility when compared to previous variants of \hp. In this manner, the present paper provides evidence for the effectiveness of addressing the problem of configurable and extensible tools for product derivation.
 
 \end{itemize}
 
-We believe that these contributions and experiences could be leveraged to other contexts in which configurability, flexibility, extensibility of tools for product derivation are key requirements. \hpl{} is publicly available  and has been developed by managing commonality and variability from existing variants of \hp~\cite{rbonifacio:sbcars2009}, a SPL tool developed in Haskell and originally aimed at managing variability in use case scenarios, but which has evolved to handle variability independently in different kinds of artifacts (a detailed description of \hp, including usage scenarios can be found elsewhere~\cite{rbonifacio:sbcars2009}). 
+We believe that these contributions and experiences could be leveraged in other contexts in which configurability and extensibility of tools for product derivation are key requirements. 
+
+The source code of \hpl{} is publically available.\footnote{\url{https://gitorious.org/hephaestus-pl/hephaestus-pl}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\bigskip
-
 \subsection*{Road-map of the Paper}
 
-The remainder of this paper is organized as follows. First, Section~\ref{sec:hephaestus} briefly describes \hp{} and its evolution to address different artifacts, thereby motivating the use of metaprogramming in \hpl. Next, based on such variants of \hp, Sections~\ref{sec:domainAnalysis} and~\ref{sec:domainDesign} presents the domain analysis and design of \hpl, respectively, whereas its implementation is explained in Section~\ref{sec:implementation}. Section~\ref{sec:process} then presents a supporting process for extending \hpl, and Section~\ref{sec:results-discussion} provides an assessment and discussion of \hpl. Related work is addressed in Section~\ref{related-work}, and Section~\ref{conclusion} offers concluding remarks.
+The remainder of this paper is organized as follows. First, Section~\ref{sec:hephaestus} briefly describes \hp{} and it analyzes a representative evolution scenario for addressing an additional type of artifacts. Next, based on experience with variants and evolution history of \hp, Section~\ref{sec:domainAnalysis}--\ref{sec:implementation} describe 
+domain analysis, domain design, and implementation of \hpl. Section~\ref{sec:process} describes a reactive process for extending \hpl. Section~\ref{sec:results-discussion} provides an assessment and discussion of \hpl. Related work is addressed in Section~\ref{related-work}. The paper is concluded in Section~\ref{conclusion}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

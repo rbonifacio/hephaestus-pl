@@ -5,11 +5,11 @@
 
 Although tailored to managing variability in a specific SPL~\cite{ferreira:2010}, some users of \hp{} would appreciate more specific configurations of the tool. For instance, some users could be interested in managing variability only in requirements and use cases; others could be interested in managing variability only in source code; and yet other engineers could be interested in managing variabilities in requirements, use cases, and source code.  Accordingly, new extensions of \hp{} have been recently proposed. For instance, there exist variants of \hp{} supporting variability in business process models~\cite{Machado:2011:MVB:1960502.1960508} and \emph{Simulink} assets~\cite{simulink}.
 
-These variants share the same configurability, flexibility, and extensibility issues explained in Section~\ref{sec:hephaestus}. To address these issues, we adopt a SPL perspective to \hp{} itself, thus leveraging the commonality in these variants and systematically managing the incurred variability. Since there are existing versions of \hp, we adopt the extractive strategy~\cite{kruegerPFE01}, bootstrapping the \hpl{} from such variants. Correspondingly, we analyzed the existing variants of \hp{} and manually identified the common and variable features, architectural and implementation elements. The remainder of this section explains the result of this strategy to identify commonality and variability among such elements. In Section~\ref{sec:domainDesign}, we present and explain how \hpl's domain design leverages this domain analysis and addresses configurability, flexibility, and extensibility; the details of implementation are presented in Section~\ref{sec:implementation}. Section~\ref{sec:process} details the reactive process needed to introduce support for managing variabilities in new assets.
+These variants share the same configurability and extensibility issues explained in Section~\ref{sec:hephaestus}. To address these issues, we adopt a SPL perspective to \hp{} itself, thus leveraging the commonality in these variants and systematically managing the incurred variability. Since there are existing versions of \hp, we adopt the extractive strategy~\cite{kruegerPFE01}, bootstrapping the \hpl{} from such variants. Correspondingly, we analyzed the existing variants of \hp{} and manually identified the common and variable features, architectural and implementation elements. The remainder of this section explains the result of this strategy to identify commonality and variability among such elements. In Section~\ref{sec:domainDesign}, we present and explain how \hpl's domain design leverages this domain analysis and addresses configurability and extensibility; the details of implementation are presented in Section~\ref{sec:implementation}. Section~\ref{sec:process} details the reactive process needed to introduce support for managing variabilities in new assets.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure*}[bth]
+\begin{figure*}[t!]
 \begin{center}
 \includegraphics[width=.2\textwidth]{imagens/fm-hpl2.png}
 \includegraphics[width=\textwidth]{imagens/fm-hpl1.png}
@@ -27,7 +27,7 @@ In terms of the problem space, \hpl' feature model is represented in Figure~\ref
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure*}[htb]
+\begin{figure*}[t!]
 \begin{center}
 \includegraphics[scale=0.6]{imagens/confInvalid.png}
 \end{center}
@@ -44,7 +44,7 @@ Thus, in the problem space, a specific configuration of \hp{} is conceptually si
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Identification of Commonality} 
-\label{commonality}
+\label{sec:commonality}
 
 In the solution space, there exists significant amount of commonality among configurations. 
 The domain analysis revealed \emph{commonality} for these abstractions across the variants of the evolution history:
@@ -64,7 +64,7 @@ The domain analysis revealed \emph{commonality} for these abstractions across th
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Identification of Variability} 
-\label{variability}
+\label{sec:variability}
 
 The domain analysis revealed \emph{variability} for these abstractions across the variants of the evolution history:
 

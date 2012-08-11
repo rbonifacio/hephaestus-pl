@@ -1,0 +1,13 @@
+Consequently, we decided to provide extensibility by means of
+metaprograms on top of object programs in standard Haskell (Haskell~98
+in the case of \hpl). The approach effectively supports extensible
+data types (both sums and products) and extensible functions (both
+adding equations and extending equations for the relevant idioms).
+The metaprogramming approach does not only provide the necessary
+extensibility, it can also be easily used with a SPL-like approach for
+variable management because the metaprogramming transformations can be
+represented by configuration knowledge. \hpl{} is modularized in a way
+that metaprogramming only affects those few abstractions that require
+configurability and extensibility. Most assets are separately
+compilable and will not be affected by metaprograms.  Finally, the
+metaprogramming approach also enables bootstrapping of \hpl.
