@@ -3,7 +3,7 @@
 \section{Domain Design of \hpl}
 \label{sec:domainDesign}
 
-This section introduces the domain design~\cite{gpbook} of \hpl. We begin with an architectural view (Section~\ref{sec:hpl-architecture}). Then, we describe \hpl's transformational approach to variability management (Section~\ref{sec:hpl-transformation}), the configuration knowledge of \hpl{} (Section~\ref{sec:hpl-ck}), and the derivation process for SPL tools (Section~\ref{sec:hpl-derivation}).  Finally, bootstrapping of \hpl{} is described (Section~\ref{sec:hpl-bootstrapping}).
+This section introduces the domain design~\cite{gpbook} of \hpl. We begin with an architectural view (Section~\ref{sec:hpl-architecture}). Then, we describe \hpl's transformational approach to variability management (Section~\ref{sec:hpl-transformation}), which also relies on designated configuration knowledge (Section~\ref{sec:hpl-ck}), and a derivation process for SPL tools (Section~\ref{sec:hpl-derivation}).  Finally, bootstrapping of \hpl{} is described (Section~\ref{sec:hpl-bootstrapping}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -20,7 +20,7 @@ This section introduces the domain design~\cite{gpbook} of \hpl. We begin with a
 \subsection{\hpl's Architecture} 
 \label{sec:hpl-architecture}
 
-\hpl's architecture is depicted in Figure~\ref{fig:hpl-architecture}. Overall, \hpl{} is componentized in a way that most parts are separately compilable and are affected by configuration or extension.
+\hpl's architecture is depicted in Figure~\ref{fig:hpl-architecture}. Overall, \hpl{} is componentized in a way that most parts are separately compilable and unaffected by configuration or extension.
 
 \emph{Kernel} represents the basic abstractions necessary for the generation of \hpl{} instances including the generation of \hpl{} itself in a bootstrapping process. Within the kernel, component \hpbase{} represents the commonality among all \hpl{} instances (as identified in Section~\ref{sec:commonality}); it serves as a base for deriving all \hpl{} instances. To this end, \hpbase{} has variability points (as identified in Section~\ref{sec:variability}) which are to be resolved by transformations defined in component \hpsplasset{} in a derivation process driven by component \hpproduct. These components of the kernel had to be specifically designed and implemented for \hpl. The kernel also hosts \emph{Feature Modeling} and \emph{Configuration Knowledge}: these components provide
 basic abstractions for the representation of feature models, feature configurations, configuration knowledge as well as associated support functionality, e.g., for verifying validity of feature configurations relative to a given feature model. These components of the kernel could be reused from \hp{} and all \hpl{} instances share them, as is.
@@ -32,7 +32,7 @@ basic abstractions for the representation of feature models, feature configurati
 \subsection{\hpl's Transformational Approach} 
 \label{sec:hpl-transformation}
 
-We adopt a transformational approach~\cite{deltaSchaefer} to variability management. There are transformations to address the heterogeneity of the variability patterns observed in Section~\ref{sec:hp-evolution} without compromising modularity and comprehensibility of \hpl, and thus configurability and extensibility, which may be issues in annotative approaches~\cite{kastner:2008}. The transformation approach is also designed for uniformity. That is, we want \hpl{} to use transformations at the meta-level in the same way as \hp{} addressed variability for various types of artifacts by means of Haskell-based transformations on (non-meta-level) asset representations. Here we note that \hp{} also leverages asset-specific mechanisms for variability management (e.g., preprocessing or aspects for source code), but we do not leverage any Haskell-specific mechanisms for variability management at the meta-level. Instead, transformations of \hpl{} are eventually interpreted as metaprograms in Haskell on top of object programs in Haskell.
+We adopt a transformational approach~\cite{deltaSchaefer} to variability management. That is, the derivation of an \hpl{} instance involves source-code transformation. The approach provides transformations to address the heterogeneity of the variability patterns observed in Section~\ref{sec:hp-evolution} without compromising modularity and comprehensibility of \hpl, and thus configurability and extensibility, which may be issues for annotative approaches~\cite{kastner:2008}. The approach is also designed for uniformity. That is, the \hp{} approach to feature modeling, feature configuration, declaration and interpretation of configuration knowledge is adopted also at the meta-level. \hp{} often delegates some part of variability management to external tool support (e.g., for pre-processsing or aspect weaving), in which case, the transformation in the configuration knowledge essentially trigger those external transformations. In contrast, \hpl{} fully implements the meta-level transformations as metaprograms in Haskell on top of object programs in Haskell.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -47,27 +47,28 @@ We adopt a transformational approach~\cite{deltaSchaefer} to variability managem
 Configuration of \hpl{} relies on transformations provided by a high-level API, which are implemented in terms of 
 transformations of a low-level API, which, in turn, are implemented in terms of metaprogramming operations (with Haskell used both for object- and metaprograms).  The design of the high-level API captures the variability as identified during the domain analysis (Section~\ref{sec:variability}). The low-level API captures adaptation patterns as identified during the examination of the evolution scenario (Section~\ref{sec:hp-evolution}). Figure~\ref{fig:hpl-apis} illustrates the API layers, as they are part of \hpl's component \hpsplasset{} in the \emph{Kernel}. We refer to  Section~\ref{sec:metaprogrammingOperations} for the description of the actual implementation.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The transformations of the high-level API are described in the sequel. They are of specific interest, as they are directly used in the configuration of \hpl. 
+
+\begin{description}
+
+\item[SelectBase] The transformation selects \hpbase{}, which represents the commonality of all \hpl{} instances.
+Typically, this is the first transformation to be executed in the process of deriving an instance. The implementation of \hpbase{} is given in Section~\ref{sec:hpbase}.
+
+\item[SelectAsset] refines the product being derived with support for the selected asset variability as described by the feature configuration, i.e., this transformation extends the \texttt{SPLModel}, \texttt{InstanceModel} and \texttt{TransformationModel} data types and the \texttt{transform}, \texttt{xml2Transformation}, and \texttt{mkEmptyInstance} (empty instance definition to \texttt{build} function) functions to manipulate such asset. Furthermore, it incorporates the modules defining algebraic data types, the transformations, and the parser of the selected asset in the product being derived.  It also performs extensions into \texttt{main} function introducing the asset parser instruction and extending the instance of \texttt{SPLModel} data type with the asset selected to the \texttt{build} process.
+
+\item[SelectExport] refines the product being derived with support for the selected output format by extending the \texttt{ExportModel} data type, the \texttt{lstExport} list definition and the \texttt{export} function. Furthermore, it incorporates the module implementing the selected output format function into the product being derived. We define different transformations as \texttt{SelectAsset} and \texttt{SelectExport} to represent the refinement on the base product because the set of metaprogramming operations associated with each of these \hpl{} transformations is different and independent.
+
+\item[BindProductName] sets \hpl{}'s instance module name.
+
+\item[RemoveProductMainFunction] is only used when the \hp{} feature is in a configuration of \hpl's FM. This transformation removes the definition of the \texttt{main} function from the product being derived because the \hp{} feature uses the \texttt{buildHpl} function located in another module instead.
+
+\item[SelectCKParser] refines the product being derived with the CK parser by introducing sentences into the \texttt{main} function to execute the parsing of \hpl's instance CK and changing the \texttt{product} declaration from \texttt{undefined} to \texttt{build fm fc cm spl}, which refers to the CK defined by the \texttt{SelectCKParser} transformation. Furthermore, it incorporates the module defining the CK XML parser into the emerging product. This transformation is only applied to the \texttt{NOT \hp{}} feature expression. When \texttt{\hp{}} feature is selected, such transformation is not applied because the instance corresponding to this feature is the \hp{} \emph{Product} and the transformations for managing variability within it are precisely the transformations described in this bullet list, which are referred to from the \hp{} \emph{Product} and thus do not need to be parsed.
+
+\end{description}
 
 When we build an \hpl{} instance, the derivation process first reads the \texttt{HephaestusBase} module and then performs \hp{} asset transformations (mainly \texttt{SelectAsset} and \texttt{SelectExport}), refining several definitions of the module. 
 
 We defined six \hpl{} transformations, which are represented by the following type constructors:
-
-\begin{itemize}
-
-\item \texttt{SelectBase} is always the first transformation to be executed in the process of deriving a \hpl{} instance. This transformation selects a \hpl{} base product that represents the commonality of a \hpl{} product. The base product is detailed in section~\ref{base-product}.
-
-\item \texttt{SelectAsset} refines the product being derived with support for the selected asset variability as described by the feature configuration, i.e., this transformation extends the \texttt{SPLModel}, \texttt{InstanceModel} and \texttt{TransformationModel} data types and the \texttt{transform}, \texttt{xml2Transformation}, and \texttt{mkEmptyInstance} (empty instance definition to \texttt{build} function) functions to manipulate such asset. Furthermore, it incorporates the modules defining algebraic data types, the transformations, and the parser of the selected asset in the product being derived.  It also performs extensions into \texttt{main} function introducing the asset parser instruction and extending the instance of \texttt{SPLModel} data type with the asset selected to the \texttt{build} process.
-
-\item \texttt{SelectExport} refines the product being derived with support for the selected output format by extending the \texttt{ExportModel} data type, the \texttt{lstExport} list definition and the \texttt{export} function. Furthermore, it incorporates the module implementing the selected output format function into the product being derived. We define different transformations as \texttt{SelectAsset} and \texttt{SelectExport} to represent the refinement on the base product because the set of metaprogramming operations associated with each of these \hpl{} transformations is different and independent.
-
-\item \texttt{BindProductName} sets \hpl{}'s instance module name.
-
-\item \texttt{RemoveProductMainFunction} is only used when the \hp{} feature is in a configuration of \hpl's FM. This transformation removes the definition of the \texttt{main} function from the product being derived because the \hp{} feature uses the \texttt{buildHpl} function located in another module instead.
-
-\item \texttt{SelectCKParser} refines the product being derived with the CK parser by introducing sentences into the \texttt{main} function to execute the parsing of \hpl's instance CK and changing the \texttt{product} declaration from \texttt{undefined} to \texttt{build fm fc cm spl}, which refers to the CK defined by the \texttt{SelectCKParser} transformation. Furthermore, it incorporates the module defining the CK XML parser into the emerging product. This transformation is only applied to the \texttt{NOT \hp{}} feature expression. When \texttt{\hp{}} feature is selected, such transformation is not applied because the instance corresponding to this feature is the \hp{} \emph{Product} and the transformations for managing variability within it are precisely the transformations described in this bullet list, which are referred to from the \hp{} \emph{Product} and thus do not need to be parsed.
-
-\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
