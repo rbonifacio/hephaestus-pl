@@ -52,7 +52,7 @@ export :: ExportModel -> FilePath -> InstanceModel -> IO()
 export UndefinedExport _ _ = undefined
 
 
--- the function main() to product Hephaestus-PL instance
+-- the function main() to produce Hephaestus-PL instance
 main :: IO()
 main = do 
  cDir <- getCurrentDirectory

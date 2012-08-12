@@ -49,17 +49,17 @@ Thus, in the problem space, a specific configuration of \hp{} is conceptually si
 In the solution space, there exists significant amount of commonality among configurations. 
 The domain analysis revealed \emph{commonality} for these abstractions across the variants of the evolution history:
 
-\begin{itemize}
+\begin{description}
 
-\item \emph{Feature Model Representation}: an algebraic data type represents the feature model of a product line.
+\item[\emph{Feature Model Representation}] An algebraic data type represents the feature model of a product line.
   
-\item \emph{Product Configuration Representation}: an algebraic data type represents a valid feature configuration.
+\item[\emph{Product Configuration Representation}] An algebraic data type represents a valid feature configuration.
 
-\item \emph{Configuration Knowledge Representation} (CK Representation): an algebraic data type represents the product line's configuration knowledge.
+\item[\emph{CK Representation}] An algebraic data type represents the product line's configuration knowledge.
 
-\item \emph{Interpreter for Product Instantiation}: the \texttt{build} function performs the SPL instantiation by generating a product corresponding to a specific product line configuration.
+\item[\emph{Interpreter for Product Instantiation}] The \texttt{build} function performs the SPL instantiation by generating a product corresponding to a specific product line configuration.
 
-\end{itemize}
+\end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -68,20 +68,30 @@ The domain analysis revealed \emph{commonality} for these abstractions across th
 
 The domain analysis revealed \emph{variability} for these abstractions across the variants of the evolution history:
 
-\begin{itemize}
+\newcommand{\assetr}{\emph{Asset Representations}}
+\newcommand{\assetx}{\emph{Asset Transformations}}
+\newcommand{\asseti}{\emph{Asset Input}}
+\newcommand{\asseto}{\emph{Asset Output}}
+\newcommand{\assetc}{\emph{Asset Containers}}
+\newcommand{\emptyi}{\emph{Empty Instance}}
+\newcommand{\ckparser}{\emph{CK Parser}}
 
-\item \emph{Asset Representations}: algebraic data types represent the abstract syntax of different SPL assets (such as use cases, business processes, and code).
+\begin{description}
 
-\item \emph{Asset Transformations}: functions manipulate such artifacts, solving variability of SPL assets. Some transformations basically select a specific asset from the product line, including it into the product during product derivation. Other transformations change the structure of an asset of the SPL in the final product.
+\item[\assetr] Algebraic data types represent the abstract syntax of different SPL assets (such as use cases, business processes, and code).
 
-\item \emph{Asset I/O}: parser/output functions for reading/writing artifacts convert the concrete syntax of an asset to/from the corresponding abstract syntax of \hpl{}, i.e., the asset abstract data types.
+\item[\assetx] Functions manipulate such artifacts, thereby resolving variability of SPL assets. Some transformations basically select a specific asset from the product line so that it is included into the product during derivation. Other transformations change the structure of an asset of the SPL in the final product.
 
-\item \emph{Asset Container}: the \texttt{SPLModel} and \texttt{InstanceModel} algebraic data types comprise the set of SPL assets and group it with the feature model or feature configuration, respectively, of a given \hpl{} instance.
+\item[\assetc] The \texttt{SPLModel} and \texttt{InstanceModel} algebraic data types comprise the set of SPL assets and group it with the feature model or feature configuration, respectively, of a given \hpl{} instance.
 
-\item \emph{Empty Instance}: an expression defines the initial representation of a product during the product derivation activity. It is an instance of the \texttt{InstanceModel} data type and serves as a baseline that is successively refined by the \texttt{build} function.
+\item[\asseti] Input functions for reading assets, possibly parsing the concrete syntax of an asset to the corresponding abstract syntax of \hpl{}, i.e., the asset abstract data types. Input functions are typically invoked upon starting product derivation so that all assets are made available to the process through a \texttt{SPLModel} value.
 
-\item \emph{Configuration Knowledge Parser} (CK Parser): the \texttt{xml2Transformation} function parses the XML representation of transformations into actual transformations (functions) on instance models.
+\item[\asseto] Output functions for writing artifacts in different output formats. Output functions are typically invoked upon finishing product derivation so that the derived product is persisted.
 
-\end{itemize}
+\item[\emptyi] An expression defines the initial representation of a product during the product derivation activity. It is an instance of the \texttt{InstanceModel} data type and serves as a baseline that is successively refined by the \texttt{build} function.
+
+\item[\ckparser] The \texttt{xml2Transformation} function parses the XML representation of transformations into actual transformations (functions) on instance models for use in the configuration knowledge.
+
+\end{description}
 
 Domain analysis also substantiated that variability has a regular form that may be understood linguistically in terms of introduction of new abstractions (`modules') and extension of existing abstractions (data types and functions). For example, to introduce variability support for one new asset in \hp, one needs to implement the data types for representing the abstract syntax of these models, implement the transformations for solving variability, implement the parser and output functions for reading/writing these assets into/from \hp; one also needs to extend some data types and functions of \hp{}, as it was illustrated in Section~\ref{sec:hp-evolution}.
