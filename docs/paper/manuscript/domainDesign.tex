@@ -32,7 +32,7 @@ basic abstractions for the representation of feature models, feature configurati
 \subsection{\hpl's Transformational Approach} 
 \label{sec:hpl-transformation}
 
-We adopt a transformational approach~\cite{deltaSchaefer} to variability management. That is, the derivation of an \hpl{} instance involves source-code transformation. The approach provides transformations to address the heterogeneity of the variability patterns observed in Section~\ref{sec:hp-evolution} without compromising modularity and comprehensibility of \hpl, and thus configurability and extensibility, which may be issues for annotative approaches~\cite{kastner:2008}. The approach is also designed for uniformity. That is, the \hp{} approach to feature modeling, feature configuration, declaration and interpretation of configuration knowledge is adopted also at the meta-level. \hp{} often delegates some part of variability management to external tool support (e.g., for pre-processsing or aspect weaving), in which case, the transformation in the configuration knowledge essentially trigger those external transformations. In contrast, \hpl{} fully implements the meta-level transformations as metaprograms in Haskell on top of object programs in Haskell.
+We adopt a transformational approach to variability management. That is, the derivation of an \hpl{} instance involves source-code transformation. The approach provides transformations to address the heterogeneity of the variability patterns observed in Section~\ref{sec:hp-evolution} without compromising modularity and comprehensibility of \hpl, and thus configurability and extensibility, which may be issues for annotative approaches~\cite{kastner:2008}. The approach is also designed for uniformity. That is, the \hp{} approach to feature modeling, feature configuration, declaration and interpretation of configuration knowledge is adopted also at the meta-level. \hp{} often delegates some part of variability management to external tool support (e.g., for pre-processsing or aspect weaving), in which case, the transformation in the configuration knowledge essentially trigger those external transformations. In contrast, \hpl{} fully implements the meta-level transformations as metaprograms in Haskell on top of object programs in Haskell.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -45,7 +45,7 @@ We adopt a transformational approach~\cite{deltaSchaefer} to variability managem
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Configuration of \hpl{} relies on transformations provided by a high-level API, which are implemented in terms of 
-transformations of a low-level API, which, in turn, are implemented in terms of metaprogramming operations (with Haskell used both for object- and metaprograms).  The design of the high-level API captures the variability as identified during the domain analysis (Section~\ref{sec:variability}). The low-level API captures adaptation patterns as identified during the examination of the evolution scenario (Section~\ref{sec:hp-evolution}). Figure~\ref{fig:hpl-apis} illustrates the API layers, as they are part of \hpl's component \hpsplasset{} in the \emph{Kernel}. We refer to  Section~\ref{sec:metaprogrammingOperations} for the description of the actual implementation.
+transformations of a low-level API, which, in turn, are implemented in terms of metaprogramming operations (with Haskell used both for object- and metaprograms).  The high-level API captures asset selection, export-format selection, and auxiliary issues, as listed below. The low-level API captures adaptation patterns as identified during the examination of the evolution scenario in Section~\ref{sec:hp-evolution}. Figure~\ref{fig:hpl-apis} illustrates the API layers, as they are part of \hpl's component \hpsplasset{} in the \emph{Kernel}. We refer to  Section~\ref{sec:metaprogrammingOperations} for the description of the actual implementation.
 
 The transformations of the high-level API are of specific interest from the point of view of domain design, as these transformations are directly used in the configuration of \hpl. A description follows. (Some details specific to bootstrapping are deferred until Section~\ref{sec:hpl-bootstrapping}.)
 
@@ -56,7 +56,7 @@ Typically, this is the first transformation to be executed in the process of der
 
 \item[BindProductName] sets the module name of the \hpl{} instance.
 
-\item[SelectAsset] refines the product being derived with support for the selected asset, thereby enabling variability management for the associated type of artifacts. Technically, the transformation extends datatypes and functions for \assetr, \assetx, \asseti, \assetc, \emptyi, and \ckparser. To this end, existing extension points are connected with asset-specific abstractions and the underlying modules are added to the product.
+\item[SelectAsset] refines the product being derived with support for the selected asset, thereby enabling variability management for the associated type of artifacts. Technically, the transformation extends datatypes and functions for \assetr, \assetx, \asseti, \assetc, \emptyi, and \ckparser{} according to the variability identified in Section~\ref{sec:variability}. To this end, existing extension points of \hpbase{} are connected with asset-specific abstractions and the underlying modules are added to the product.
 
 \item[SelectExport] refines the product being derived with support for the selected couple of output format and asset. To this end, the transformation extends datatypes and functions for \asseto{} in a manner very similar to \emph{SelectAsset}. 
 
@@ -135,7 +135,7 @@ Figure~\ref{fig:fc-ucm-bpm} shows a feature configuration which we use for the i
 Figure~\ref{fig:hpl-derivation} abstractly depicts the steps taken in \hpl's product derivation process 
 for the feature configuration of Figure~\ref{fig:fc-ucm-bpm}. \hpl{}'s CK guides this transformational process in five steps towards the generation of a \hpl{} instance from the base product.
 
-\hpl's product derivation process begins with the execution of the \texttt{SelectBase} transformation associated with the feature expression \texttt{True} in the first line of \hpl's CK (Table ~\ref{tab:ck-hpl}); see the first step in Figure~\ref{fig:hpl-derivation}. Next, the \emph{UseCase} feature expression in the second CK line evaluates to true for the feature configuration at hand and thus the \texttt{SelectAsset "Use Case"} transformation is executed; see the second step in Figure~\ref{fig:hpl-derivation}. In this manner, the \emph{UCM Asset} is incorporated into the product. 
+\hpl's product derivation process begins with the execution of the \texttt{SelectBase} transformation associated with the feature expression \texttt{True} in the first line of \hpl's CK (Table ~\ref{tab:hpl-ck}); see the first step in Figure~\ref{fig:hpl-derivation}. Next, the \emph{UseCase} feature expression in the second CK line evaluates to true for the feature configuration at hand and thus the \texttt{SelectAsset "Use Case"} transformation is executed; see the second step in Figure~\ref{fig:hpl-derivation}. In this manner, the \emph{UCM Asset} is incorporated into the product. 
 Next, the \emph{UseCase AND UcmToXML} feature expression in the third CK line evaluates to true and thus the \texttt{SelectExport "UcmToXML"} transformation is executed; see the third step in Figure~\ref{fig:hpl-derivation}. In this manner, \asseto{} for the \emph{UCM Asset} is incorporated into the product. Another two steps handle the \emph{BPM Asset} very similar to the \emph{UCM Asset}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -157,7 +157,7 @@ Consider again \hpl's architecture in Figure~\ref{fig:hpl-architecture}. \hpspla
   Hephaestus & RemoveProductMainFunction \\ \hline
   NOT Hephaestus & SelectCKParser \\ \hline
 \end{tabular}
-\caption{Lines of \hpl's CK related to \hp{} feature}
+\caption{Additional CK of \hpl{} related to bootstrapping}
 \label{tab:hplck-2}
 \end{center}
 \end{table}

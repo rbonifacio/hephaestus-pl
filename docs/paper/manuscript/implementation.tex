@@ -1,3 +1,5 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Implementation of \hpl}
 \label{sec:implementation}
 
@@ -5,9 +7,9 @@ In this section, we present the important details of the implementation of \hpl'
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure*}[bth]
+\begin{figure*}[t!]
 \begin{center}
-\includegraphics[scale=0.35]{imagens/modules-hpl.png}
+\includegraphics[width=\textwidth]{imagens/modules-hpl-v3.png}
 \end{center}
 \caption{Hephaestus-PL's modules dependency}
 \label{fig:modules-hpl}
@@ -38,7 +40,7 @@ Finally, we have the \textit{Core Assets'} modules (FM and CK) that are imported
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure}[t!]
 \begin{lstlisting}
 module HephaestusBase where
 
@@ -119,7 +121,7 @@ Line \ref{build-line} of the Figure~\ref{fig:code-hpl-base-product} represents a
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure}[t!]
 \begin{lstlisting}
 build :: FeatureModel
       -> FeatureConfiguration
@@ -158,6 +160,7 @@ All forms of assets are hence provided in a form that they can contribution to t
 
 Because of the objective of self-application of Hephaestus (bootstrapping design principle), the above-mentioned transformational approach is actually packaged as another kind of asset: Hephaestus SPL Asset. That is, the construction of any specific Hephaestus instance is controlled by a feature configuration relative to \hpl's feature model and the corresponding configuration knowledge as presented in module \texttt{MetaData.hs}.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Metaprogramming Operations} \label{sec:metaprogrammingOperations}
 
@@ -191,7 +194,6 @@ Because of the objective of self-application of Hephaestus (bootstrapping design
 \label{tab:map-transformations-hpl}
 \end{table}
 
-
 %  \multirow {\textit{SelectAsset assetName}} & addUpdateCase & extends \textit{transform} function \\ \cline{2-3}
 % & initializeFieldWithFun & initialize \textit{InstanceModel} with empty asset \\ \cline{2-3}
 % & addImportDecl & import modules data types, transformations and parser of asset \\ \cline{2-3}
@@ -210,7 +212,6 @@ Because of the objective of self-application of Hephaestus (bootstrapping design
 % & addImportDecl & \\ \cline{2-3}
 % & addInstructionGenerator & \\ \hline
 % \textit{BindProductName}} & setModuleName &  \\ \hline
-
 
 The required metaprogramming operations are of different complexity as implemented in \texttt{MetaProgramming.hs} module. We begin with the simpler operations. There is an operation \texttt{setModuleName} to modify the module name so that the module of the base product can be renamed into a module for the emerging product, say \hp{} instance. This operation is performed on the \texttt{SelectBaseProduct} and \texttt{BindProductName} transformations.
 There is an operation \texttt{addImportDecl} to add an import declaration to the main module of the emerging product; this operation is needed to incorporate any additional kind of asset. This operation is performed on the \texttt{SelectCKParser} transformation to add an import declaration to CK parser (\texttt{CK.Parsers.XML.XmlConfigurationParser} module); on the \texttt{SelectAsset} transformation to add import declarations to incorporate the asset modules (algebraic data types, transformations, parser and output format) and the data types module of emerging product.
@@ -310,6 +311,7 @@ Table~\ref{tab:map-transformations-hpl} summarizes the mapping of \hpl{} transfo
 
 %\end{itemize}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Hephaestus UCM and BPM instance's Haskell module}
 
@@ -338,7 +340,7 @@ Besides the mentioned transformations applied to the
 resulting module also has to import declarations that are specific for a given
 selection of features.
 
-\begin{figure}
+\begin{figure}[t!]
 \begin{lstlisting}
 data SPLModel = SPLModel {
   featureModel :: FeatureModel,
@@ -391,6 +393,4 @@ main = do
 \label{fig:code-hp-ucm-bpm}
 \end{figure}
 
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

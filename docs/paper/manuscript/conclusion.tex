@@ -27,5 +27,17 @@ Nevertheless, further empirical work is necessary to address the external validi
 We also plan to conduct further empirical studies assessing Hephaestus-PL's evolution to handle variability in diferent kind of artifacts.
 
 %--future works
-As future work, we propose the definition of \textit{Design Rules} that represent a mechanism that would allow reduction of the size of the asset metadata structures in \hpl. Using an inference process into the asset modules, especially the modules that define the data types and the transformations of the asset, it would be possible to exctract information, currently contained in the asset metadata structures, to extend the variability points of a \hpl{} base product. In this case, we could reduce the size of the asset metadata structures.
-Another intermediate solution that would bring a good reduction of the asset metadata structures would work with two pieces of information, a \textit{acronym} and a \textit{name} of asset, and deriving most of the other pieces to extend the variation points of \hpl{}.
+As future work, we propose the definition of \textit{Design Rules} that represent a mechanism that would allow reduction of the size of the asset metadata structures in \hpl. Using an inference process into the asset modules, especially the modules that define the data types and the transformations of the asset, it would be possible to exctract information, currently contained in the asset metadata structures, to extend the variability points of a \hpl{} base product. In this case, we could reduce the size of the asset metadata structures.  Another intermediate solution that would bring a good reduction of the asset metadata structures would work with two pieces of information, a \textit{acronym} and a \textit{name} of asset, and deriving most of the other pieces to extend the variation points of \hpl{}.
+
+Formally ensuring well-formedness of the generated products is outside
+the scope of this work. Recent work has addressed this for different
+variability mechanisms.
+For instance,  CFJ~\cite{kaestner-tosem12} addresses type checking
+for annotative variability  mechanism,  FFJ~\cite{apel-ase08}
+addresses the same issue in a compositional mechanism, whereas
+DeltaJ~\cite{schaefer-aosd09} does in  a transformational approach.
+The latter approach supports exactly three kinds of transformations,
+addition or removal of classes or modification of  classes by adding
+or removing methods and fields or by wrapping methods. We hypothesise
+that such formalism could inspire formal work showing type safety for
+Hephaestus-PL.

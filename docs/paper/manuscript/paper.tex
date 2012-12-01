@@ -137,27 +137,36 @@ Lines}
 \address{}
 
 \begin{abstract}
-
+%
 % Context
+%
   Tool support is essential for application engineering in software
   product lines for the derivation of products from reusable assets.
+%
 % Problem
+%
   Existing tools are insufficiently configurable and extensible with
-  regard to the type of artifacts and associated variability mechanisms
-  that they target.
+  regard to the type of reusable assets and associated variability
+  mechanisms that they target.
+%
 % Solution
-  This paper addresses the problem by exploring the underlying
-  commonality and adequately managing variability of tools for product
+%
+  This problem is addressed in the present paper by capturing the
+  commonality and managing variability of tools for product
   derivation. More specifically, the paper describes domain analysis,
-  design, implementation of \hpl---a proper product line for such
-  tools. To this end, an extractive strategy was applied to the
-  existing Haskell-based \hp{} tool. A transformational approach to
-  variability management is designed and implemented by
-  metaprogramming in Haskell. We also describe a reactive process for
-  evolving \hpl{} to address new types of artifacts.
+  design, and implementation of \hpl---a proper product line for tools
+  for product derivation. To this end, an extractive strategy was
+  applied to the existing Haskell-based \hp{} tool. A general,
+  transformational approach to variability management is designed and
+  implemented by metaprogramming in Haskell. We also describe a
+  reactive process for evolving \hpl{} to address new types of
+  artifacts.
+%
 % Evidence
+%
   Improved configurability and extensibility is substantiated
   by an assessment.
+%
 \end{abstract}
 
 \begin{keyword}
@@ -179,7 +188,7 @@ Lines}
 \input {domainDesign}
 \input {implementation}
 \input {process}
-\input {resultDiscussion}
+\input {assessment}
 \input {relatedWork}
 \input {conclusion}
 
