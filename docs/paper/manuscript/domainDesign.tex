@@ -32,7 +32,9 @@ basic abstractions for the representation of feature models, feature configurati
 \subsection{\hpl's Transformational Approach} 
 \label{sec:hpl-transformation}
 
-We adopt a transformational approach to variability management. That is, the derivation of an \hpl{} instance involves source-code transformation. The approach provides transformations to address the heterogeneity of the variability patterns observed in Section~\ref{sec:hp-evolution} without compromising modularity and comprehensibility of \hpl, and thus configurability and extensibility, which may be issues for annotative approaches~\cite{kastner:2008}. The approach is also designed for uniformity. That is, the \hp{} approach to feature modeling, feature configuration, declaration and interpretation of configuration knowledge is adopted also at the meta-level. \hp{} often delegates some part of variability management to external tool support (e.g., for pre-processsing or aspect weaving), in which case, the transformation in the configuration knowledge essentially trigger those external transformations. In contrast, \hpl{} fully implements the meta-level transformations as metaprograms in Haskell on top of object programs in Haskell.
+We adopt a transformational approach to variability management. That is, the derivation of an \hpl{} instance involves source-code transformation. The approach provides transformations to address the heterogeneity of the variability patterns observed in Section~\ref{sec:hp-evolution} without compromising modularity and comprehensibility of \hpl, and thus configurability and extensibility, which may be issues for annotative approaches~\cite{kastner:2008}. The approach is also designed for uniformity. That is, the \hp{} approach to feature modeling, feature configuration, declaration and interpretation of configuration knowledge is adopted also at the meta-level. 
+
+\hp{} may delegate some asset type-specific variability management to external tool support (e.g., for pre-processsing or aspect weaving), in which case, the transformation in the configuration knowledge essentially trigger those external transformations. In contrast, \hpl{} fully implements the meta-level transformations as metaprograms in Haskell on top of object programs in Haskell.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -44,10 +46,9 @@ We adopt a transformational approach to variability management. That is, the der
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Configuration of \hpl{} relies on transformations provided by a high-level API, which are implemented in terms of 
-transformations of a low-level API, which, in turn, are implemented in terms of metaprogramming operations (with Haskell used both for object- and metaprograms).  The high-level API captures asset selection, export-format selection, and auxiliary issues, as listed below. The low-level API captures adaptation patterns as identified during the examination of the evolution scenario in Section~\ref{sec:hp-evolution}. Figure~\ref{fig:hpl-apis} illustrates the API layers, as they are part of \hpl's component \hpsplasset{} in the \emph{Kernel}. We refer to  Section~\ref{sec:metaprogrammingOperations} for the description of the actual implementation.
+Configuration of \hpl{} relies on transformations provided by a high-level API, which are implemented in terms of transformations of a low-level API, which, in turn, are implemented by means of metaprogramming with Haskell used both for object- and metaprograms. The high-level API captures asset selection, export-format selection, and auxiliary issues, as listed below. The low-level API captures adaptation patterns as identified during the examination of the evolution scenario in Section~\ref{sec:hp-evolution}. Figure~\ref{fig:hpl-apis} illustrates the API layers, as they are part of \hpl's component \hpsplasset{} in the \emph{Kernel}. We refer to Section~\ref{sec:metaprogrammingOperations} for the description of the actual implementation.
 
-The transformations of the high-level API are of specific interest from the point of view of domain design, as these transformations are directly used in the configuration of \hpl. A description follows. (Some details specific to bootstrapping are deferred until Section~\ref{sec:hpl-bootstrapping}.)
+A description of the transformations of the high-level API follows. (Some details specific to bootstrapping are deferred until Section~\ref{sec:hpl-bootstrapping}.)
 
 \begin{description}
 
@@ -118,7 +119,7 @@ In this manner, transformations with true conditions are collected; they are app
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Figure~\ref{fig:fc-ucm-bpm} shows a feature configuration which we use for the illustration of the derivation process. The configuration selects four features: use case models (\emph{UseCase}), business process models (\emph{BusinessProcess}), and both kinds models in XML format (\emph{UcmToXML} and \emph{BpmToXML}).
+Figure~\ref{fig:fc-ucm-bpm} shows a feature configuration which we use for the illustration of the derivation process. The configuration selects four features: use case models (\emph{UseCase}), business process models (\emph{BusinessProcess}), and both kinds of models in XML format (\emph{UcmToXML} and \emph{BpmToXML}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -143,7 +144,7 @@ Next, the \emph{UseCase AND UcmToXML} feature expression in the third CK line ev
 \subsection{Bootstrapping of \hpl} 
 \label{sec:hpl-bootstrapping}
 
-Consider again \hpl's architecture in Figure~\ref{fig:hpl-architecture}. \hpsplasset{} in the \emph{Kernel} provides datatypes and functions for representing and transforming \hpl{} products, i.e., tools for product derivation---in the same way as the components in the \emph{Asset SPL} provide datatypes and functions for regular assets. Thus, bootstrapping of \hpl, specifically derivation of \hpproduct, is relatively straightforward, as we discuss now.
+Consider again \hpl's architecture in Figure~\ref{fig:hpl-architecture}. \hpsplasset{} in the \emph{Kernel} provides datatypes and functions for representing and transforming \hpl{} products, i.e., tools for product derivation---in the same way as the components in the \emph{Asset SPL} provide datatypes and functions for regular assets. Thus, bootstrapping of \hpl{} and specifically the derivation of \hpproduct, is relatively straightforward, as we discuss now.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -154,7 +155,7 @@ Consider again \hpl's architecture in Figure~\ref{fig:hpl-architecture}. \hpspla
   \textbf{Feature Expressions} & \textbf{Transformations}   \\  \hline
   Hephaestus & BindProductName "Hephaestus" \\
   Hephaestus & SelectAsset "Hephaestus"   \\
-  Hephaestus & RemoveProductMainFunction \\ \hline
+  Hephaestus & RemoveProductMainFunction \\
   NOT Hephaestus & SelectCKParser \\ \hline
 \end{tabular}
 \caption{Additional CK of \hpl{} related to bootstrapping}
@@ -166,6 +167,6 @@ Consider again \hpl's architecture in Figure~\ref{fig:hpl-architecture}. \hpspla
 
 \hpl's feature model contains a designated feature \hp, which is selected for bootstrapping. \hpl's configuration knowledge handles the feature in the manner shown in Table~\ref{tab:hplck-2}. The first two lines of CK directly model that bootstrapping builds \hpproduct{} from \hpsplasset.  That is, when the \hp{} feature is selected, the product name is set to be ``\hp'' and the ``\hp'' asset (i.e., \hpsplasset{} in the architecture) is selected. 
 
-The last two lines are somewhat more idiosyncratic. The third lines models that \hpproduct{} uses a different (in fact, a much simpler) \texttt{main} function than other products. To this end, an extra transformation \emph{RemoveProductMainFunction} is invoked, with the simple intended semantics of removing the \texttt{main} for the product being derived. The fourth line models that \emph{CK parser} is only needed if features other than \hp{} are selected. To this end, an extra transformation \emph{SelectCKParser} is invoked, with the intended semantics of enhancing the product being derived such configuration knowledge is parsed, and passed as an argument to the \texttt{build} function. \hpproduct{} does not need \emph{CK Parser} because its configuration knowledge is defined as an abstraction as part of \hpsplasset; thus, parsing is not needed.
+The last two lines are somewhat more idiosyncratic. The third lines models that \hpproduct{} uses a different (in fact, a much simpler) \texttt{main} function than other products. To this end, an extra transformation \emph{RemoveProductMainFunction} is invoked, with the simple intended semantics of removing the \texttt{main} for the product being derived. The fourth line models that \emph{CK parser} is only needed if features other than \hp{} are selected. To this end, an extra transformation \emph{SelectCKParser} is invoked, with the intended semantics of enhancing the product being derived such that configuration knowledge is parsed, and passed as an argument to the \texttt{build} function. \hpproduct{} does not need \emph{CK Parser} because its configuration knowledge is defined as an abstraction as part of \hpsplasset; thus, parsing is not needed.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
