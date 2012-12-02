@@ -3,20 +3,20 @@
 \section{\hp}
 \label{sec:hephaestus}
 
-\hp~\cite{rbonifacio:sbcars2009} is a
-publicly\footnote{\url{https://gitorious.org/hephaestus/pages/Home}}
-available product derivation tool~\cite{deelstra:2005}, which receives
+\hp~\cite{rbonifacio:sbcars2009} is a publicly
+available\footnote{\url{https://gitorious.org/hephaestus/pages/Home}}
+product derivation tool~\cite{deelstra:2005}, which receives
 contributions from different institutions (Federal University of
 Pernambuco, University of S\~{a}o Paulo, University of
 Bras\'{i}lia). Initially developed as a proof-of-concept tool for
 managing variabilities in use case
-scenarios~\cite{rbonifacio:aosd2009}, \hp{} provides a declarative and
-executable specification in Haskell of a
+scenarios~\cite{rbonifacio:aosd2009}, \hp{} provides a Haskell-based,
+declarative and executable specification of a
 compositional~\cite{kastner:2008} and parametric approach for managing
-variability in use case scenarios.  Currently, \hp{} supports
-variability in different types of artifacts, ranging from business
-processes and Simulink models to source code; and it has been used as
-the derivation tool in a industrial-strength product
+variability in a different asset types.  Currently, \hp{} supports
+variability, for example, for use case scenarios, business processes,
+Simulink models, and source code; and it has been used as the
+derivation tool in a industrial-strength product
 line~\cite{ferreira:2010}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,6 +50,7 @@ following entities:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure}[t!]
+\bigskip
 \begin{lstlisting}
 type ConfigurationKnowledge = [ConfigurationItem] *'\label{ck-i-1}'*
 data ConfigurationItem = ConfigurationItem {
@@ -90,15 +91,16 @@ exportProduct t product = do
 
 exportUcmToLatex = ... -- functionality specific to use case models
 \end{lstlisting}
-\caption{Code snippet of the initial implementation of \hp}
+\caption{Code snippet of the initial implementation of \hp.}
 \label{fig:hp-initial}
+\bigskip
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Figure~\ref{fig:hp-initial} presents a code snippet of
 the initial implementation of \hp{} including data types related to
-configuration knowledge (lines \ref{ck-i-1}-\ref{ck-f-1}) and a
+configuration knowledge (lines \ref{ck-i-1}-\ref{ck-f-1}) and the
 corresponding interpreter (the \texttt{build} function, in lines
 \ref{build-i-1}-\ref{build-f-1}), and the signature of the
 transformation functions (line \ref{transf-1}). The configuration
@@ -125,7 +127,7 @@ representation of a product-specific use case model.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Ecolution of \hp} 
+\subsection{Evolution of \hp} 
 \label{sec:hp-evolution}
 
 In the context of a R\&D project, \hp{} was used as a replacement for
@@ -146,7 +148,7 @@ Figure~\ref{fig:hephaestus-conf1b}.
 \begin{figure*}[t!]
 \begin{center}
 \includegraphics[scale=0.6]{imagens/conf1a-hp.png}
-\caption{Configuration of \hp{} in the first release}
+\caption{Configuration of \hp{} in the first release.}
 \label{fig:hephaestus-conf1a}
 \end{center}
 \end{figure*}
@@ -156,7 +158,7 @@ Figure~\ref{fig:hephaestus-conf1b}.
 \begin{figure*}[t!]
 \begin{center}
 \includegraphics[scale=0.6]{imagens/conf1b-hp.png}
-\caption{Configuration of \hp{} in the second release}
+\caption{Configuration of \hp{} in the second release.}
 \label{fig:hephaestus-conf1b}
 \end{center}
 \end{figure*}
@@ -194,6 +196,7 @@ and evolution steps were necessary:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure}[t!]
+\bigskip
 \begin{lstlisting}
 data SPLModel = SPLModel { *'\label{splmodel-i-2}'*
    splFeatureModel :: FeatureModel,
@@ -236,8 +239,9 @@ exportSourceCode s o p = ... -- functionality dealing with source code
 \caption{\texttt{SPLModel} and \texttt{InstanceModel} data types,
   \texttt{emptyInstance} definition and \texttt{exportProduct}
   function after introducing support for managing variabilities in
-  requirements and source code}
+  requirements and source code.}
 \label{fig:spl-model-with-req-and-code}
+\bigskip
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -271,7 +275,7 @@ asset was also introduced into the \texttt{InstanceModel} (line
 the InstanceModel: (a) \texttt{buildEntries} (line
 \ref{buildEntries-2}), which declares pre-processing directives, and
 (b) \texttt{preProcessFiles} (line \ref{preProcessFiles-2}), which
-declares a list of files that should be pre-processed by a third part
+declares a list of files that should be pre-processed by a third party
 tool. These fields are instantiated when \hp{} builds a product.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -340,10 +344,10 @@ challenge in a principle manner: \emph{Given a family of data variants
   possibly also providing some degree of separate compilation, modular
   type checking, and modular reasoning?}
 
-Programming language support for the EP, as discussed below, helps
-with modularization so that evolution scenarios, like the one
-discussed above, can be potentially carried out without revising
-existing code.
+Programming language support for the EP, as discussed for Haskell as
+the underlying language below, helps with modularization so that
+evolution scenarios, like the one discussed above, can be potentially
+carried out accordingly.
 
 Hinze and L\"oh proposed a Haskell extension for open data types and
 functions for Haskell~\cite{LoehH06}, which would provide a solution
@@ -360,8 +364,9 @@ evolution of \hp{} involved extending `products' as opposed to just
 Arguably, these adaptation patterns could be eliminated by using a
 different data and program design that treats the products instead as
 more generic containers, as we discuss in
-Section~\ref{sec:implementation}. In either case, open data types and
-functions are not available in actual Haskell systems.
+Section~\ref{sec:implementation}. However, we would like to preserve
+the more precise design, as is. Also, open data types and functions
+are not available in actual Haskell systems, anyway.
 
 L\"ammel and Ostermann proposed a type class-based encoding for
 solving the EP in Haskell with relatively established extensions (in
@@ -372,11 +377,12 @@ overhead is substantial. Data types like \texttt{SPLModel} and
 classes, their constructors and equations would give rise to extra
 data types and type-class instances, leading to a substantial increase
 in code size and a negative impact on comprehensibility, e.g., due to
-more complex type-error messages. The approach also fails at the
+complex type-error messages. The approach also fails at the
 aforementioned adaptation patterns, which go beyond the EP. More
 subtly, the approach also fails at function extension scenarios that
-are not readily based on different constructors; see
-\texttt{xml2Transformation}, where all equations match on strings.
+involve more arbitrary patterns than in sets of cases with distinct
+constructors; see \texttt{xml2Transformation}, where all equations
+match on strings.
 
 Ultimately, the domain design of \hpl{} (see
 Section~\ref{sec:domainDesign}) leverages a transformational approach
