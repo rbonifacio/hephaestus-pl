@@ -1,4 +1,4 @@
-options = -i../feature-modeling/src:../core/src:../configuration-knowledge/src -fglasgow-exts 
+options = -i../feature-modeling/src:../core/src:../configuration-knowledge/src:../funsat-0.6.2/src -fglasgow-exts 
 
 #
 # By running "make test" twice, bootstrapping is both completed and tested.
