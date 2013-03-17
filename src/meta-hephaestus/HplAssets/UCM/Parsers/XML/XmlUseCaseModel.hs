@@ -17,8 +17,7 @@ module HplAssets.UCM.Parsers.XML.XmlUseCaseModel
 
 where
 
-import List 
-
+import Data.List 
 import HplAssets.UCM.Types
 import BasicTypes
 

@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveDataTypeable #-}
 module HplProducts.HephaestusTypes where
 import FeatureModel.Types hiding (Success, Fail)
 import Data.Generics

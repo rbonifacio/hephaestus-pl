@@ -1,14 +1,13 @@
 module HplAssets.UCM.PrettyPrinter.XML (exportUcmToXML) where
 
 import BasicTypes
-
-import IO
-
+import System.IO
 import Text.PrettyPrint.HughesPJ
 import HplAssets.UCM.Types
+import Control.Exception
 
 
-exportUcmToXML:: FilePath -> UseCaseModel -> IO()
+exportUcmToXML:: FilePath -> UseCaseModel -> IO ()
 exportUcmToXML f ucm = 
   --do
   --print $ f

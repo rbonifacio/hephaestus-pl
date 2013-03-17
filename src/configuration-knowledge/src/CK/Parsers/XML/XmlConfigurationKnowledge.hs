@@ -5,17 +5,13 @@ import HplProducts.TestTypes  -- it is not good!! Because the function xml2Trans
 --import HplProducts.HephaestusTypes
 
 import BasicTypes
-
 import FeatureModel.Parsers.Expression
 import FeatureModel.Types hiding (Success,Fail)
-
 import Text.XML.HXT.Core
-
 import Text.ParserCombinators.Parsec
 import qualified Text.ParserCombinators.Parsec.Token as P
 import Text.ParserCombinators.Parsec.Language( haskellStyle )
-
-import List
+import Data.List
          
 data XmlConfigurationKnowledge = XmlConfigurationKnowledge {
       xmlConfigurations :: [XmlConfiguration]

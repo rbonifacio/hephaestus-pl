@@ -12,7 +12,7 @@ import FeatureModel.Parsers.GenericParser
 import qualified BasicTypes as Core
 import System.Directory
 import System.FilePath
-import Maybe 
+import Data.Maybe 
 
 import HplProducts.BaseProductTypes
 

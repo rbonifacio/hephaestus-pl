@@ -4,7 +4,7 @@ import FeatureModel.Parsers.GenericParser
 import qualified BasicTypes as Core
 import System.Directory
 import System.FilePath
-import Maybe
+import Data.Maybe
 import CK.Parsers.XML.XmlConfigurationParser
 import HplProducts.TestTypes
 import HplAssets.UCM.Parsers.XML.XmlUseCaseParser

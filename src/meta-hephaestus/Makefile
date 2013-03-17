@@ -1,4 +1,4 @@
-options = -i../feature-modeling/src:../core/src:../configuration-knowledge/src:../funsat-0.6.2/src -fglasgow-exts 
+options = -i../feature-modeling/src:../core/src:../configuration-knowledge/src:../funsat-0.6.2/src -XDeriveDataTypeable
 
 #
 # By running "make test" twice, bootstrapping is both completed and tested.
@@ -7,7 +7,7 @@ options = -i../feature-modeling/src:../core/src:../configuration-knowledge/src:.
 test:
 #	make LoadBaseProduct.drive
 	make BuildTestProduct.drive
-#	make LoadTestProduct.drive
+	make LoadTestProduct.drive
 #	make BuildHephaestus.drive
 #	make LoadHephaestus.drive
 

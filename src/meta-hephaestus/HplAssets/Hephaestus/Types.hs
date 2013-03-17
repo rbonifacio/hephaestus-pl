@@ -1,4 +1,5 @@
-{-# OPTIONS -fglasgow-exts #-}
+{-# LANGUAGE DeriveDataTypeable #-}
+
 module HplAssets.Hephaestus.Types where
 
 import Language.Haskell.Syntax

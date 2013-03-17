@@ -1,4 +1,6 @@
 \begin{code}
+
+{-# LANGUAGE DeriveDataTypeable #-}
 {-
    
    RequirementVariabilityManament.hs
@@ -14,17 +16,12 @@
    Author: Rodrigo Bonifacio 
 -}
 
-{-# OPTIONS -fglasgow-exts #-}
-
 module HplAssets.UCM.Types where
 
 -- import Prelude hiding ( (^) )
-import List 
-
-import Maybe
-
+import Data.List 
+import Data.Maybe
 import Data.Generics
-
 import BasicTypes
 
 

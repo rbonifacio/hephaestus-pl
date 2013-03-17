@@ -1,4 +1,4 @@
-{-# OPTIONS -fglasgow-exts #-}
+{-# LANGUAGE RankNTypes #-}
 module BasicTypes
 where 
 
@@ -9,7 +9,7 @@ import Control.Monad (MonadPlus(..), liftM)
 
 import Network.URI
 
-import List
+import Data.List
 
 import System.FilePath
 

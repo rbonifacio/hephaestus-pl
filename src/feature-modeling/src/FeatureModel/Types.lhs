@@ -19,7 +19,7 @@ is a valid instance of a feature model.
 	
 %if False
 \begin{code}
-{-# OPTIONS -fglasgow-exts #-}
+{-# LANGUAGE DeriveDataTypeable #-}
 module FeatureModel.Types where 
 
 import BasicTypes
@@ -29,8 +29,8 @@ import Funsat.Types
 import qualified Data.Set as Set
 
 import Data.Generics
-import List
-import Maybe
+import Data.List
+import Data.Maybe
 
 
 \end{code}

@@ -4,7 +4,7 @@ import FeatureModel.Parsers.GenericParser
 import qualified BasicTypes as Core
 import System.Directory
 import System.FilePath
-import Maybe
+-- import Maybe
 import HplProducts.HephaestusTypes
 import HplAssets.Hephaestus.Parser.HephaestusParser
 import HplAssets.Hephaestus
