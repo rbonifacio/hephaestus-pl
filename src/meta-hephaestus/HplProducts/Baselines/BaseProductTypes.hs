@@ -2,7 +2,7 @@
 -- We include instructions for customizing the Types module of the base product.
 --
 
---{-# OPTIONS -fglasgow-exts #-}
+{-# LANGUAGE DeriveDataTypeable #-}
 module HplProducts.BaseProductTypes where
 
 -- Add imports Types module of the product-specific assets

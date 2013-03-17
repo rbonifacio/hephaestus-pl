@@ -1,4 +1,7 @@
+{-# LANGUAGE DeriveDataTypeable #-}
+
 module HplProducts.HephaestusTypes where
+
 import FeatureModel.Types hiding (Success, Fail)
 import Data.Generics
 import BasicTypes
@@ -47,3 +50,4 @@ xml2Transformation "removeProductMainFunction" _
   = Success (HephaestusTransformation (RemoveProductMainFunction  ))
 xml2Transformation "selectCKParser" _
   = Success (HephaestusTransformation (SelectCKParser  ))
+

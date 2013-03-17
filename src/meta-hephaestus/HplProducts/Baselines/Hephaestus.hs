@@ -4,7 +4,6 @@ import FeatureModel.Parsers.GenericParser
 import qualified BasicTypes as Core
 import System.Directory
 import System.FilePath
-import Maybe
 import HplProducts.HephaestusTypes
 import HplAssets.Hephaestus.Parser.HephaestusParser
 import HplAssets.Hephaestus
@@ -72,3 +71,4 @@ findPropertyValue ::
 findPropertyValue k [] = Nothing
 findPropertyValue k (x : xs)
   = if (k == fst x) then Just x else findPropertyValue k xs
+
