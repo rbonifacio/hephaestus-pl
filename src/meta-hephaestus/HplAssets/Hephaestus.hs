@@ -14,15 +14,10 @@ import Language.Haskell.Syntax
 import Language.Haskell.Pretty
 import Prelude hiding (lookup)
 import Data.Map (lookup)
--- *******************************************************
-import HplProducts.HephaestusTypes -- where is defined the data types SPLModel and InstanceModel
--- *******************************************************
 
-
-transformHpl :: HephaestusTransformation -> SPLModel -> InstanceModel -> InstanceModel
-transformHpl t (SPLModel fm (HephaestusModel [baseProduct1, baseProduct2])) (InstanceModel fc (HephaestusModel modules))  =  InstanceModel fc (HephaestusModel module')
+transformHpl :: HephaestusTransformation -> HephaestusModel -> FeatureConfiguration -> HephaestusModel -> HephaestusModel
+transformHpl t (HephaestusModel [baseProduct1, baseProduct2]) _ (HephaestusModel modules) = HephaestusModel (transformHpl' t modules)
  where
-  module' = transformHpl' t modules
   transformHpl' SelectBaseProduct [] = [selectBaseProductM1 baseProduct1, selectBaseProductM2 baseProduct2]
   transformHpl' (SelectAsset a) (m:mx) = [selectAssetM1 a m, selectAssetM2 a (head mx)]
   transformHpl' (SelectExport b) (m:mx) = [selectExportM1 b m, selectExportM2 b (head mx)]
@@ -31,10 +26,8 @@ transformHpl t (SPLModel fm (HephaestusModel [baseProduct1, baseProduct2])) (Ins
   transformHpl' SelectCKParser (m:mx) = [selectCKParser m, (head mx)]
   transformHpl' t _ = error ("Transformation " ++ show t ++ " not applicable.")  
 
-
 emptyHpl :: HephaestusModel -> HephaestusModel
 emptyHpl hplmodel= HephaestusModel []
-
 
 exportHplToDoc:: FilePath -> HephaestusModel -> IO()
 exportHplToDoc f (HephaestusModel [p1, p2]) =  writeFile f (prettyPrint p1)
@@ -72,21 +65,21 @@ bindProductName n = setModuleName ("HplProducts." ++ n)
 -- M1 = main module of the Hephaestus's instance. For example, Test.hs, Hephaestus.hs 
 selectAssetM1 :: String -> HsModule -> HsModule
 selectAssetM1 n
-  = addUpdateCase "transform" xfun xtype 
-  . initializeFieldWithFun "InstanceModel" (fst(head sel)) (fst(head sel')) empty
+  = addUpdateCase "transform" xfun xtype [sel',"id"] sel
+  . initializeFieldWithFun "InstanceModel" sel sel' empty
   . addImportDecl ("HplAssets." ++ mod)
   . addImportDecl ("HplAssets." ++ modParser)  
   . addImportDecl ("HplProducts." ++ modtype')
   . addLetInstruction "main" "targetDir" "findPropertyValue"  xVarProperty xNameProperty      
   . addGeneratorInstruction "main" "parseInstanceModel" xVarParser xfunParser xParamParser 
-  . initializeField "SPLModel" (fst(head sel')) xVarParser 
+  . initializeField "SPLModel" sel' xVarParser 
  where
   metadata = maybe (error ("Missing metadata for " ++ n ++ ".")) id $ lookup n assetMetaData
   mod    = assetModule metadata
   modParser = assetModuleParser metadata
   modtype' = assetModuleType' metadata
-  sel'   = assetSelector' metadata
-  sel    = assetSelector metadata
+  sel'   = fst $ head $ assetSelector' metadata
+  sel    = fst $ head $ assetSelector metadata
   empty  = assetEmpty metadata
   xfun   = assetXFun metadata
   xtype  = assetXType metadata
@@ -97,9 +90,9 @@ selectAssetM1 n
   xParamParser   = assetParamParser metadata
  
  
-addUpdateCaseList :: String -> String -> [ParserTransf] -> HsModule -> HsModule
-addUpdateCaseList dataName typeTransf [(stTran, dtTran, peTran, pDtTran, condSuc)]    = addUpdateCase3 dataName typeTransf stTran dtTran peTran pDtTran condSuc
-addUpdateCaseList dataName typeTransf ((stTran, dtTran, peTran, pDtTran, condSuc):xs) = addUpdateCase3 dataName typeTransf stTran dtTran peTran pDtTran condSuc . addUpdateCaseList dataName typeTransf xs
+addCaseList :: String -> String -> [ParserTransf] -> HsModule -> HsModule
+addCaseList dataName typeTransf [(stTran, dtTran, peTran, pDtTran, condSuc)]    = addCase3 dataName typeTransf stTran dtTran peTran pDtTran condSuc
+addCaseList dataName typeTransf ((stTran, dtTran, peTran, pDtTran, condSuc):xs) = addCase3 dataName typeTransf stTran dtTran peTran pDtTran condSuc . addCaseList dataName typeTransf xs
   
   
 -- M2 = this module contains the data types SPLModel and InstanceModel and TransformationModel of the Hephaestus's instance
@@ -109,7 +102,7 @@ selectAssetM2 n
   . addField "SPLModel" sel'
   . addImportDecl ("HplAssets." ++ modtype)
   . addConstructor "TransformationModel" xtype "UndefinedTransformation"
-  . addUpdateCaseList "xml2Transformation" xtype lstTransf
+  . addCaseList "xml2Transformation" xtype lstTransf
   where
   metadata = maybe (error ("Missing metadata for " ++ n ++ ".")) id $ lookup n assetMetaData
   modtype  = assetModuleType metadata
@@ -122,7 +115,7 @@ selectAssetM2 n
 -- M1 = main module of the Hephaestus's instance. For exemple, Test.hs, Hephaestus.hs 
 selectExportM1 :: String -> HsModule -> HsModule
 selectExportM1 n 
-  = addUpdateCase2 "export" xfun xtype xext sel
+  = addCase2 "export" xfun xtype xext sel
   . addImportDecl ("HplAssets." ++ mod)
  where
   metadata = maybe (error ("Missing metadata for " ++ n ++ ".")) id $ lookup n exportMetaData

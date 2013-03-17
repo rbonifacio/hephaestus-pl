@@ -4,14 +4,16 @@ import FeatureModel.Parsers.GenericParser
 import qualified BasicTypes as Core
 import System.Directory
 import System.FilePath
+import Data.Maybe
 import HplProducts.HephaestusTypes
 import HplAssets.Hephaestus.Parser.HephaestusParser
 import HplAssets.Hephaestus
  
 transform ::
-            TransformationModel -> SPLModel -> InstanceModel -> InstanceModel
-transform (HephaestusTransformation x0) x1 x2
-  = transformHpl  x0 x1 x2
+            TransformationModel ->
+              SPLModel -> FeatureConfiguration -> InstanceModel -> InstanceModel
+transform (HephaestusTransformation x0) x1 x2 x3
+  = x3{hpl = transformHpl x0 (splHpl x1) (id x2) (hpl x3)}
  
 mkEmptyInstance ::
                   FeatureConfiguration -> SPLModel -> InstanceModel
@@ -37,7 +39,9 @@ stepRefinement ::
                  [TransformationModel] -> SPLModel -> InstanceModel -> InstanceModel
 stepRefinement [] splModel instanceModel = instanceModel
 stepRefinement (t : ts) splModel instanceModel
-  = stepRefinement ts splModel (transform t splModel instanceModel)
+  = stepRefinement ts splModel
+      (transform t splModel (featureConfiguration instanceModel)
+         instanceModel)
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
 export (UndefinedExport) _ _ = undefined
@@ -71,4 +75,3 @@ findPropertyValue ::
 findPropertyValue k [] = Nothing
 findPropertyValue k (x : xs)
   = if (k == fst x) then Just x else findPropertyValue k xs
-

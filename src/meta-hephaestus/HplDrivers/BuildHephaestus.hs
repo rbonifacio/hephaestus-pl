@@ -1,4 +1,4 @@
-module HplDrivers.BuildHephaestus where
+module Main where
 
 import HplAssets.Hephaestus.IO
 import FeatureModel.Types

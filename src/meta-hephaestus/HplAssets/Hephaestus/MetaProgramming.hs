@@ -156,8 +156,37 @@ addConstructorWithoutArgs dataName typeName strUndefined
 --
 -- Please note that this operation makes rich assumptions.
 --
-addUpdateCase :: String -> String -> String -> HsModule -> HsModule
-addUpdateCase funName funName' con 
+addUpdateCase :: String    -- Function to transform
+              -> String    -- Function to invoke in new case
+              -> String    -- Constructor for 1st arg case
+              -> [String]  -- Functions for args other than 1st and last
+              -> String    -- Record selector for last argument
+              -> HsModule  -- Module to transform
+              -> HsModule
+addUpdateCase funName funName' con argFuns sel
+              (HsModule _ m exportSpec importDecls decls) = 
+               HsModule noSrcLoc m exportSpec importDecls (decls1 ++ [decl'] ++ decls2)
+ where
+  (decls1, HsFunBind cases, decls2) = findFunBind funName decls
+  decl' = HsFunBind (cases ++ [HsMatch noSrcLoc (HsIdent funName) (pat1:vpats) rhs []])
+  var1 = HsIdent "x0"
+  pat1 = HsPApp (UnQual (HsIdent con)) [HsPVar var1]
+  argFuns' = map (HsVar . UnQual . HsIdent) (argFuns ++ [sel])
+  vars = map (HsIdent . (++) "x" . show) [1..length argFuns']
+  vexps = map (HsVar . UnQual) vars
+  vpats = map HsPVar vars 
+  rhs = HsUnGuardedRhs (update (foldl apply fun' (zip vexps argFuns')))
+  fun' = HsApp (HsVar (UnQual (HsIdent funName'))) (HsVar (UnQual var1)) 
+  apply e (v,f) = HsApp e (HsParen (HsApp f v))
+  update r = HsRecUpdate (last vexps) [HsFieldUpdate (UnQual (HsIdent sel)) r]
+
+
+--
+-- TODO: This is too specific variant of existing functionality.
+-- Please note that this operation makes rich assumptions.
+--
+addCase :: String -> String -> String -> HsModule -> HsModule
+addCase funName funName' con 
               (HsModule _ m exportSpec importDecls decls) = 
                HsModule noSrcLoc m exportSpec importDecls (decls1 ++ [decl'] ++ decls2)
  where
@@ -171,10 +200,11 @@ addUpdateCase funName funName' con
   rhs = HsUnGuardedRhs (HsApp (HsVar (UnQual (HsIdent funName'))) (HsVar (UnQual (HsIdent (concat vars)))))
   
 --
+-- TODO: This is too specific variant of existing functionality.
 -- This operation is used to extend export function.
 --
-addUpdateCase2 :: String -> String -> String -> String  -> String -> HsModule -> HsModule
-addUpdateCase2 funName funName' con extFile sel
+addCase2 :: String -> String -> String -> String  -> String -> HsModule -> HsModule
+addCase2 funName funName' con extFile sel
               (HsModule _ m exportSpec importDecls decls) = 
                HsModule noSrcLoc m exportSpec importDecls (decls1 ++ [decl'] ++ decls2)
  where
@@ -189,12 +219,13 @@ addUpdateCase2 funName funName' con extFile sel
 
 
 --
+-- TODO: This is too specific variant of existing functionality.
 -- Please note that this operation makes rich assumptions. Add cases in format:
 -- xml2Transformation ::String -> [String] -> ParserResult TransformationModel
 -- xml2Transformation "selectScenarios" ids = Success (UseCaseTransformation (SelectScenarios ids))
 --
-addUpdateCase3 :: String -> String -> String -> String -> String -> String -> String -> HsModule -> HsModule
-addUpdateCase3 funName typeTransf stTran dtTran peTran pDtTran condFunc
+addCase3 :: String -> String -> String -> String -> String -> String -> String -> HsModule -> HsModule
+addCase3 funName typeTransf stTran dtTran peTran pDtTran condFunc
               (HsModule _ m exportSpec importDecls decls) = 
                HsModule noSrcLoc m exportSpec importDecls (decls1 ++ [decl'] ++ decls2)
  where

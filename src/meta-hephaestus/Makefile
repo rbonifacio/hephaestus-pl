@@ -5,18 +5,22 @@ options = -i../feature-modeling/src:../core/src:../configuration-knowledge/src:.
 # If bootstrapping fails, see HplProducts/Baselines for versions to be restored.
 #
 test:
-	make LoadBaseProduct.drive
-	make build-testproduct
-	make build-hephaestus
+	make test-load
+	make test-build
+	make test-bootstrap
 
-build-testproduct:
-	make BuildTestProduct.drive
+test-load:
+	make LoadAssets.drive
+	make LoadBaseProduct.drive
+	make LoadHephaestus.drive
 	make LoadTestProduct.drive
 
-build-hephaestus:
+test-build:
+	make BuildTestProduct.drive
+
+test-bootstrap:
 	make BuildHephaestus.drive
-	make LoadHephaestus.drive
 
 %.drive:
-	@echo main | ghci HplDrivers.$* ${options}
-
+	ghc --make HplDrivers/$* ${options}
+	HplDrivers/$*

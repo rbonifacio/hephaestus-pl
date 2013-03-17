@@ -12,8 +12,10 @@ import HplAssets.UseCases
 import HplAssets.UCM.PrettyPrinter.XML
  
 transform ::
-            TransformationModel -> SPLModel -> InstanceModel -> InstanceModel
-transform (UseCaseTransformation x0) x1 x2 = transformUcm  x0 x1 x2
+            TransformationModel ->
+              SPLModel -> FeatureConfiguration -> InstanceModel -> InstanceModel
+transform (UseCaseTransformation x0) x1 x2 x3
+  = x3{ucm = transformUcm x0 (splUcm x1) (id x2) (ucm x3)}
  
 mkEmptyInstance ::
                   FeatureConfiguration -> SPLModel -> InstanceModel
@@ -39,7 +41,9 @@ stepRefinement ::
                  [TransformationModel] -> SPLModel -> InstanceModel -> InstanceModel
 stepRefinement [] splModel instanceModel = instanceModel
 stepRefinement (t : ts) splModel instanceModel
-  = stepRefinement ts splModel (transform t splModel instanceModel)
+  = stepRefinement ts splModel
+      (transform t splModel (featureConfiguration instanceModel)
+         instanceModel)
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
 export (ExportUcmXML) x1 x2

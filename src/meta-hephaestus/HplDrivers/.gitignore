@@ -1,0 +1,7 @@
+BuildHephaestus
+BuildTestProduct
+LoadAssets
+LoadBaseProduct
+LoadHephaestus
+LoadTestProduct
+

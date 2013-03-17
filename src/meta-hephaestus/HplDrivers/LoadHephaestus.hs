@@ -1,4 +1,4 @@
-module HplDrivers.LoadHephaestus where
+module Main where
 
 import HplProducts.Hephaestus
 

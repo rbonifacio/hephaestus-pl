@@ -17,8 +17,8 @@ import Data.Maybe
 import HplProducts.BaseProductTypes
 
 -- Add equations for product-specific transformations
-transform :: TransformationModel -> SPLModel -> InstanceModel -> InstanceModel
-transform UndefinedTransformation _ _ = undefined
+transform :: TransformationModel -> SPLModel -> FeatureConfiguration -> InstanceModel -> InstanceModel
+transform UndefinedTransformation _ _ _ = undefined
 
 mkEmptyInstance :: FeatureConfiguration -> SPLModel -> InstanceModel
 mkEmptyInstance fc spl =
@@ -44,7 +44,7 @@ tasks ck fc = concat [transformations c | c <- ck, eval fc (expression c)]
 stepRefinement :: [TransformationModel] -> SPLModel -> InstanceModel -> InstanceModel
 stepRefinement [] splModel instanceModel = instanceModel
 stepRefinement (t:ts) splModel instanceModel
- = stepRefinement ts splModel (transform t splModel instanceModel)
+ = stepRefinement ts splModel (transform t splModel (featureConfiguration instanceModel) instanceModel)
 
 
 -- Add equations for product-specific export

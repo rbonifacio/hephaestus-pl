@@ -1,4 +1,4 @@
-module HplDrivers.LoadTestProduct where
+module Main where
 
 import HplProducts.Test hiding (main)
 

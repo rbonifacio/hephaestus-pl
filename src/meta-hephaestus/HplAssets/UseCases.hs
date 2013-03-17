@@ -5,56 +5,49 @@ module HplAssets.UseCases (
 
 import BasicTypes
 import HplAssets.UCM.Types
-
 import FeatureModel.Types
-import Data.Generics -- função everywhere
--- *******************************************************
-import HplProducts.TestTypes -- where is defined the data types SPLModel and InstanceModel
--- *******************************************************
+import Data.Generics
 
-emptyUcm :: UseCaseModel->UseCaseModel
+emptyUcm :: UseCaseModel -> UseCaseModel
 emptyUcm ucmodel = ucmodel { useCases = [], aspects = [] }
 
 emptyUseCase :: UseCase -> UseCase
 emptyUseCase uc = uc { ucScenarios = [] }
 
-splScenarios spl = ucmScenarios (splUcm spl)
-
-
-transformUcm :: UseCaseTransformation -> SPLModel -> InstanceModel -> InstanceModel
-transformUcm (SelectUseCases ids) spl product = 
+transformUcm :: UseCaseTransformation -> UseCaseModel -> FeatureConfiguration -> UseCaseModel -> UseCaseModel
+transformUcm (SelectUseCases ids) spl _ product = 
   addScenariosToInstance (scs, spl, product) 
-  where scs = concat $ map ucScenarios [uc | uc <- useCases (splUcm spl), ucId uc `elem` ids]
-transformUcm (SelectScenarios ids) spl product = 
+  where scs = concat $ map ucScenarios [uc | uc <- useCases spl, ucId uc `elem` ids]
+transformUcm (SelectScenarios ids) spl _ product = 
   addScenariosToInstance (scs, spl, product) 
-  where scs = [s | s <- splScenarios spl, scId s `elem` ids]
-transformUcm (BindParameter pid fid) spl product = 
+  where scs = [s | s <- ucmScenarios spl, scId s `elem` ids]
+transformUcm (BindParameter pid fid) spl fc product = 
   bindParameter steps (parenthesize options) pid product 
   where 
-    steps = [s | s <- ucmSteps (ucm product), s `refers` pid] 
-    options = concat (map featureOptionsValues [f | f <- flatten (fcTree (featureConfiguration product)), fId (fnode f) == fid]) 
+    steps = [s | s <- ucmSteps product, s `refers` pid] 
+    options = concat (map featureOptionsValues [f | f <- flatten (fcTree fc), fId (fnode f) == fid]) 
     bindParameter [] o pid p = p 
     bindParameter (s:ss) o pid p = bindParameter ss o pid (gReplaceParameterInScenario (sId s) pid o p) 
-transformUcm (EvaluateAspects ids) spl product = 
+transformUcm (EvaluateAspects ids) spl _ product = 
   evaluateListOfAdvice as product 
-  where as = concat [advices a | a <- aspects (splUcm spl), (aspectId a) `elem` ids]
+  where as = concat [advices a | a <- aspects spl, (aspectId a) `elem` ids]
 
 
 -- this is a map function that adds a list of scenarios 
 -- to a use case model.
-addScenariosToInstance :: ([Scenario], SPLModel, InstanceModel) -> InstanceModel
+addScenariosToInstance :: ([Scenario], UseCaseModel, UseCaseModel) -> UseCaseModel
 addScenariosToInstance ([], spl, product) = product
 addScenariosToInstance ((s:ss), spl, product) = addScenariosToInstance (ss, spl, product') 
  where 
   product' = addScenarioToInstance (s, sUseCase, product) 
-  sUseCase = findUseCaseFromScenario (useCases (splUcm spl)) s
+  sUseCase = findUseCaseFromScenario (useCases spl) s
 
 -- add a single scenario to a use case model.
-addScenarioToInstance :: (Scenario, Maybe UseCase, InstanceModel) -> InstanceModel
+addScenarioToInstance :: (Scenario, Maybe UseCase, UseCaseModel) -> UseCaseModel
 addScenarioToInstance (s, Nothing, product) =  error "Scenario not declared within a use case"
 addScenarioToInstance (s, (Just sUseCase), product)  = 
  let
-  pUseCase = [u | u <- useCases (ucm product), (ucId sUseCase) == (ucId u)]
+  pUseCase = [u | u <- useCases product, (ucId sUseCase) == (ucId u)]
   eUseCase = (emptyUseCase sUseCase) { ucScenarios = [s] } 
  in case pUseCase of
      []  -> gAddUseCase eUseCase product
@@ -62,12 +55,12 @@ addScenarioToInstance (s, (Just sUseCase), product)  =
 
 -- this is the generic function for adding a scenario.
 -- it follows the SYB pattern. 
-gAddScenario :: Id -> Scenario -> InstanceModel -> InstanceModel
+gAddScenario :: Id -> Scenario -> UseCaseModel -> UseCaseModel
 gAddScenario i s = everywhere (mkT (addOrReplaceScenario i s))
 
 -- this is the generic function for adding a use case. 
 -- it follows the SYB pattern. 
-gAddUseCase :: UseCase -> InstanceModel -> InstanceModel 
+gAddUseCase :: UseCase -> UseCaseModel -> UseCaseModel 
 gAddUseCase u = everywhere (mkT (addOrReplaceUseCase u))
       
 -- add or replace a scenarion to a use case. this is 
@@ -89,14 +82,14 @@ addOrReplaceUseCase uc ucModel =
 
 
 -- evaluate a list of advices
-evaluateListOfAdvice :: [Advice] -> InstanceModel -> InstanceModel
+evaluateListOfAdvice :: [Advice] -> UseCaseModel -> UseCaseModel
 evaluateListOfAdvice [] p = p
 evaluateListOfAdvice (x:xs) p = evaluateListOfAdvice xs (genEvaluateAdvice x p)
 
 -- this is the generic function for evaluating 
 -- an advice. It follows the Scrap Your Boilerplate (SYB)
 -- pattern. 
-genEvaluateAdvice :: Advice -> InstanceModel -> InstanceModel  
+genEvaluateAdvice :: Advice -> UseCaseModel -> UseCaseModel  
 genEvaluateAdvice a = everywhere (mkT (evaluateAdvice a))
 
 evaluateAdvice :: Advice -> Scenario -> Scenario
@@ -146,7 +139,7 @@ replaceStringInStep sid old new step =
  
 -- this is the generic function for replacing a string into a step (identified 
 -- by 'sid'). It follows the SYB pattern. 
-gReplaceParameterInScenario :: Id -> String -> String -> InstanceModel -> InstanceModel
+gReplaceParameterInScenario :: Id -> String -> String -> UseCaseModel -> UseCaseModel
 gReplaceParameterInScenario sid fp ap = everywhere (mkT (replaceParameterInScenario sid fp ap)) 
       
 

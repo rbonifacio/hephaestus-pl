@@ -1,6 +1,6 @@
-module HplDrivers.LoadBaseProduct where
+module Main where
 
-import HplProducts.BaseProduct
+import HplProducts.BaseProduct hiding (main)
 
 main :: IO ()
 main = do return ()
