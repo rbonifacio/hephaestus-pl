@@ -4,7 +4,6 @@ data AssetMetaData
    = AssetMetaData {
        assetModuleType :: String, -- module name where is the definition of the Asset's data types
        assetModuleParser :: String, -- module name here is the parser of the asset
-       assetModuleType' :: String, -- module name where is the definition of the data types SPLModel and InstanceModel
        assetModule :: String,
        assetModel :: String,
        assetSelector :: [(String, String) ],

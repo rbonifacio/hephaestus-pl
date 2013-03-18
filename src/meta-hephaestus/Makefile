@@ -11,12 +11,12 @@ test:
 
 test-load:
 	make LoadAssets.drive
-	make LoadBaseProduct.drive
+	make LoadBase.drive
 	make LoadHephaestus.drive
-	make LoadTestProduct.drive
+	make LoadTest.drive
 
 test-build:
-	make BuildTestProduct.drive
+	make BuildTest.drive
 
 test-bootstrap:
 	make BuildHephaestus.drive
@@ -24,3 +24,9 @@ test-bootstrap:
 %.drive:
 	ghc --make HplDrivers/$* ${options}
 	HplDrivers/$*
+
+clean:
+	find . -name "*.o" -exec rm -rf {} \;
+	find . -name "*.hi" -exec rm -rf {} \;
+	cd HplDrivers; make clean
+

@@ -1,6 +1,6 @@
 module Main where
 
-import HplProducts.BaseProduct hiding (main)
+import HplProducts.Base hiding (main)
 
 main :: IO ()
 main = do return ()

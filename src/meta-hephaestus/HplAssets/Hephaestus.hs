@@ -16,21 +16,21 @@ import Prelude hiding (lookup)
 import Data.Map (lookup)
 
 transformHpl :: HephaestusTransformation -> HephaestusModel -> FeatureConfiguration -> HephaestusModel -> HephaestusModel
-transformHpl t (HephaestusModel [baseProduct1, baseProduct2]) _ (HephaestusModel modules) = HephaestusModel (transformHpl' t modules)
+transformHpl t (HephaestusModel [base]) _ (HephaestusModel modules) = HephaestusModel (transformHpl' t modules)
  where
-  transformHpl' SelectBaseProduct [] = [selectBaseProductM1 baseProduct1, selectBaseProductM2 baseProduct2]
-  transformHpl' (SelectAsset a) (m:mx) = [selectAssetM1 a m, selectAssetM2 a (head mx)]
-  transformHpl' (SelectExport b) (m:mx) = [selectExportM1 b m, selectExportM2 b (head mx)]
-  transformHpl' (BindProductName n) (m:mx) = [bindProductName n m, bindProductName (n++"Types") (head mx)]
-  transformHpl' RemoveProductMainFunction (m:mx) = [removeProductMainFunction m, (head mx)]
-  transformHpl' SelectCKParser (m:mx) = [selectCKParser m, (head mx)]
+  transformHpl' SelectBaseProduct [] = [selectBaseProduct base]
+  transformHpl' (SelectAsset a) [m] = [selectAsset a m]
+  transformHpl' (SelectExport b) [m] = [selectExport b m]
+  transformHpl' (BindProductName n) [m] = [bindProductName n m]
+  transformHpl' RemoveProductMainFunction [m] = [removeProductMainFunction m]
+  transformHpl' SelectCKParser [m] = [selectCKParser m]
   transformHpl' t _ = error ("Transformation " ++ show t ++ " not applicable.")  
 
 emptyHpl :: HephaestusModel -> HephaestusModel
 emptyHpl hplmodel= HephaestusModel []
 
 exportHplToDoc:: FilePath -> HephaestusModel -> IO()
-exportHplToDoc f (HephaestusModel [p1, p2]) =  writeFile f (prettyPrint p1)
+exportHplToDoc f (HephaestusModel [m]) =  writeFile f (prettyPrint m)
 
 
 -- ----------------------------------------------------------
@@ -39,16 +39,13 @@ exportHplToDoc f (HephaestusModel [p1, p2]) =  writeFile f (prettyPrint p1)
               
 --
 -- Rename module name
---  from HplProducts.BaseProduct 
+--  from HplProducts.Base 
 --    to HplProducts.Test
 --               
 
-selectBaseProductM1::HsModule -> HsModule
-selectBaseProductM1 = bindProductName "Test" 
-  . removeImportDecl ("HplProducts.BaseProductTypes")
-
-selectBaseProductM2::HsModule -> HsModule
-selectBaseProductM2 = bindProductName "TestTypes" 
+selectBaseProduct::HsModule -> HsModule
+selectBaseProduct = bindProductName "Test" 
+  . removeImportDecl ("HplProducts.Base")
 
 --
 -- Set product name explicitly.
@@ -62,61 +59,56 @@ bindProductName n = setModuleName ("HplProducts." ++ n)
 -- Use metadata about the assets to this end.
 --
 
--- M1 = main module of the Hephaestus's instance. For example, Test.hs, Hephaestus.hs 
-selectAssetM1 :: String -> HsModule -> HsModule
-selectAssetM1 n
-  = addUpdateCase "transform" xfun xtype [sel',"id"] sel
-  . initializeFieldWithFun "InstanceModel" sel sel' empty
+selectAsset :: String -> HsModule -> HsModule
+selectAsset n
+  = addUpdateCase "transform" xfun xtype [selName',"id"] selName
+  . initializeFieldWithFun "InstanceModel" selName selName' empty
   . addImportDecl ("HplAssets." ++ mod)
+  . addImportDecl ("HplAssets." ++ modtype)
   . addImportDecl ("HplAssets." ++ modParser)  
-  . addImportDecl ("HplProducts." ++ modtype')
   . addLetInstruction "main" "targetDir" "findPropertyValue"  xVarProperty xNameProperty      
   . addGeneratorInstruction "main" "parseInstanceModel" xVarParser xfunParser xParamParser 
-  . initializeField "SPLModel" sel' xVarParser 
+  . initializeField "SPLModel" selName' xVarParser 
+  . addField "InstanceModel" sel
+  . addField "SPLModel" sel'
+  . addConstructor "TransformationModel" xtype "UndefinedTransformation"
+  . addCaseList "xml2Transformation" xtype lstTransf
  where
   metadata = maybe (error ("Missing metadata for " ++ n ++ ".")) id $ lookup n assetMetaData
-  mod    = assetModule metadata
+  mod       = assetModule metadata
   modParser = assetModuleParser metadata
-  modtype' = assetModuleType' metadata
-  sel'   = fst $ head $ assetSelector' metadata
-  sel    = fst $ head $ assetSelector metadata
-  empty  = assetEmpty metadata
-  xfun   = assetXFun metadata
-  xtype  = assetXType metadata
+  modtype   = assetModuleType metadata
+  sel       = assetSelector metadata
+  sel'      = assetSelector' metadata
+  selName   = fst $ head $ sel
+  selName'  = fst $ head $ sel'
+  empty     = assetEmpty metadata
+  xfun      = assetXFun metadata
+  xtype     = assetXType metadata
   xVarProperty   = assetVarProperty metadata
   xNameProperty  = assetNameProperty metadata
   xfunParser     = assetXFunParser metadata  
   xVarParser     = assetVarParser metadata
   xParamParser   = assetParamParser metadata
- 
+  lstTransf = assetLstTransf metadata
+   
+
+-- ??? What is this ???
  
 addCaseList :: String -> String -> [ParserTransf] -> HsModule -> HsModule
 addCaseList dataName typeTransf [(stTran, dtTran, peTran, pDtTran, condSuc)]    = addCase3 dataName typeTransf stTran dtTran peTran pDtTran condSuc
 addCaseList dataName typeTransf ((stTran, dtTran, peTran, pDtTran, condSuc):xs) = addCase3 dataName typeTransf stTran dtTran peTran pDtTran condSuc . addCaseList dataName typeTransf xs
   
-  
--- M2 = this module contains the data types SPLModel and InstanceModel and TransformationModel of the Hephaestus's instance
-selectAssetM2 :: String -> HsModule -> HsModule
-selectAssetM2 n
-  = addField "InstanceModel" sel
-  . addField "SPLModel" sel'
-  . addImportDecl ("HplAssets." ++ modtype)
-  . addConstructor "TransformationModel" xtype "UndefinedTransformation"
-  . addCaseList "xml2Transformation" xtype lstTransf
-  where
-  metadata = maybe (error ("Missing metadata for " ++ n ++ ".")) id $ lookup n assetMetaData
-  modtype  = assetModuleType metadata
-  sel'     = assetSelector' metadata
-  sel      = assetSelector metadata
-  xtype    = assetXType metadata
-  lstTransf = assetLstTransf metadata
-  
-  
--- M1 = main module of the Hephaestus's instance. For exemple, Test.hs, Hephaestus.hs 
-selectExportM1 :: String -> HsModule -> HsModule
-selectExportM1 n 
+    
+-- 
+-- Select export functionality
+-- 
+selectExport :: String -> HsModule -> HsModule
+selectExport n 
   = addCase2 "export" xfun xtype xext sel
   . addImportDecl ("HplAssets." ++ mod)
+  . addConstructorWithoutArgs "ExportModel" xtype "UndefinedExport"
+  . addListElem "lstExport" xtype 
  where
   metadata = maybe (error ("Missing metadata for " ++ n ++ ".")) id $ lookup n exportMetaData
   mod = exportModule metadata
@@ -125,31 +117,16 @@ selectExportM1 n
   xext  = exportXExt metadata
   sel  = exportSelector metadata
   
-  
--- M2 = this module contains the data types ExportModel and List lstExport of the Hephaestus's instance 
-selectExportM2 :: String -> HsModule -> HsModule
-selectExportM2 n 
-  = addConstructorWithoutArgs "ExportModel" xtype "UndefinedExport"
-  . addListElem "lstExport" xtype 
- where
-  metadata = maybe (error ("Missing metadata for " ++ n ++ ".")) id $ lookup n exportMetaData
-  mod = exportModule metadata
-  xtype = exportXType metadata
-  
 
--- insert CK parser instructions into Hephaestus's instance M1 module
+-- insert CK parser instructions into Hephaestus's instance
 selectCKParser::HsModule -> HsModule
-selectCKParser = addImportDecl ("CK.Parsers.XML.XmlConfigurationParser")
-               . addLetInstruction "main" "iModel" "findPropertyValue"  "cModel"  "configuration-model"  
-               . addGeneratorInstruction "main" "parseFeatureModel" "cm" "parseConfigurationKnowledge" "(ns ckSchema) (snd cModel)" 
-               . addLetInstruction' "main" "product" 
+selectCKParser
+ = addLetInstruction "main" "iModel" "findPropertyValue"  "cModel"  "configuration-model"  
+ . addGeneratorInstruction "main" "parseFeatureModel" "cm" "parseConfigurationKnowledge" "(ns ckSchema) (snd cModel)" 
+ . addLetInstruction' "main" "product" 
       
 
 -- remove the "main" function of the Hephaestus's instance M1 module       
 removeProductMainFunction :: HsModule -> HsModule
 removeProductMainFunction = removeFunction "main" " "
                           . removeFunction "main" "funcBody"               
- 
--- ----------------------------------------------------------
--- Hephaestus.hs
--- ----------------------------------------------------------

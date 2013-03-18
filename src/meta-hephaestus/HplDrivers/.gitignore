@@ -1,7 +1,7 @@
 BuildHephaestus
-BuildTestProduct
+BuildTest
 LoadAssets
-LoadBaseProduct
+LoadBase
 LoadHephaestus
-LoadTestProduct
+LoadTest
 

@@ -82,7 +82,6 @@ assetMetaData = fromList
     AssetMetaData {
        assetModuleType = "UCM.Types",
        assetModuleParser = "UCM.Parsers.XML.XmlUseCaseParser",
-       assetModuleType' = "TestTypes",
        assetModule = "UseCases",
        assetModel = "UseCaseModel",
        assetSelector = [("ucm","UseCaseModel")],
@@ -109,7 +108,6 @@ assetMetaData = fromList
     AssetMetaData {
        assetModuleType = "BPM.Types",
        assetModuleParser = "BPM.Parsers.XML.XmlBusinessProcess",
-       assetModuleType' = "TestTypes",
        assetModule = "BusinessProcesses",
        assetModel = "BusinessProcessModel",
        assetSelector = [("bpm","BusinessProcessModel")],
@@ -133,7 +131,6 @@ assetMetaData = fromList
     AssetMetaData {
        assetModuleType = "ReqModel.Types",
        assetModuleParser = "ReqModel.Parsers.XML.XmlRequirementParser",
-       assetModuleType' = "TestTypes",
        assetModule = "Requirements",
        assetModel = "RequirementModel",
        assetSelector = [("req", "RequirementModel")],
@@ -156,7 +153,6 @@ assetMetaData = fromList
     AssetMetaData {
        assetModuleType = "ComponentModel.Types",
        assetModuleParser = "ComponentModel.Parsers.ParserComponentModel",
-       assetModuleType' = "TestTypes",
        assetModule = "Components",
        assetModel = "ComponentModel",
        assetSelector = [("preProcessFiles", "[String]"), ("buildEntries","[String]"), ("components", "[(Id, Id)]")],
@@ -181,7 +177,6 @@ assetMetaData = fromList
     AssetMetaData {
        assetModuleType = "Hephaestus.Types",
        assetModuleParser = "Hephaestus.Parser.HephaestusParser",
-       assetModuleType' = "HephaestusTypes",
        assetModule = "Hephaestus",
        assetModel = "HephaestusModel",
        assetSelector = [("hpl", "HephaestusModel")], 

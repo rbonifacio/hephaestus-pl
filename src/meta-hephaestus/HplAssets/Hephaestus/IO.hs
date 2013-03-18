@@ -4,7 +4,6 @@
 module HplAssets.Hephaestus.IO where
 
 import HplProducts.Hephaestus
-import HplProducts.HephaestusTypes
 import HplAssets.Hephaestus.Types
 import HplAssets.Hephaestus.MetaData
 import FeatureModel.Types
@@ -22,15 +21,11 @@ import Distribution.ModuleName
 buildHpl :: FeatureConfiguration -> IO ()
 buildHpl fc
  = do
-      x <- readFile "HplProducts/BaseProduct.hs"
+      x <- readFile "HplProducts/Base.hs"
       let (ParseOk y) = parseModule x
-      x2 <- readFile "HplProducts/BaseProductTypes.hs"
-      let (ParseOk y2) = parseModule x2
-      let base = (SPLModel noFeatureModel (HephaestusModel [y, y2]))
-      let (InstanceModel _ (HephaestusModel [p1, p2])) = build noFeatureModel fc ck base
-      let (HsModule _ (Module m) _ _ _) = p1
-      writeFile (toFilePath (fromString m) ++ ".hs") (prettyPrint p1)
-      let (HsModule _ (Module m) _ _ _) = p2
-      writeFile (toFilePath (fromString m) ++ ".hs") (prettyPrint p2)
+      let base = (SPLModel noFeatureModel (HephaestusModel [y]))
+      let (InstanceModel _ (HephaestusModel [z])) = build noFeatureModel fc ck base
+      let (HsModule _ (Module m) _ _ _) = z
+      writeFile (toFilePath (fromString m) ++ ".hs") (prettyPrint z)
   where
   ck = map (\(fe, ts) -> ConfigurationItem fe (map HephaestusTransformation ts)) configurationKnowledge

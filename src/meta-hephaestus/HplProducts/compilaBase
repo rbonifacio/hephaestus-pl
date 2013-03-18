@@ -1,8 +1,0 @@
-# options = -i../:../../core/src:../../feature-modeling/src:../../configuration-knowledge/src -fglasgow-exts
-
-# ghci Test.hs Hephaestus.hs ${options}
-
-# ghci -i../:../../core/src:../../feature-modeling/src:../../configuration-knowledge/src -fglasgow-exts Test.hs Hephaestus.hs 
-
-ghci -i../:../../core/src:../../feature-modeling/src:../../configuration-knowledge/src -fglasgow-exts BaseProduct.hs
-

@@ -1,39 +1,36 @@
 -----------------------------------------------------------------------------
 -- |
--- Module      :  Transformations.Parsers.XML.XmlConfigurationParser
--- Copyright   :  (c) Rodrigo Bonifacio 2008, 2009
+-- Module      :  CK.Parsers.XML.XmlConfigurationParser
 -- License     :  LGPL
 --
--- Maintainer  :  rba2@cin.ufpe.br
--- Stability   :  provisional
--- Portability :  portable
+-- Stability   :  under construction
+-- Portability :  unknown
 --
--- A XML parser for our configuration model.
+-- An XML parser for the configuration knowledge.
+-- This module does not yet use the asset-specific typed representation of CK.
 --
 -----------------------------------------------------------------------------
-module CK.Parsers.XML.XmlConfigurationParser(parseConfigurationKnowledge)
+module CK.Parsers.XML.XmlConfigurationParser (parseXmlConfigurationKnowledge)
+
 where
 
 import BasicTypes 
-
 import Text.XML.HXT.Core
 import Text.XML.HXT.RelaxNG
-
 import System.Environment
-
 import CK.Parsers.XML.XmlConfigurationKnowledge
 
 -- | 
--- Parser for a configuration knowledge file. 
+-- XML parser for a configuration knowledge file. 
 -- It results either Success or Fail, if the file is 
 -- not valid.
 --
-parseConfigurationKnowledge schema fileName = 
+parseXmlConfigurationKnowledge schema fileName = 
   do
   errs <- checkConfigurationFile schema fileName
   case errs of 
    [] -> do 
-     configuration <- parseConfigurationKnowledge' fileName
+     configuration <- parseXmlConfigurationKnowledge' fileName
      return $ configuration
    
    otherwise -> do
@@ -53,7 +50,7 @@ checkConfigurationFile schema fileName =
                 ) ;
    return errs
 
-parseConfigurationKnowledge' fileName = 
+parseXmlConfigurationKnowledge' fileName = 
  do
    c <- runX ( xunpickleDocument xpConfigurationKnowledge [ withValidate yes
  				                          , withTrace 1
@@ -61,7 +58,7 @@ parseConfigurationKnowledge' fileName =
  				                          , withPreserveComment yes
                                                           ] (createURI fileName) )
    case c of 
-     [x] -> return $ (xml2ConfigurationKnowledge x)
+     [x] -> return $ Success x
      otherwise -> return $ Fail "Unexpected error found when parsing the configuration knowledge."
    
 -- 
@@ -98,7 +95,3 @@ xpTransformation =
 	xpElem "transformation" $
 	xpWrap ( uncurry XmlTransformation, \ (XmlTransformation n a) -> (n, a) ) $
 	xpPair ( xpElem "name" xpText ) ( xpElem "args" xpText )
-
-
-	
-			 

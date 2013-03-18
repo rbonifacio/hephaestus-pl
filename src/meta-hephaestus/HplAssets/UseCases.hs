@@ -27,7 +27,7 @@ transformUcm (BindParameter pid fid) spl fc product =
     steps = [s | s <- ucmSteps product, s `refers` pid] 
     options = concat (map featureOptionsValues [f | f <- flatten (fcTree fc), fId (fnode f) == fid]) 
     bindParameter [] o pid p = p 
-    bindParameter (s:ss) o pid p = bindParameter ss o pid (gReplaceParameterInScenario (sId s) pid o p) 
+    bindParameter (s:ss) o pid p = bindParameter ss o pid (gReplaceParameterInScenario (sId s) pid o p)
 transformUcm (EvaluateAspects ids) spl _ product = 
   evaluateListOfAdvice as product 
   where as = concat [advices a | a <- aspects spl, (aspectId a) `elem` ids]
