@@ -1,4 +1,4 @@
-test:
+testa:
 	cd meta-hephaestus; make
 
 clean:
