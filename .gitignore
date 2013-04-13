@@ -1,1 +1,11 @@
+<<<<<<< HEAD
 *~
+=======
+dist
+cabal-dev
+*.o
+*.hi
+*.chi
+*.chs.h
+.virthualenv
+>>>>>>> c7bff110df3c20737393b7be3bd71d6bfef75dcb
