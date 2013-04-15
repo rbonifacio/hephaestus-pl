@@ -11,7 +11,7 @@ import Language.Haskell.Syntax
 import Language.Haskell.Parser
 import Language.Haskell.Pretty
 import Distribution.ModuleName
-
+import CK.Types
 --
 -- Invoke the build function for the Hephaestus product line.
 -- A feature configuration is to be passed as argument.

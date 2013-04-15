@@ -12,6 +12,7 @@ import Network.URI
 import Data.List
 
 import System.FilePath
+import Data.Maybe 
 
 type Id = String
 type Name = String
@@ -184,6 +185,17 @@ parenthesize ss = "(" ++ parenthesize' ss ++ ")"
 -- definitions brought from module Main.hs of Hephaestus 
 -----------------------------------------------------------------------------------------
 
+type PropertyValue = (String, String)
+
+readPropertyValue :: String -> Maybe PropertyValue
+readPropertyValue s =
+ let p = break (== '=') s
+ in case p of 
+     ([], _) -> Nothing
+     (k , v) -> Just (k, tail v)  
+
+findPropertyValue:: String -> [PropertyValue] -> Maybe PropertyValue  
+findPropertyValue k = listToMaybe . filter (\x -> k == fst x) 
 
 
 

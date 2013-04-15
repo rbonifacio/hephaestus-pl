@@ -1,4 +1,5 @@
 module HplProducts.Hephaestus where
+import CK.Types
 import CK.Parsers.XML.XmlConfigurationKnowledge
 import CK.Parsers.XML.XmlConfigurationParser
 import FeatureModel.Types hiding (Success, Fail)
@@ -30,20 +31,6 @@ data ExportModel = UndefinedExport
 lstExport :: [ExportModel]
 lstExport = []
  
-type ConfigurationKnowledge = [ConfigurationItem]
- 
-data ConfigurationItem = ConfigurationItem{expression ::
-                                           FeatureExpression,
-                                           transformations :: [TransformationModel]}
-                       | ConstrainedConfigurationItem{expression :: FeatureExpression,
-                                                      transformations :: [TransformationModel],
-                                                      required :: FeatureExpression,
-                                                      provided :: FeatureExpression}
- 
-constrained :: ConfigurationItem -> Bool
-constrained (ConstrainedConfigurationItem _ _ _ _) = True
-constrained _ = False
- 
 xml2Transformation ::
                      String -> [String] -> ParserResult TransformationModel
 xml2Transformation "selectBaseProduct" _
@@ -74,13 +61,14 @@ mkEmptyInstance fc spl
 build ::
         FeatureModel ->
           FeatureConfiguration ->
-            ConfigurationKnowledge -> SPLModel -> InstanceModel
+            ConfigurationKnowledge TransformationModel ->
+              SPLModel -> InstanceModel
 build fm fc ck spl = stepRefinement ts spl emptyInstance
   where emptyInstance = mkEmptyInstance fc spl
         ts = tasks ck fc
  
 tasks ::
-        ConfigurationKnowledge ->
+        ConfigurationKnowledge TransformationModel ->
           FeatureConfiguration -> [TransformationModel]
 tasks ck fc
   = concat [transformations c | c <- ck, eval fc (expression c)]
@@ -95,8 +83,6 @@ stepRefinement (t : ts) splModel instanceModel
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
 export (UndefinedExport) _ _ = undefined
- 
-type PropertyValue = (String, String)
  
 fmSchema :: String
 fmSchema = "schema_feature-model.rng"
@@ -113,21 +99,9 @@ normalizedSchema cDir sch = cDir </> sch
 outputFile :: FilePath -> String -> FilePath
 outputFile f n = f </> n
  
-readPropertyValue :: String -> Maybe PropertyValue
-readPropertyValue s
-  = let p = break (== '=') s in
-      case p of
-          ([], _) -> Nothing
-          (k, v) -> Just (k, tail v)
- 
-findPropertyValue ::
-                    String -> [PropertyValue] -> Maybe PropertyValue
-findPropertyValue k [] = Nothing
-findPropertyValue k (x : xs)
-  = if (k == fst x) then Just x else findPropertyValue k xs
- 
 xml2ConfigurationKnowledge ::
-                             XmlConfigurationKnowledge -> ParserResult ConfigurationKnowledge
+                             XmlConfigurationKnowledge ->
+                               ParserResult (ConfigurationKnowledge TransformationModel)
 xml2ConfigurationKnowledge ck
   = let cs = xmlConfigurations ck
         mcs = map xml2Configuration cs
@@ -137,7 +111,8 @@ xml2ConfigurationKnowledge ck
         Fail (unwords [showError e | e <- mcs, isSuccess e == False])
  
 xml2Configuration ::
-                    XmlConfiguration -> ParserResult ConfigurationItem
+                    XmlConfiguration ->
+                      ParserResult (ConfigurationItem TransformationModel)
 xml2Configuration c
   = let pe = parse parseExpression "" (xmlExpression c)
         ts
@@ -175,7 +150,9 @@ xml2Configuration c
         parseConstraint (Just s) = parse parseExpression "" s
  
 parseConfigurationKnowledge ::
-                              String -> String -> IO (ParserResult ConfigurationKnowledge)
+                              String ->
+                                String ->
+                                  IO (ParserResult (ConfigurationKnowledge TransformationModel))
 parseConfigurationKnowledge schema fileName
   = do result <- parseXmlConfigurationKnowledge schema fileName
        case result of

@@ -6,6 +6,7 @@
 module HplProducts.Base where
 
 -- Add imports for product-specific assets
+import CK.Types
 import CK.Parsers.XML.XmlConfigurationKnowledge
 import CK.Parsers.XML.XmlConfigurationParser
 import FeatureModel.Types hiding (Success, Fail)
@@ -39,26 +40,6 @@ data ExportModel = UndefinedExport
 lstExport::[ExportModel]
 lstExport = []
 
--- No changes needed. This type depends on TransformationModel.
-type ConfigurationKnowledge = [ConfigurationItem]
-
--- No changes needed. This type depends on TransformationModel.
-data ConfigurationItem = 
- ConfigurationItem {
-   expression :: FeatureExpression,                -- ^ if expression holds True for a product configuration...
-   transformations :: [TransformationModel]        -- ^ the list of transformations would be applied.
- } | 
- ConstrainedConfigurationItem { 
-   expression :: FeatureExpression,                -- ^ if expression holds True for a product configuration...
-   transformations :: [TransformationModel],       -- ^ the list of transformations would be applied.
-   required :: FeatureExpression,     -- ^ required expression for this configuration 
-   provided :: FeatureExpression      -- ^ provided expression for this configuration
- }
-
--- No changes needed. This function depends on TransformationModel.
-constrained :: ConfigurationItem -> Bool 
-constrained (ConstrainedConfigurationItem _ _ _ _) = True
-constrained _ = False
 
 -- Add equations for product-specific transformations
 xml2Transformation :: String -> [String] -> ParserResult TransformationModel
@@ -78,7 +59,7 @@ mkEmptyInstance fc spl =
 -- No changes needed. This function depends on TransformationModel.  
 build :: FeatureModel
       -> FeatureConfiguration
-      -> ConfigurationKnowledge
+      -> ConfigurationKnowledge TransformationModel
       -> SPLModel
       -> InstanceModel
 build fm fc ck spl = stepRefinement ts spl emptyInstance       
@@ -87,8 +68,9 @@ build fm fc ck spl = stepRefinement ts spl emptyInstance
   ts = tasks ck fc
         
 -- No changes needed. This function depends on TransformationModel.
-tasks :: ConfigurationKnowledge -> FeatureConfiguration -> [TransformationModel]
+tasks :: ConfigurationKnowledge TransformationModel -> FeatureConfiguration -> [TransformationModel]
 tasks ck fc = concat [transformations c | c <- ck, eval fc (expression c)]
+
 stepRefinement :: [TransformationModel] -> SPLModel -> InstanceModel -> InstanceModel
 stepRefinement [] splModel instanceModel = instanceModel
 stepRefinement (t:ts) splModel instanceModel
@@ -139,7 +121,6 @@ main = do
 -- definitions brought from module Main.hs of Hephaestus 
 -----------------------------------------------------------------------------------------       
 
-type PropertyValue = (String, String)
 
 fmSchema :: String 
 fmSchema = "schema_feature-model.rng"
@@ -156,24 +137,8 @@ normalizedSchema cDir sch = cDir </> sch
 outputFile :: FilePath -> String -> FilePath
 outputFile  f n = f </> n 
 
--- given a String s, it returns just a property, 
--- if s matches "key=value". Otherwise, it returns 
--- Nothing.
 
-readPropertyValue :: String -> Maybe PropertyValue
-readPropertyValue s =
- let p = break (== '=') s
- in case p of 
-     ([], _) -> Nothing
-     (k , v) -> Just (k, tail v)  
-
-findPropertyValue:: String -> [PropertyValue] -> Maybe PropertyValue  
-findPropertyValue k [] = Nothing
-findPropertyValue k (x:xs) =   
- if (k == fst x) then Just x
- else findPropertyValue k xs    
-
-xml2ConfigurationKnowledge :: XmlConfigurationKnowledge -> ParserResult ConfigurationKnowledge
+xml2ConfigurationKnowledge :: XmlConfigurationKnowledge -> ParserResult (ConfigurationKnowledge TransformationModel)
 xml2ConfigurationKnowledge ck = 
  let 
    cs  = xmlConfigurations ck
@@ -183,7 +148,7 @@ xml2ConfigurationKnowledge ck =
    then Success [ci | (Success ci) <- mcs]
    else Fail (unwords [showError e | e <- mcs, isSuccess e == False])
 
-xml2Configuration :: XmlConfiguration -> ParserResult ConfigurationItem 
+xml2Configuration :: XmlConfiguration -> ParserResult (ConfigurationItem TransformationModel)
 xml2Configuration c =
  let 
   pe = parse parseExpression "" (xmlExpression c)
@@ -215,7 +180,7 @@ xml2Configuration c =
   parseConstraint Nothing = parse pzero "" ""
   parseConstraint (Just s)  = parse parseExpression "" s
 
-parseConfigurationKnowledge :: String -> String -> IO (ParserResult ConfigurationKnowledge)
+parseConfigurationKnowledge :: String -> String -> IO (ParserResult (ConfigurationKnowledge TransformationModel))
 parseConfigurationKnowledge schema fileName
   = do
       result <- parseXmlConfigurationKnowledge schema fileName
