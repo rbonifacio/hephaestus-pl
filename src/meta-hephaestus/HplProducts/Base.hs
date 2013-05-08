@@ -46,9 +46,19 @@ xml2Transformation :: String -> [String] -> ParserResult TransformationModel
 xml2Transformation "Undefined" _ = undefined
 
 -- Add equations for product-specific transformations
+
+instance Transformation TransformationModel SPLModel InstanceModel where
+  applyT t spl im = transform t spl (features im) im
+
 transform :: TransformationModel -> SPLModel -> FeatureConfiguration -> InstanceModel -> InstanceModel
 transform UndefinedTransformation _ _ _ = undefined
 
+instance SPL SPLModel InstanceModel where 
+  makeEmptyInstance fc spl = mkEmptyInstance fc spl
+  
+instance Product InstanceModel where  
+  features im = featureConfiguration im
+  
 mkEmptyInstance :: FeatureConfiguration -> SPLModel -> InstanceModel
 mkEmptyInstance fc spl =
   InstanceModel {
@@ -56,25 +66,22 @@ mkEmptyInstance fc spl =
        -- Add product-specific model parts
   }
   
--- No changes needed. This function depends on TransformationModel.  
-build :: FeatureModel
-      -> FeatureConfiguration
-      -> ConfigurationKnowledge TransformationModel
-      -> SPLModel
-      -> InstanceModel
-build fm fc ck spl = stepRefinement ts spl emptyInstance       
- where 
-  emptyInstance = mkEmptyInstance fc spl
-  ts = tasks ck fc
+-- -- No changes needed. This function depends on TransformationModel.  
+-- build :: FeatureModel
+--       -> FeatureConfiguration
+--       -> ConfigurationKnowledge TransformationModel
+--       -> SPLModel
+--       -> InstanceModel
+-- build fm fc ck spl = stepRefinement ts spl emptyInstance       
+--  where 
+--   emptyInstance = mkEmptyInstance fc spl
+--   ts = validTransformations ck fc 
         
--- No changes needed. This function depends on TransformationModel.
-tasks :: ConfigurationKnowledge TransformationModel -> FeatureConfiguration -> [TransformationModel]
-tasks ck fc = concat [transformations c | c <- ck, eval fc (expression c)]
 
-stepRefinement :: [TransformationModel] -> SPLModel -> InstanceModel -> InstanceModel
-stepRefinement [] splModel instanceModel = instanceModel
-stepRefinement (t:ts) splModel instanceModel
- = stepRefinement ts splModel (transform t splModel (featureConfiguration instanceModel) instanceModel)
+-- stepRefinement :: [TransformationModel] -> SPLModel -> InstanceModel -> InstanceModel
+-- stepRefinement [] splModel instanceModel = instanceModel
+-- stepRefinement (t:ts) splModel instanceModel
+--  = stepRefinement ts splModel (transform t splModel (featureConfiguration instanceModel) instanceModel)
 
 -- Add equations for product-specific export
 export :: ExportModel -> FilePath -> InstanceModel -> IO()
@@ -136,7 +143,6 @@ normalizedSchema cDir sch = cDir </> sch
 
 outputFile :: FilePath -> String -> FilePath
 outputFile  f n = f </> n 
-
 
 xml2ConfigurationKnowledge :: XmlConfigurationKnowledge -> ParserResult (ConfigurationKnowledge TransformationModel)
 xml2ConfigurationKnowledge ck = 

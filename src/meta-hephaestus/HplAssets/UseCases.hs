@@ -18,9 +18,11 @@ transformUcm :: UseCaseTransformation -> UseCaseModel -> FeatureConfiguration ->
 transformUcm (SelectUseCases ids) spl _ product = 
   addScenariosToInstance (scs, spl, product) 
   where scs = concat $ map ucScenarios [uc | uc <- useCases spl, ucId uc `elem` ids]
+        
 transformUcm (SelectScenarios ids) spl _ product = 
   addScenariosToInstance (scs, spl, product) 
   where scs = [s | s <- ucmScenarios spl, scId s `elem` ids]
+        
 transformUcm (BindParameter pid fid) spl fc product = 
   bindParameter steps (parenthesize options) pid product 
   where 
@@ -28,6 +30,7 @@ transformUcm (BindParameter pid fid) spl fc product =
     options = concat (map featureOptionsValues [f | f <- flatten (fcTree fc), fId (fnode f) == fid]) 
     bindParameter [] o pid p = p 
     bindParameter (s:ss) o pid p = bindParameter ss o pid (gReplaceParameterInScenario (sId s) pid o p)
+    
 transformUcm (EvaluateAspects ids) spl _ product = 
   evaluateListOfAdvice as product 
   where as = concat [advices a | a <- aspects spl, (aspectId a) `elem` ids]

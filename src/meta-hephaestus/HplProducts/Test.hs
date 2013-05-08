@@ -65,13 +65,7 @@ build ::
               SPLModel -> InstanceModel
 build fm fc ck spl = stepRefinement ts spl emptyInstance
   where emptyInstance = mkEmptyInstance fc spl
-        ts = tasks ck fc
- 
-tasks ::
-        ConfigurationKnowledge TransformationModel ->
-          FeatureConfiguration -> [TransformationModel]
-tasks ck fc
-  = concat [transformations c | c <- ck, eval fc (expression c)]
+        ts = validTransformations ck fc
  
 stepRefinement ::
                  [TransformationModel] -> SPLModel -> InstanceModel -> InstanceModel
