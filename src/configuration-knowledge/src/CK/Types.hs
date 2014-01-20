@@ -17,8 +17,8 @@ data ConfigurationItem a =
    transformations :: [a]             -- ^ the list of transformations would be applied.
  } | 
  ConstrainedConfigurationItem { 
-   expression :: FeatureExpression,                -- ^ if expression holds True for a product configuration...
-   transformations :: [a],       -- ^ the list of transformations would be applied.
+   expression :: FeatureExpression,   -- ^ if expression holds True for a product configuration...
+   transformations :: [a],            -- ^ the list of transformations would be applied.
    required :: FeatureExpression,     -- ^ required expression for this configuration 
    provided :: FeatureExpression      -- ^ provided expression for this configuration
  }

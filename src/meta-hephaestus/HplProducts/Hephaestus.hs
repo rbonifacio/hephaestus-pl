@@ -46,34 +46,27 @@ xml2Transformation "removeProductMainFunction" _
 xml2Transformation "selectCKParser" _
   = Success (HephaestusTransformation (SelectCKParser  ))
  
+instance Transformation TransformationModel SPLModel InstanceModel
+         where
+        applyT t spl im = transform t spl (features im) im
+ 
 transform ::
             TransformationModel ->
               SPLModel -> FeatureConfiguration -> InstanceModel -> InstanceModel
 transform (HephaestusTransformation x0) x1 x2 x3
   = x3{hpl = transformHpl x0 (splHpl x1) (id x2) (hpl x3)}
  
+instance SPL SPLModel InstanceModel where
+        makeEmptyInstance fc spl = mkEmptyInstance fc spl
+ 
+instance Product InstanceModel where
+        features im = featureConfiguration im
+ 
 mkEmptyInstance ::
                   FeatureConfiguration -> SPLModel -> InstanceModel
 mkEmptyInstance fc spl
   = InstanceModel{featureConfiguration = fc,
                   hpl = emptyHpl (splHpl spl)}
- 
-build ::
-        FeatureModel ->
-          FeatureConfiguration ->
-            ConfigurationKnowledge TransformationModel ->
-              SPLModel -> InstanceModel
-build fm fc ck spl = stepRefinement ts spl emptyInstance
-  where emptyInstance = mkEmptyInstance fc spl
-        ts = validTransformations ck fc
- 
-stepRefinement ::
-                 [TransformationModel] -> SPLModel -> InstanceModel -> InstanceModel
-stepRefinement [] splModel instanceModel = instanceModel
-stepRefinement (t : ts) splModel instanceModel
-  = stepRefinement ts splModel
-      (transform t splModel (featureConfiguration instanceModel)
-         instanceModel)
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
 export (UndefinedExport) _ _ = undefined

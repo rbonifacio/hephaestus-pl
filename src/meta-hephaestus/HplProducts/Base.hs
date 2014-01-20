@@ -66,22 +66,6 @@ mkEmptyInstance fc spl =
        -- Add product-specific model parts
   }
   
--- -- No changes needed. This function depends on TransformationModel.  
--- build :: FeatureModel
---       -> FeatureConfiguration
---       -> ConfigurationKnowledge TransformationModel
---       -> SPLModel
---       -> InstanceModel
--- build fm fc ck spl = stepRefinement ts spl emptyInstance       
---  where 
---   emptyInstance = mkEmptyInstance fc spl
---   ts = validTransformations ck fc 
-        
-
--- stepRefinement :: [TransformationModel] -> SPLModel -> InstanceModel -> InstanceModel
--- stepRefinement [] splModel instanceModel = instanceModel
--- stepRefinement (t:ts) splModel instanceModel
---  = stepRefinement ts splModel (transform t splModel (featureConfiguration instanceModel) instanceModel)
 
 -- Add equations for product-specific export
 export :: ExportModel -> FilePath -> InstanceModel -> IO()
