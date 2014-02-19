@@ -230,6 +230,15 @@ exportMetaData = fromList
        exportXExt = ".xml",
        exportSelector = "bpm"
     }
+  ),
+  ( "ReqToLatex",
+    ExportMetaData {
+       exportModule = "ReqModel.PrettyPrinter.Latex",
+       exportXType = "ExportReqLatex",
+       exportXFun = "exportReqToLatex",
+       exportXExt = ".tex",
+       exportSelector = "req"
+    }
   )
  ]
               

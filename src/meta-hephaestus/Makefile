@@ -18,8 +18,12 @@ test-load:
 test-build:
 	make BuildTest.drive
 
-product01-buid:
-	make BuildProduct01.drive
+productUcmBpm-build:
+	make BuildUcmBpmProduct.drive
+
+productReq-build:
+	make BuildReqProduct.drive
+	make LoadTest.drive
 
 test-bootstrap:
 	make BuildHephaestus.drive

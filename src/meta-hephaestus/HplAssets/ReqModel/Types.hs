@@ -14,7 +14,6 @@
 -- has a list of requirements. 
 --
 -----------------------------------------------------------------------------
-{-# OPTIONS -fglasgow-exts #-}
 module HplAssets.ReqModel.Types
 where 
 
