@@ -71,17 +71,20 @@ mkEmptyInstance fc spl =
 export :: ExportModel -> FilePath -> InstanceModel -> IO()
 export UndefinedExport _ _ = undefined
 
+readProperties ps = ( fromJust (findPropertyValue "name" ps)
+                    , fromJust (findPropertyValue "feature-model" ps)
+                    , fromJust (findPropertyValue "instance-model" ps) )
+
 main :: IO()
 main = do 
- cDir <- getCurrentDirectory
- let ns = normalizedSchema cDir
-     
- f <- getLine	             -- read the name of the project file 
- s <- readFile f             -- read the file contents
- let l = lines s             -- split the content in several lines
+ ns <- fmap normalizedSchema getCurrentDirectory 
+-- ls <- fmap (lines . readFile) getLine 
+ input <- getLine
+ contents <- readFile input
+ let ls = lines contents 
 
  -- read all properties 
- let ps  = map fromJust (filter (isJust) (map readPropertyValue l))
+ let ps  = map fromJust (filter (isJust) (map readPropertyValue ls))
  
  -- retrieve the specific property values we are interested in
  let name = fromJust (findPropertyValue "name" ps)

@@ -70,6 +70,10 @@ mkEmptyInstance fc spl
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
 export (UndefinedExport) _ _ = undefined
+readProperties ps
+  = (fromJust (findPropertyValue "name" ps),
+     fromJust (findPropertyValue "feature-model" ps),
+     fromJust (findPropertyValue "instance-model" ps))
  
 fmSchema :: String
 fmSchema = "schema_feature-model.rng"

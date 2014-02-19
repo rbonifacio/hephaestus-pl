@@ -4,21 +4,19 @@ module HplAssets.BusinessProcesses (
 ) where
 
 import BasicTypes
-import List   -- for function "nub" used in evaluateBeforeAdvice
-import Maybe  -- for function "mapMaybe" used in the conversion of a triplet in Transition data type 
+import Data.List   -- for function "nub" used in evaluateBeforeAdvice
+import Data.Maybe  -- for function "mapMaybe" used in the conversion of a triplet in Transition data type 
 import HplAssets.BPM.Types
 import FeatureModel.Types
--- *******************************************************
-import HplProducts.TestTypes -- where is defined the data types SPLModel and InstanceModel
--- *******************************************************
 
 emptyBpm :: BusinessProcessModel -> BusinessProcessModel
 emptyBpm bp = bp { processes = [] }
+
  
-transformBpm :: BusinessProcessTransformation -> SPLModel -> InstanceModel -> InstanceModel
-transformBpm (SelectBusinessProcess id) spl product = product { bpm = selectBusinessProcess id (splBpm spl) (bpm product)}
-transformBpm (BindParameterBpm np vp) _ product = product { bpm = bindParameter np vp (bpm product)}
-transformBpm (EvaluateAdvice id) spl product = product { bpm = evaluateAdvice id (splBpm spl) (bpm product)}
+transformBpm :: BusinessProcessTransformation -> BusinessProcessModel -> FeatureConfiguration -> BusinessProcessModel -> BusinessProcessModel
+transformBpm (SelectBusinessProcess id) spl _ product = selectBusinessProcess id spl product
+transformBpm (BindParameterBpm np vp) _ _ product = bindParameter np vp product
+transformBpm (EvaluateAdvice id) spl _ product = evaluateAdvice id spl product
 
 -----------------------------------------
 

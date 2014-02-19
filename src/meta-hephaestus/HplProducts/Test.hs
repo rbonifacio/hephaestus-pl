@@ -16,21 +16,27 @@ import HplAssets.UCM.Parsers.XML.XmlUseCaseParser
 import HplAssets.UCM.Types
 import HplAssets.UseCases
 import HplAssets.UCM.PrettyPrinter.XML
+import HplAssets.BPM.Parsers.XML.XmlBusinessProcess
+import HplAssets.BPM.Types
+import HplAssets.BusinessProcesses
+import HplAssets.BPM.PrettyPrinter.XML
  
 data SPLModel = SPLModel{featureModel :: FeatureModel,
-                         splUcm :: UseCaseModel}
+                         splUcm :: UseCaseModel, splBpm :: BusinessProcessModel}
  
 data InstanceModel = InstanceModel{featureConfiguration ::
                                    FeatureConfiguration,
-                                   ucm :: UseCaseModel}
+                                   ucm :: UseCaseModel, bpm :: BusinessProcessModel}
                    deriving (Data, Typeable)
  
 data TransformationModel = UseCaseTransformation UseCaseTransformation
+                         | BusinessProcessTransformation BusinessProcessTransformation
  
 data ExportModel = ExportUcmXML
+                 | ExportBpmXML
  
 lstExport :: [ExportModel]
-lstExport = [ExportUcmXML]
+lstExport = [ExportUcmXML, ExportBpmXML]
  
 xml2Transformation ::
                      String -> [String] -> ParserResult TransformationModel
@@ -45,6 +51,17 @@ xml2Transformation "bindParameter" _
       "Invalid number of arguments to the transformation bindParameter"
 xml2Transformation "evaluateAspects" ids
   = Success (UseCaseTransformation (EvaluateAspects ids))
+xml2Transformation "selectBusinessProcess" [id]
+  = Success
+      (BusinessProcessTransformation (SelectBusinessProcess id))
+xml2Transformation "evaluateAdvice" [id]
+  = Success (BusinessProcessTransformation (EvaluateAdvice id))
+xml2Transformation "bindParameterBpm" [np,vp]
+  = Success
+      (BusinessProcessTransformation (BindParameterBpm np (Value vp)))
+xml2Transformation "bindParameterBpm" _
+  = Fail
+      "Invalid number of arguments to the transformation bindParameterBpm"
  
 instance Transformation TransformationModel SPLModel InstanceModel
          where
@@ -55,6 +72,8 @@ transform ::
               SPLModel -> FeatureConfiguration -> InstanceModel -> InstanceModel
 transform (UseCaseTransformation x0) x1 x2 x3
   = x3{ucm = transformUcm x0 (splUcm x1) (id x2) (ucm x3)}
+transform (BusinessProcessTransformation x0) x1 x2 x3
+  = x3{bpm = transformBpm x0 (splBpm x1) (id x2) (bpm x3)}
  
 instance SPL SPLModel InstanceModel where
         makeEmptyInstance fc spl = mkEmptyInstance fc spl
@@ -66,34 +85,43 @@ mkEmptyInstance ::
                   FeatureConfiguration -> SPLModel -> InstanceModel
 mkEmptyInstance fc spl
   = InstanceModel{featureConfiguration = fc,
-                  ucm = emptyUcm (splUcm spl)}
+                  ucm = emptyUcm (splUcm spl), bpm = emptyBpm (splBpm spl)}
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
 export (ExportUcmXML) x1 x2
   = exportUcmToXML (x1 ++ ".xml") (ucm x2)
+export (ExportBpmXML) x1 x2
+  = exportBpmToXML (x1 ++ ".xml") (bpm x2)
+readProperties ps
+  = (fromJust (findPropertyValue "name" ps),
+     fromJust (findPropertyValue "feature-model" ps),
+     fromJust (findPropertyValue "instance-model" ps))
  
 main :: IO ()
 main
-  = do cDir <- getCurrentDirectory
-       let ns = normalizedSchema cDir
-       f <- getLine
-       s <- readFile f
-       let l = lines s
-       let ps = map fromJust (filter (isJust) (map readPropertyValue l))
+  = do ns <- fmap normalizedSchema getCurrentDirectory
+       input <- getLine
+       contents <- readFile input
+       let ls = lines contents
+       let ps = map fromJust (filter (isJust) (map readPropertyValue ls))
        let name = fromJust (findPropertyValue "name" ps)
        let fModel = fromJust (findPropertyValue "feature-model" ps)
        let iModel = fromJust (findPropertyValue "instance-model" ps)
        let cModel = fromJust (findPropertyValue "configuration-model" ps)
        let targetDir = fromJust (findPropertyValue "target-dir" ps)
+       let bModel
+             = fromJust (findPropertyValue "businessprocess-model" ps)
        let uModel = fromJust (findPropertyValue "usecase-model" ps)
        (Core.Success fm) <- parseFeatureModel ((ns fmSchema), snd fModel)
                               FMPlugin
        (Core.Success cm) <- parseConfigurationKnowledge
                               (ns ckSchema) (snd cModel)
        (Core.Success im) <- parseInstanceModel (ns fcSchema) (snd iModel)
+       (Core.Success bppl) <- parseBusinessProcessFile
+                                (ns bpSchema) (snd bModel)
        (Core.Success ucpl) <- parseUseCaseFile (ns ucSchema) (snd uModel)
        let fc = FeatureConfiguration im
-       let spl = SPLModel{featureModel = fm, splUcm = ucpl}
+       let spl = SPLModel{featureModel = fm, splUcm = ucpl, splBpm = bppl}
        let product = build fm fc cm spl
        let out = (outputFile (snd targetDir) (snd name))
        sequence_ [export x out product | x <- lstExport]

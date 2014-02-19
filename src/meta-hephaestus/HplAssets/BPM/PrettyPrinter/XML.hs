@@ -2,7 +2,8 @@ module HplAssets.BPM.PrettyPrinter.XML where
 
 import BasicTypes
 
-import IO
+import Control.Exception
+import System.IO
 
 import Text.PrettyPrint.HughesPJ
 import HplAssets.BPM.Types

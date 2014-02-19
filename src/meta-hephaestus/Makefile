@@ -18,6 +18,9 @@ test-load:
 test-build:
 	make BuildTest.drive
 
+product01-buid:
+	make BuildProduct01.drive
+
 test-bootstrap:
 	make BuildHephaestus.drive
 

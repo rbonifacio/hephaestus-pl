@@ -1,6 +1,6 @@
 module HplAssets.BPM.Parsers.XML.XmlBusinessProcess where
 
-import Maybe
+import Data.Maybe
 import Text.XML.HXT.Core
 import Text.XML.HXT.RelaxNG
 
@@ -10,6 +10,13 @@ import HplAssets.BPM.Parsers.XML.JPDLXmlBinding
 
 import BasicTypes
 
+bpSchema :: String
+bpSchema = "schema-bpm.rng"
+
+parseBusinessProcessFile schema fileName = 
+ do
+  bpModel <- parseBusinessProcessFile' fileName
+  return $ Success bpModel
 
 parseBusinessProcessFile' fileName = 
  do

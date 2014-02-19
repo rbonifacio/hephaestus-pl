@@ -1,7 +1,7 @@
 module HplAssets.BPM.Parsers.XML.JPDLXmlBinding   where
 
 import Text.XML.HXT.Core
-import Maybe
+import Data.Maybe
 
 
 import BasicTypes

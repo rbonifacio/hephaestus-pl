@@ -3,7 +3,7 @@ module Main where
 import HplAssets.Hephaestus.IO
 import FeatureModel.Types
 
-main = buildHpl fcUcm
+main = buildHpl fcUcmBpm --fcUcm
  where
   fcUcm = FeatureConfiguration
      $ Root
