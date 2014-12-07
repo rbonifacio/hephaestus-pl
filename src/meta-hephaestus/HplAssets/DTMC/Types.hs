@@ -11,11 +11,14 @@ data DtmcTransformation = SelectDTMC Id
 
 data DtmcModel = DtmcModel {
       graphs :: [Dtmc]
-} deriving (Show, Eq, Data, Typeable)
+} --deriving (Show, Eq, Data, Typeable)
 
 
 data Dtmc = Dtmc {
       dtmcId :: Id, 
       dtmcName :: String
 --TODO: put more things here.
-} deriving (Show, Data, Typeable)
+} --deriving (Show, Data, Typeable)
+
+data Value = Unbound | Value String
+  deriving(Eq, Ord, Show, Data, Typeable)

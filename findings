@@ -66,5 +66,13 @@ Aplicação da abordagem reativa para evolução do Hephaestus-PL
 In HplAssets:
    Create a directory with the name DTMC;
    Create a file with data types declaration/definitions called Types.hs (HplAssets/DTMC/Types.hs)
+   Create a file with the transformations called DTMC.hs (HplAssets/DTMC.hs)
+   Modify  the file HplAssets/Hephaestus/MetaData.hs to incorporate the information of the new product.
+
+   Now the dirty part:
+       Modify the HplDrivers to cope with a new product.
+       	      Change LoadAssets to test and validade if the new product assets are well-formed or well-typed.
+	      Create a new .hs file to construct the product (call buildHpl), which seems to be the FM.
+
    
 

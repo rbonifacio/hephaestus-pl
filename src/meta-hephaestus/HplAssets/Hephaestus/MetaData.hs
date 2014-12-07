@@ -127,6 +127,27 @@ assetMetaData = fromList
 			 ("selectBusinessProcess", "SelectBusinessProcess", "[id]", "id", "Success") ]  
     }
   ),
+  ( "DTMC",
+    AssetMetaData {
+       assetModuleType = "DTMC.Types",
+       assetModuleParser = "DTMC.Parsers.DOT",
+       assetModule = "DTMC",
+       assetModel = "DTMCModel",
+       assetSelector = [("dtmc", "DTMCModel")],
+       assetSelector' = [("splDtmc", "DTMCModel")],
+       assetEmpty = "emptyDtmc",
+       assetXType = "DtmcTransformation",
+       assetXFun = "transformDtmc",
+       assetVarProperty = "dtmcModel",
+       assetNameProperty = "dtmc-model",
+       assetXFunParser = "parseDtmcModel",
+       assetVarParser = "dtmcpl",
+       assetParamParser = "(ns reqSchema) (snd rModel)",
+       assetLstTransf = [("selectDtmc", "SelectDTMC", "id", "id", "Success"),
+			 ("evaluateExpr", "EvaluateExpr", "id", "id", "Success"),
+			 ("bindParameterDtmc", "BindParameterDTMC", "[np,vp]", "np (Value vp)", "Success") ]  
+    }
+  ),
   ( "Requirement",
     AssetMetaData {
        assetModuleType = "ReqModel.Types",

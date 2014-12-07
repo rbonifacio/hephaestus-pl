@@ -14,8 +14,8 @@ import Data.List
 emptyDtmc :: DtmcModel -> DtmcModel
 emptyDtmc dtmcmodel = dtmcmodel { graphs = [] }
 
-transformReq :: DtmcTransformation -> DtmcModel -> FeatureConfiguration -> DtmcModel -> DtmcModel
-transformReq (SelectDTMC id) _ _ product = product 
-transformReq (EvaluateExpr id) _ _ product = product 
-transformReq (SelectDTMC name value) spl _ _ product = product
+transformDtmc :: DtmcTransformation -> DtmcModel -> FeatureConfiguration -> DtmcModel -> DtmcModel
+transformDtmc (SelectDTMC id) _ _ product = product 
+transformDtmc (EvaluateExpr id) _ _ product = product 
+transformDtmc (BindParameterDTMC name value)  _ _ product = product
 
