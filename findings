@@ -1,0 +1,51 @@
+Grosso do código está em meta-hephaestus
+
+HplDrivers:
+    Cada um é uma instance configuration. Apenas descrevem as features selecionadas e chamam buildHpl.
+	Dirige a construção do produto final.
+	Funciona nesta ordem, para o produto padrão Hephaestus:
+		LoadAssets -> verifica se os modulos dos assets são compilaveis, validos. Aqui deve ser colocados todas as or features de assets.
+		LoadBase -> "import HplProducts.Base hiding (main)" ?????
+		LoadHephaestus -> import HplProducts.Hephaestus ?????
+		LoadTest -> "import HplProducts.Test hiding (main)" ?????
+		BuildTest
+		BuildHephaestus (aqui o bootstrap acontece)
+
+HplProducts:
+    Pasta de output dos produtos gerados ao rodar buildHpl.
+	Deve possuir os arquivos:
+		Base.hs
+		Test.hs
+		Hephaestus.hs
+	
+
+HplAssets:
+    Artefatos da Hephaestus-PL.
+		IO.hs ->
+		MetaData.hs -> Um feature model em fonte haskell. (Low Level API)
+		MetaDataTypes.hs -> Tipos de dados genéricos (o que mais?) (Low Level API)
+		MetaProgramming.hs -> Operações de manipulação de programas haskell (Low Level API)
+		Types.hs -> 
+	
+    
+Compilação:
+    cd src/meta-hephaestus
+    make <nome-da-configuração>.drive   # compila HplDrivers/<nome-da-configuração>.hs e o executa.
+
+
+
+A execução de um driver sempre gera um HplProducts/Test.hs
+Para gerar um módulo com outro nome, temos que adicionar no CK (src/meta-hephaestus/HplAssets/Hephaestus/MetaData.hs) a transformação BindProductName "NomePretendido"
+
+Para compilar o módulo Hephaestus gerado:
+    ghc --make HplProducts/Test -main-is HplProducts.Test -i../feature-modeling/src:../core/src:../configuration-knowledge/src:../funsat-0.6.2/src -XMultiParamTypeClasses -XDeriveDataTypeable
+
+Ao executar o programa, ele não imprime nada, mas espera que seja digitado o path para um arquivo .properties com os paths para os artefatos utilizados pelo Hephaestus para construir um produto (CK, FM, IM e algumas outras coisas específicas da aplicação, como RequirementsModel e UseCaseModel).
+
+
+Bootstrapping:
+    Não consegui fazer o Bootstrapping. O produto "Hephaestus" (HplProducts/Hephaestus.hs) é necessário para o próprio processo de geração (incluso pelo HplAssets/Hephaestus/IO.hs, que declara a função "buildHpl"). Se remover o arquivo, não consigo mais gerá-lo, pois sua geração depende dele mesmo.
+    Em particular, depende dos construtores:
+        - SPLModel
+        - InstanceModel
+        - HephaestusTransformation
