@@ -12,34 +12,56 @@ import Data.Maybe
 import Data.Generics
 import BasicTypes
 import Text.ParserCombinators.Parsec
-import HplAssets.ReqModel.Parsers.XML.XmlRequirementParser
-import HplAssets.ReqModel.Types
-import HplAssets.Requirements
-import HplAssets.ReqModel.PrettyPrinter.Latex
+import HplAssets.UCM.Parsers.XML.XmlUseCaseParser
+import HplAssets.UCM.Types
+import HplAssets.UseCases
+import HplAssets.UCM.PrettyPrinter.XML
+import HplAssets.BPM.Parsers.XML.XmlBusinessProcess
+import HplAssets.BPM.Types
+import HplAssets.BusinessProcesses
+import HplAssets.BPM.PrettyPrinter.XML
  
 data SPLModel = SPLModel{featureModel :: FeatureModel,
-                         splReq :: RequirementModel}
+                         splUcm :: UseCaseModel, splBpm :: BusinessProcessModel}
  
 data InstanceModel = InstanceModel{featureConfiguration ::
                                    FeatureConfiguration,
-                                   req :: RequirementModel}
+                                   ucm :: UseCaseModel, bpm :: BusinessProcessModel}
                    deriving (Data, Typeable)
  
-data TransformationModel = RequirementTransformation RequirementTransformation
+data TransformationModel = UseCaseTransformation UseCaseTransformation
+                         | BusinessProcessTransformation BusinessProcessTransformation
  
-data ExportModel = ExportReqLatex
+data ExportModel = ExportUcmXML
+                 | ExportBpmXML
  
 lstExport :: [ExportModel]
-lstExport = [ExportReqLatex]
+lstExport = [ExportUcmXML, ExportBpmXML]
  
 xml2Transformation ::
                      String -> [String] -> ParserResult TransformationModel
-xml2Transformation "selectAllRequirements" _
-  = Success (RequirementTransformation (SelectAllRequirements  ))
-xml2Transformation "selectRequirements" ids
-  = Success (RequirementTransformation (SelectRequirements ids))
-xml2Transformation "removeRequirements" ids
-  = Success (RequirementTransformation (RemoveRequirements ids))
+xml2Transformation "selectScenarios" ids
+  = Success (UseCaseTransformation (SelectScenarios ids))
+xml2Transformation "selectUseCases" ids
+  = Success (UseCaseTransformation (SelectUseCases ids))
+xml2Transformation "bindParameter" [x,y]
+  = Success (UseCaseTransformation (BindParameter x y))
+xml2Transformation "bindParameter" _
+  = Fail
+      "Invalid number of arguments to the transformation bindParameter"
+xml2Transformation "evaluateAspects" ids
+  = Success (UseCaseTransformation (EvaluateAspects ids))
+xml2Transformation "selectBusinessProcess" [id]
+  = Success
+      (BusinessProcessTransformation (SelectBusinessProcess id))
+xml2Transformation "evaluateAdvice" [id]
+  = Success (BusinessProcessTransformation (EvaluateAdvice id))
+xml2Transformation "bindParameterBpm" [np,vp]
+  = Success
+      (BusinessProcessTransformation (BindParameterBpm np (Value vp)))
+xml2Transformation "bindParameterBpm" _
+  = Fail
+      "Invalid number of arguments to the transformation bindParameterBpm"
  
 instance Transformation TransformationModel SPLModel InstanceModel
          where
@@ -48,8 +70,10 @@ instance Transformation TransformationModel SPLModel InstanceModel
 transform ::
             TransformationModel ->
               SPLModel -> FeatureConfiguration -> InstanceModel -> InstanceModel
-transform (RequirementTransformation x0) x1 x2 x3
-  = x3{req = transformReq x0 (splReq x1) (id x2) (req x3)}
+transform (UseCaseTransformation x0) x1 x2 x3
+  = x3{ucm = transformUcm x0 (splUcm x1) (id x2) (ucm x3)}
+transform (BusinessProcessTransformation x0) x1 x2 x3
+  = x3{bpm = transformBpm x0 (splBpm x1) (id x2) (bpm x3)}
  
 instance SPL SPLModel InstanceModel where
         makeEmptyInstance fc spl = mkEmptyInstance fc spl
@@ -61,11 +85,13 @@ mkEmptyInstance ::
                   FeatureConfiguration -> SPLModel -> InstanceModel
 mkEmptyInstance fc spl
   = InstanceModel{featureConfiguration = fc,
-                  req = emptyReq (splReq spl)}
+                  ucm = emptyUcm (splUcm spl), bpm = emptyBpm (splBpm spl)}
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
-export (ExportReqLatex) x1 x2
-  = exportReqToLatex (x1 ++ ".tex") (req x2)
+export (ExportUcmXML) x1 x2
+  = exportUcmToXML (x1 ++ ".xml") (ucm x2)
+export (ExportBpmXML) x1 x2
+  = exportBpmToXML (x1 ++ ".xml") (bpm x2)
 readProperties ps
   = (fromJust (findPropertyValue "name" ps),
      fromJust (findPropertyValue "feature-model" ps),
@@ -83,16 +109,19 @@ main
        let iModel = fromJust (findPropertyValue "instance-model" ps)
        let cModel = fromJust (findPropertyValue "configuration-model" ps)
        let targetDir = fromJust (findPropertyValue "target-dir" ps)
-       let rModel = fromJust (findPropertyValue "requirement-model" ps)
+       let bModel
+             = fromJust (findPropertyValue "businessprocess-model" ps)
+       let uModel = fromJust (findPropertyValue "usecase-model" ps)
        (Core.Success fm) <- parseFeatureModel ((ns fmSchema), snd fModel)
                               FMPlugin
        (Core.Success cm) <- parseConfigurationKnowledge
                               (ns ckSchema) (snd cModel)
        (Core.Success im) <- parseInstanceModel (ns fcSchema) (snd iModel)
-       (Core.Success reqpl) <- parseRequirementModel
-                                 (ns reqSchema) (snd rModel)
+       (Core.Success bppl) <- parseBusinessProcessFile
+                                (ns bpSchema) (snd bModel)
+       (Core.Success ucpl) <- parseUseCaseFile (ns ucSchema) (snd uModel)
        let fc = FeatureConfiguration im
-       let spl = SPLModel{featureModel = fm, splReq = reqpl}
+       let spl = SPLModel{featureModel = fm, splUcm = ucpl, splBpm = bppl}
        let product = build fm fc cm spl
        let out = (outputFile (snd targetDir) (snd name))
        sequence_ [export x out product | x <- lstExport]
