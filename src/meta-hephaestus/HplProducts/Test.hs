@@ -17,7 +17,7 @@ import HplAssets.DTMC.Types
 import HplAssets.DTMC
  
 data SPLModel = SPLModel{featureModel :: FeatureModel,
-                         splDtmc :: String}
+                         splDtmc :: DtmcModel}
  
 data InstanceModel = InstanceModel{featureConfiguration ::
                                    FeatureConfiguration,
@@ -77,13 +77,15 @@ main
        let iModel = fromJust (findPropertyValue "instance-model" ps)
        let cModel = fromJust (findPropertyValue "configuration-model" ps)
        let targetDir = fromJust (findPropertyValue "target-dir" ps)
+       let dtmcModel = fromJust (findPropertyValue "dtmc-model" ps)
        (Core.Success fm) <- parseFeatureModel ((ns fmSchema), snd fModel)
                               FMPlugin
        (Core.Success cm) <- parseConfigurationKnowledge
                               (ns ckSchema) (snd cModel)
        (Core.Success im) <- parseInstanceModel (ns fcSchema) (snd iModel)
+       (Core.Success dtmcpl) <- parseDtmcModel (snd dtmcModel)
        let fc = FeatureConfiguration im
-       let spl = SPLModel{featureModel = fm}
+       let spl = SPLModel{featureModel = fm, splDtmc = dtmcpl}
        let product = build fm fc cm spl
        let out = (outputFile (snd targetDir) (snd name))
        sequence_ [export x out product | x <- lstExport]

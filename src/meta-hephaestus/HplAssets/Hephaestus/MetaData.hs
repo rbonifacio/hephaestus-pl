@@ -139,7 +139,7 @@ assetMetaData = fromList
        assetModule = "DTMC",
        assetModel = "DtmcModel",
        assetSelector = [("dtmc", "DtmcModel")],
-       assetSelector' = [("splDtmc", "String")],
+       assetSelector' = [("splDtmc", "DtmcModel")],
        assetEmpty = "emptyDtmc",
        assetXType = "DtmcTransformation",
        assetXFun = "transformDtmc",
@@ -148,7 +148,6 @@ assetMetaData = fromList
        assetXFunParser = "parseDtmcModel",
        assetVarParser = "dtmcpl",
        assetParamParser = "(snd dtmcModel)",
-
        assetLstTransf = [("selectDtmc", "SelectDTMC", "_", " ", "Success")]
     }
   ),

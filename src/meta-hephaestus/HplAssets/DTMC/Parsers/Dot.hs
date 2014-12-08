@@ -5,17 +5,16 @@ import BasicTypes
 
 import HplAssets.DTMC.Types
 
-
-dtmcSchema :: String
-dtmcSchema = "schema_dtmc.rng"
+emptyDtmc :: DtmcModel -> DtmcModel
+emptyDtmc dtmcmodel = dtmcmodel { graphs = [] }
 
 -- Parser for fDTMC and order DTMCs
 -- Transverse the DTMC resolving variabilities
 -- TODO: Thiago put your code here.
-parseDtmcModel :: String -> String
-parseDtmcModel fileName = fileName
+parseDtmcModel x = do 
+               let cm = parseResult DtmcModel { graphs = [] }
+               return cm
 
-
-parseDtmcModel  fileName = fileName
+parseResult  g  = Success g
                 
 
