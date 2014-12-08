@@ -15,7 +15,4 @@ emptyDtmc :: DtmcModel -> DtmcModel
 emptyDtmc dtmcmodel = dtmcmodel { graphs = [] }
 
 transformDtmc :: DtmcTransformation -> DtmcModel -> FeatureConfiguration -> DtmcModel -> DtmcModel
-transformDtmc (SelectDTMC id) _ _ product = product 
-transformDtmc (EvaluateExpr id) _ _ product = product 
-transformDtmc (BindParameterDTMC name value)  _ _ product = product
-
+transformDtmc (SelectDTMC) _ _ product = product

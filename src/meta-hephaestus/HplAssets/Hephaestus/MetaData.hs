@@ -69,7 +69,12 @@ configurationKnowledge
      (
        And (FeatureRef "Code") (FeatureRef "BuildFile"),
        [SelectExport "BuildFile"]
+     ),
+     (
+       FeatureRef "DTMC",
+       [SelectAsset "DTMC"]
      ) 
+
    ]
 
 
@@ -130,11 +135,11 @@ assetMetaData = fromList
   ( "DTMC",
     AssetMetaData {
        assetModuleType = "DTMC.Types",
-       assetModuleParser = "DTMC.Parsers.DOT",
+       assetModuleParser = "DTMC.Parsers.Dot",
        assetModule = "DTMC",
-       assetModel = "DTMCModel",
-       assetSelector = [("dtmc", "DTMCModel")],
-       assetSelector' = [("splDtmc", "DTMCModel")],
+       assetModel = "DtmcModel",
+       assetSelector = [("dtmc", "DtmcModel")],
+       assetSelector' = [("splDtmc", "String")],
        assetEmpty = "emptyDtmc",
        assetXType = "DtmcTransformation",
        assetXFun = "transformDtmc",
@@ -142,10 +147,9 @@ assetMetaData = fromList
        assetNameProperty = "dtmc-model",
        assetXFunParser = "parseDtmcModel",
        assetVarParser = "dtmcpl",
-       assetParamParser = "(ns reqSchema) (snd rModel)",
-       assetLstTransf = [("selectDtmc", "SelectDTMC", "id", "id", "Success"),
-			 ("evaluateExpr", "EvaluateExpr", "id", "id", "Success"),
-			 ("bindParameterDtmc", "BindParameterDTMC", "[np,vp]", "np (Value vp)", "Success") ]  
+       assetParamParser = "(snd dtmcModel)",
+
+       assetLstTransf = [("selectDtmc", "SelectDTMC", "_", " ", "Success")]
     }
   ),
   ( "Requirement",

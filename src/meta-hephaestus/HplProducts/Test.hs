@@ -12,89 +12,29 @@ import Data.Maybe
 import Data.Generics
 import BasicTypes
 import Text.ParserCombinators.Parsec
-import HplAssets.UCM.Parsers.XML.XmlUseCaseParser
-import HplAssets.UCM.Types
-import HplAssets.UseCases
-import HplAssets.UCM.PrettyPrinter.XML
-import HplAssets.UCM.PrettyPrinter.Latex
-import HplAssets.BPM.Parsers.XML.XmlBusinessProcess
-import HplAssets.BPM.Types
-import HplAssets.BusinessProcesses
-import HplAssets.BPM.PrettyPrinter.XML
-import HplAssets.ReqModel.Parsers.XML.XmlRequirementParser
-import HplAssets.ReqModel.Types
-import HplAssets.Requirements
-import HplAssets.ReqModel.PrettyPrinter.Latex
-import HplAssets.ComponentModel.Parsers.ParserComponentModel
-import HplAssets.ComponentModel.Types
-import HplAssets.Components
+import HplAssets.DTMC.Parsers.Dot
+import HplAssets.DTMC.Types
+import HplAssets.DTMC
  
 data SPLModel = SPLModel{featureModel :: FeatureModel,
-                         splUcm :: UseCaseModel, splBpm :: BusinessProcessModel,
-                         splReq :: RequirementModel, splMappings :: ComponentModel}
+                         splDtmc :: String}
  
 data InstanceModel = InstanceModel{featureConfiguration ::
                                    FeatureConfiguration,
-                                   ucm :: UseCaseModel, bpm :: BusinessProcessModel,
-                                   req :: RequirementModel, components :: [(Id, Id)],
-                                   buildEntries :: [String], preProcessFiles :: [String]}
+                                   dtmc :: DtmcModel}
                    deriving (Data, Typeable)
  
-data TransformationModel = UseCaseTransformation UseCaseTransformation
-                         | BusinessProcessTransformation BusinessProcessTransformation
-                         | RequirementTransformation RequirementTransformation
-                         | ComponentTransformation ComponentTransformation
+data TransformationModel = DtmcTransformation DtmcTransformation
  
-data ExportModel = ExportUcmXML
-                 | ExportUcmLatex
-                 | ExportBpmXML
-                 | ExportReqLatex
+data ExportModel = UndefinedExport
  
 lstExport :: [ExportModel]
-lstExport
-  = [ExportUcmXML, ExportUcmLatex, ExportBpmXML, ExportReqLatex]
+lstExport = []
  
 xml2Transformation ::
                      String -> [String] -> ParserResult TransformationModel
-xml2Transformation "selectScenarios" ids
-  = Success (UseCaseTransformation (SelectScenarios ids))
-xml2Transformation "selectUseCases" ids
-  = Success (UseCaseTransformation (SelectUseCases ids))
-xml2Transformation "bindParameter" [x,y]
-  = Success (UseCaseTransformation (BindParameter x y))
-xml2Transformation "bindParameter" _
-  = Fail
-      "Invalid number of arguments to the transformation bindParameter"
-xml2Transformation "evaluateAspects" ids
-  = Success (UseCaseTransformation (EvaluateAspects ids))
-xml2Transformation "selectBusinessProcess" [id]
-  = Success
-      (BusinessProcessTransformation (SelectBusinessProcess id))
-xml2Transformation "evaluateAdvice" [id]
-  = Success (BusinessProcessTransformation (EvaluateAdvice id))
-xml2Transformation "bindParameterBpm" [np,vp]
-  = Success
-      (BusinessProcessTransformation (BindParameterBpm np (Value vp)))
-xml2Transformation "bindParameterBpm" _
-  = Fail
-      "Invalid number of arguments to the transformation bindParameterBpm"
-xml2Transformation "selectAllRequirements" _
-  = Success (RequirementTransformation (SelectAllRequirements  ))
-xml2Transformation "selectRequirements" ids
-  = Success (RequirementTransformation (SelectRequirements ids))
-xml2Transformation "removeRequirements" ids
-  = Success (RequirementTransformation (RemoveRequirements ids))
-xml2Transformation "selectComponents" ids
-  = Success (ComponentTransformation (SelectComponents ids))
-xml2Transformation "selectAndMoveComponent" [x,y]
-  = Success (ComponentTransformation (SelectAndMoveComponent x y))
-xml2Transformation "selectAndMoveComponent" _
-  = Fail
-      "Invalid number of arguments to the transformation selectAndMoveComponent"
-xml2Transformation "createBuildEntries" e
-  = Success (ComponentTransformation (CreateBuildEntries e))
-xml2Transformation "preprocessFiles" e
-  = Success (ComponentTransformation (PreProcessor e))
+xml2Transformation "selectDtmc" _
+  = Success (DtmcTransformation (SelectDTMC  ))
  
 instance Transformation TransformationModel SPLModel InstanceModel
          where
@@ -103,16 +43,8 @@ instance Transformation TransformationModel SPLModel InstanceModel
 transform ::
             TransformationModel ->
               SPLModel -> FeatureConfiguration -> InstanceModel -> InstanceModel
-transform (UseCaseTransformation x0) x1 x2 x3
-  = x3{ucm = transformUcm x0 (splUcm x1) (id x2) (ucm x3)}
-transform (BusinessProcessTransformation x0) x1 x2 x3
-  = x3{bpm = transformBpm x0 (splBpm x1) (id x2) (bpm x3)}
-transform (RequirementTransformation x0) x1 x2 x3
-  = x3{req = transformReq x0 (splReq x1) (id x2) (req x3)}
-transform (ComponentTransformation x0) x1 x2 x3
-  = x3{preProcessFiles =
-         transformComponent x0 (splMappings x1) (id x2)
-           (preProcessFiles x3)}
+transform (DtmcTransformation x0) x1 x2 x3
+  = x3{dtmc = transformDtmc x0 (splDtmc x1) (id x2) (dtmc x3)}
  
 instance SPL SPLModel InstanceModel where
         makeEmptyInstance fc spl = mkEmptyInstance fc spl
@@ -124,19 +56,10 @@ mkEmptyInstance ::
                   FeatureConfiguration -> SPLModel -> InstanceModel
 mkEmptyInstance fc spl
   = InstanceModel{featureConfiguration = fc,
-                  ucm = emptyUcm (splUcm spl), bpm = emptyBpm (splBpm spl),
-                  req = emptyReq (splReq spl), components = [], buildEntries = [],
-                  preProcessFiles = []}
+                  dtmc = emptyDtmc (splDtmc spl)}
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
-export (ExportUcmXML) x1 x2
-  = exportUcmToXML (x1 ++ ".xml") (ucm x2)
-export (ExportUcmLatex) x1 x2
-  = exportUcmToLatex (x1 ++ ".tex") (ucm x2)
-export (ExportBpmXML) x1 x2
-  = exportBpmToXML (x1 ++ ".xml") (bpm x2)
-export (ExportReqLatex) x1 x2
-  = exportReqToLatex (x1 ++ ".tex") (req x2)
+export (UndefinedExport) _ _ = undefined
 readProperties ps
   = (fromJust (findPropertyValue "name" ps),
      fromJust (findPropertyValue "feature-model" ps),
@@ -154,26 +77,13 @@ main
        let iModel = fromJust (findPropertyValue "instance-model" ps)
        let cModel = fromJust (findPropertyValue "configuration-model" ps)
        let targetDir = fromJust (findPropertyValue "target-dir" ps)
-       let compModel = fromJust (findPropertyValue "component-model" ps)
-       let rModel = fromJust (findPropertyValue "requirement-model" ps)
-       let bModel
-             = fromJust (findPropertyValue "businessprocess-model" ps)
-       let uModel = fromJust (findPropertyValue "usecase-model" ps)
        (Core.Success fm) <- parseFeatureModel ((ns fmSchema), snd fModel)
                               FMPlugin
        (Core.Success cm) <- parseConfigurationKnowledge
                               (ns ckSchema) (snd cModel)
        (Core.Success im) <- parseInstanceModel (ns fcSchema) (snd iModel)
-       (Core.Success comppl) <- parseComponentModel (snd compModel)
-       (Core.Success reqpl) <- parseRequirementModel
-                                 (ns reqSchema) (snd rModel)
-       (Core.Success bppl) <- parseBusinessProcessFile
-                                (ns bpSchema) (snd bModel)
-       (Core.Success ucpl) <- parseUseCaseFile (ns ucSchema) (snd uModel)
        let fc = FeatureConfiguration im
-       let spl
-             = SPLModel{featureModel = fm, splUcm = ucpl, splBpm = bppl,
-                        splReq = reqpl, splMappings = comppl}
+       let spl = SPLModel{featureModel = fm}
        let product = build fm fc cm spl
        let out = (outputFile (snd targetDir) (snd name))
        sequence_ [export x out product | x <- lstExport]

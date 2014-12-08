@@ -31,7 +31,7 @@ reqSchema = "schema_requirements.rng"
 -- It results either Success or Fail, if the file is 
 -- not valid.
 --
-parseRequirementModel schema fileName  = 
+parseRequirementModel schema fileName = 
  do
   errs <- checkRequirementFile schema fileName
   case errs of 

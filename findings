@@ -67,7 +67,14 @@ In HplAssets:
    Create a directory with the name DTMC;
    Create a file with data types declaration/definitions called Types.hs (HplAssets/DTMC/Types.hs)
    Create a file with the transformations called DTMC.hs (HplAssets/DTMC.hs)
-   Modify  the file HplAssets/Hephaestus/MetaData.hs to incorporate the information of the new product.
+   Modify  the file HplAssets/Hephaestus/MetaData.hs to incorporate the information of the new product (this change the CK of Hephaestus-PL)
+
+   In SPL terms, we have to change the Hephaestus-PL:
+      FM, Feature Model (file with a main that calls the buildHpl)
+      IM, Instance Model ????
+      PLA, product line assets ???
+      CK, configuration knowledge (file MetaData.hs)
+
 
    Now the dirty part:
        Modify the HplDrivers to cope with a new product.
@@ -76,3 +83,4 @@ In HplAssets:
 
    
 
+In HplProducts put the Base.hs, Hephaestus.hs on a separated file for building the final product.

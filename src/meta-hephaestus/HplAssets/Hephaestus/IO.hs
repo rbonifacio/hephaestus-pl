@@ -26,6 +26,7 @@ buildHpl fc
       let base = (SPLModel noFeatureModel (HephaestusModel [y]))
       let (InstanceModel _ (HephaestusModel [z])) = build noFeatureModel fc ck base
       let (HsModule _ (Module m) _ _ _) = z
+      putStrLn ("Name of your product " ++ toFilePath (fromString m) ++ ".hs")
       writeFile (toFilePath (fromString m) ++ ".hs") (prettyPrint z)
   where
   ck = map (\(fe, ts) -> ConfigurationItem fe (map HephaestusTransformation ts)) configurationKnowledge

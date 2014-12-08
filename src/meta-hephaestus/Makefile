@@ -4,6 +4,8 @@ options = -i../feature-modeling/src:../core/src:../configuration-knowledge/src:.
 # By running "make test" twice, bootstrapping is both completed and tested.
 # If bootstrapping fails, see HplProducts/Baselines for versions to be restored.
 #
+default: test
+
 test:
 	make test-load
 	make test-build
@@ -15,6 +17,9 @@ test-load:
 	make LoadHephaestus.drive
 	make LoadTest.drive
 
+test-bootstrap:
+	make BuildHephaestus.drive
+
 test-build:
 	make BuildTest.drive
 
@@ -25,15 +30,21 @@ productReq-build:
 	make BuildReqProduct.drive
 	make LoadTest.drive
 
-test-bootstrap:
-	make BuildHephaestus.drive
+productDtmc-build:
+	make BuildDTMCProduct.drive
+	make LoadTest.drive
+
+
+productAllfeatures-build:
+	make BuildAllFeatures.drive
+	make LoadTest.drive
 
 %.drive:
 	ghc --make HplDrivers/$* ${options}
 	HplDrivers/$*
 
 clean:
-	find . -name "*.o" -exec rm -rf {} \;
-	find . -name "*.hi" -exec rm -rf {} \;
-	cd HplDrivers; make clean
+	@find . -name "*.o" -exec rm -rf {} \;
+	@find . -name "*.hi" -exec rm -rf {} \;
+	@cd HplDrivers; make clean
 
