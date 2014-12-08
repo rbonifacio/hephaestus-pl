@@ -40,8 +40,8 @@ productAllfeatures-build:
 	make LoadTest.drive
 
 %.drive:
-	ghc --make HplDrivers/$* ${options}
-	HplDrivers/$*
+	ghc -o HplDrivers/bin/$* --make HplDrivers/$* ${options}
+	HplDrivers/bin/$*
 
 clean:
 	@find . -name "*.o" -exec rm -rf {} \;

@@ -1,4 +1,4 @@
-module HplAssets.DTMC.Parsers.Dot (parseDtmcModel,dtmcSchema)
+module HplAssets.DTMC.Parsers.Dot (parseDtmcModel)
 where 
 
 import BasicTypes
