@@ -1,0 +1,9 @@
+<configurationModel>
+	<configuration>
+		<expression>R</expression>
+		<transformation>
+			<name>selectDtmc</name>
+			<args></args>
+		</transformation>
+	</configuration>	
+</configurationModel>
