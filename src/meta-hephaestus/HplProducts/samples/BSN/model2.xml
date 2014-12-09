@@ -1,0 +1,450 @@
+<plm canReuseInstance="true" name="Root">
+	<element dynamic="false" id="2" name="Monitoring" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative"/>
+			<constraint type="requires"/>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements>
+			<child optional="false">
+				<id>3</id>
+			</child>
+			<child optional="false">
+				<id>8</id>
+			</child>
+		</childElements>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="3" name="Sensor" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>2</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative"/>
+			<constraint type="requires"/>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements>
+			<child optional="false">
+				<id>4</id>
+			</child>
+			<child optional="false">
+				<id>5</id>
+			</child>
+			<child optional="false">
+				<id>6</id>
+			</child>
+			<child optional="false">
+				<id>7</id>
+			</child>
+		</childElements>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="4" name="SPO2" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>3</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative">
+				<constraint_element>
+					<id>5</id>
+					<name>ECG</name>
+				</constraint_element>
+				<constraint_element>
+					<id>6</id>
+					<name>TEMP</name>
+				</constraint_element>
+				<constraint_element>
+					<id>7</id>
+					<name>ACC</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="requires"/>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements/>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="5" name="ECG" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>3</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative">
+				<constraint_element>
+					<id>4</id>
+					<name>SPO2</name>
+				</constraint_element>
+				<constraint_element>
+					<id>6</id>
+					<name>TEMP</name>
+				</constraint_element>
+				<constraint_element>
+					<id>7</id>
+					<name>ACC</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="requires"/>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements/>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="6" name="TEMP" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>3</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative">
+				<constraint_element>
+					<id>4</id>
+					<name>SPO2</name>
+				</constraint_element>
+				<constraint_element>
+					<id>5</id>
+					<name>ECG</name>
+				</constraint_element>
+				<constraint_element>
+					<id>7</id>
+					<name>ACC</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="requires"/>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements/>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="7" name="ACC" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>3</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative">
+				<constraint_element>
+					<id>4</id>
+					<name>SPO2</name>
+				</constraint_element>
+				<constraint_element>
+					<id>5</id>
+					<name>ECG</name>
+				</constraint_element>
+				<constraint_element>
+					<id>6</id>
+					<name>TEMP</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="requires"/>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements/>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="8" name="SensorInformation" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>2</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative"/>
+			<constraint type="requires"/>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements>
+			<child optional="false">
+				<id>9</id>
+			</child>
+			<child optional="false">
+				<id>10</id>
+			</child>
+			<child optional="false">
+				<id>11</id>
+			</child>
+			<child optional="false">
+				<id>12</id>
+			</child>
+			<child optional="false">
+				<id>13</id>
+			</child>
+		</childElements>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="9" name="Oxygenation" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>8</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative">
+				<constraint_element>
+					<id>10</id>
+					<name>PulseRate</name>
+				</constraint_element>
+				<constraint_element>
+					<id>11</id>
+					<name>Temperature</name>
+				</constraint_element>
+				<constraint_element>
+					<id>12</id>
+					<name>Position</name>
+				</constraint_element>
+				<constraint_element>
+					<id>13</id>
+					<name>Fail</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="requires">
+				<constraint_element>
+					<id>4</id>
+					<name>SPO2</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements/>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="10" name="PulseRate" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>8</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative">
+				<constraint_element>
+					<id>9</id>
+					<name>Oxygenation</name>
+				</constraint_element>
+				<constraint_element>
+					<id>11</id>
+					<name>Temperature</name>
+				</constraint_element>
+				<constraint_element>
+					<id>12</id>
+					<name>Position</name>
+				</constraint_element>
+				<constraint_element>
+					<id>13</id>
+					<name>Fail</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="requires"/>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements/>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="11" name="Temperature" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>8</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative">
+				<constraint_element>
+					<id>9</id>
+					<name>Oxygenation</name>
+				</constraint_element>
+				<constraint_element>
+					<id>10</id>
+					<name>PulseRate</name>
+				</constraint_element>
+				<constraint_element>
+					<id>12</id>
+					<name>Position</name>
+				</constraint_element>
+				<constraint_element>
+					<id>13</id>
+					<name>Fail</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="requires">
+				<constraint_element>
+					<id>6</id>
+					<name>TEMP</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements/>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="12" name="Position" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>8</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative">
+				<constraint_element>
+					<id>9</id>
+					<name>Oxygenation</name>
+				</constraint_element>
+				<constraint_element>
+					<id>10</id>
+					<name>PulseRate</name>
+				</constraint_element>
+				<constraint_element>
+					<id>11</id>
+					<name>Temperature</name>
+				</constraint_element>
+				<constraint_element>
+					<id>13</id>
+					<name>Fail</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="requires">
+				<constraint_element>
+					<id>7</id>
+					<name>ACC</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements/>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="13" name="Fail" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>8</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative">
+				<constraint_element>
+					<id>9</id>
+					<name>Oxygenation</name>
+				</constraint_element>
+				<constraint_element>
+					<id>10</id>
+					<name>PulseRate</name>
+				</constraint_element>
+				<constraint_element>
+					<id>11</id>
+					<name>Temperature</name>
+				</constraint_element>
+				<constraint_element>
+					<id>12</id>
+					<name>Position</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="requires">
+				<constraint_element>
+					<id>7</id>
+					<name>ACC</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements/>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="14" name="Storage" optional="true" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<constraints>
+			<constraint type="alternative"/>
+			<constraint type="commulative"/>
+			<constraint type="requires"/>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements>
+			<child optional="false">
+				<id>15</id>
+			</child>
+			<child optional="false">
+				<id>16</id>
+			</child>
+		</childElements>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="15" name="SQLite" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>14</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative">
+				<constraint_element>
+					<id>16</id>
+					<name>Memory</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="commulative"/>
+			<constraint type="requires"/>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements/>
+		<order/>
+		<classes/>
+	</element>
+	<element dynamic="false" id="16" name="Memory" optional="false" type="feature">
+		<path_absolut/>
+		<path_relativ/>
+		<parentElement>
+			<id>14</id>
+		</parentElement>
+		<constraints>
+			<constraint type="alternative">
+				<constraint_element>
+					<id>15</id>
+					<name>SQLite</name>
+				</constraint_element>
+			</constraint>
+			<constraint type="commulative"/>
+			<constraint type="requires"/>
+			<constraint type="excludes"/>
+		</constraints>
+		<childElements/>
+		<order/>
+		<classes/>
+	</element>
+	<properties/>
+	<furtherConstraints>
+		<clause>-PulseRate  |  SPO2  |  ECG</clause>
+	</furtherConstraints>
+</plm>

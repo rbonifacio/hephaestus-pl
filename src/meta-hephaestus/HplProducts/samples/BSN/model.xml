@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel chosenLayoutAlgorithm="1">
+		<struct>
+			<and abstract="true" mandatory="true" name="Root">
+				<and abstract="true" mandatory="true" name="Monitoring">
+					<or abstract="true" mandatory="true" name="Sensor">
+						<feature mandatory="true" name="SPO2"/>
+						<feature mandatory="true" name="ECG"/>
+						<feature mandatory="true" name="TEMP"/>
+						<feature mandatory="true" name="ACC"/>
+					</or>
+					<or abstract="true" mandatory="true" name="SensorInformation">
+						<feature mandatory="true" name="Oxygenation"/>
+						<feature mandatory="true" name="PulseRate"/>
+						<feature mandatory="true" name="Temperature"/>
+						<feature mandatory="true" name="Position"/>
+						<feature mandatory="true" name="Fail"/>
+					</or>
+				</and>
+				<alt abstract="true" name="Storage">
+					<feature mandatory="true" name="SQLite"/>
+					<feature mandatory="true" name="Memory"/>
+				</alt>
+			</and>
+		</struct>
+		<constraints>
+			<rule>
+				<imp>
+					<var>Oxygenation</var>
+					<var>SPO2</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>Position</var>
+					<var>ACC</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>Temperature</var>
+					<var>TEMP</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>Fail</var>
+					<var>ACC</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>PulseRate</var>
+					<disj>
+						<var>SPO2</var>
+						<var>ECG</var>
+					</disj>
+				</imp>
+			</rule>
+		</constraints>
+		<calculations Auto="true" Constraints="true" Features="true" Redundant="true" Tautology="true"/>
+		<comments/>
+		<featureOrder userDefined="false"/>
+	</featureModel>

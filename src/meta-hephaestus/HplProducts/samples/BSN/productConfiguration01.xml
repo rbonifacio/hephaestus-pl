@@ -1,0 +1,19 @@
+<feature  name="Banking" type="NONE" id="banking">
+ <feature  name="Services" type="NONE" id="services">
+     <feature  name="Withdraw" type="NONE" id="withdraw">
+     </feature>
+     <feature  name="Transfer" type="NONE" id="transfer">
+         <feature  name="Identified" type="NONE" id="identified">
+         </feature>
+     </feature>
+ </feature>
+ <feature  name="OperationLimit" type="NONE" id="operationlimit">
+     <feature  name="v5000" type="NONE" id="v5000">
+     </feature>
+ </feature>
+ <feature  name="AuthenticationMechanism" type="NONE"
+id="authenticationMechanism">
+     <feature  name="PIN" type="NONE" id="PIN">
+     </feature>
+ </feature>
+</feature>

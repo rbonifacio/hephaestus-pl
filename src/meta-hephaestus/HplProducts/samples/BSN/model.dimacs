@@ -1,0 +1,45 @@
+c 1 PulseRate
+c 2 ACC
+c 3 Memory
+c 4 Position
+c 5 Temperature
+c 6 Storage
+c 7 SensorInformation
+c 8 Root
+c 9 Fail
+c 10 TEMP
+c 11 Sensor
+c 12 Oxygenation
+c 13 Monitoring
+c 14 SQLite
+c 15 ECG
+c 16 SPO2
+p cnf 16 28
+8 0
+-8 13 0
+-13 8 0
+-6 8 0
+-13 11 0
+-13 7 0
+-11 13 0
+-7 13 0
+-11 16 15 10 2 0
+-16 11 0
+-15 11 0
+-10 11 0
+-2 11 0
+-7 12 1 5 4 9 0
+-12 7 0
+-1 7 0
+-5 7 0
+-4 7 0
+-9 7 0
+-6 14 3 0
+-14 6 0
+-3 6 0
+-14 -3 0
+-12 16 0
+-4 2 0
+-5 10 0
+-9 2 0
+-1 16 15 0

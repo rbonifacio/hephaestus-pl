@@ -1,0 +1,30 @@
+<feature_model name="FeatureIDE model">
+<feature_tree>
+:r Root(Root)
+	:m Monitoring(Monitoring)
+		:m Sensor(Sensor)
+			:g [1,*]
+				: SPO2(SPO2)
+				: ECG(ECG)
+				: TEMP(TEMP)
+				: ACC(ACC)
+		:m SensorInformation(SensorInformation)
+			:g [1,*]
+				: Oxygenation(Oxygenation)
+				: PulseRate(PulseRate)
+				: Temperature(Temperature)
+				: Position(Position)
+				: Fail(Fail)
+	:o Storage(Storage)
+		:g [1,1]
+			: SQLite(SQLite)
+			: Memory(Memory)
+</feature_tree>
+<constraints>
+C1:~Oxygenation  or  SPO2
+C2:~Position  or  ACC
+C3:~Temperature  or  TEMP
+C4:~Fail  or  ACC
+C5:~PulseRate  or  SPO2  or  ECG
+</constraints>
+</feature_model>
