@@ -1,6 +1,6 @@
 name=fDTMC_Example_01
-feature-model=/home/fausto/Dropbox/gits/faustocarva/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcSimple/fmModel.xml
-configuration-model=/home/fausto/Dropbox/gits/faustocarva/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcSimple/configurationModel.xml
-instance-model=/home/fausto/Dropbox/gits/faustocarva/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcSimple/productConfiguration01.xml
-dtmc-model=/home/fausto/Dropbox/gits/faustocarva/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcSimple/simple.dot
-target-dir=/home/fausto/Dropbox/gits/faustocarva/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcSimple/simple_out.dot
+feature-model=/home/thiago/Projects/sandbox/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcSimple/fmModel.xml
+configuration-model=/home/thiago/Projects/sandbox/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcSimple/configurationModel.xml
+instance-model=/home/thiago/Projects/sandbox/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcSimple/productConfiguration01.xml
+dtmc-model=/home/thiago/Projects/sandbox/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcSimple
+target-dir=/home/thiago/Projects/sandbox/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcSimple/output

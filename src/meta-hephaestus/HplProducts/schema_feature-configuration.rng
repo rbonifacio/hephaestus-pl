@@ -11,9 +11,9 @@
       <attribute name="name">
         <data type="string"/>
       </attribute>
-      <attribute name="type">
+      <!--attribute name="type">
         <data type="NCName"/>
-      </attribute>
+      </attribute-->
       <zeroOrMore>
         <ref name="feature"/>
       </zeroOrMore>

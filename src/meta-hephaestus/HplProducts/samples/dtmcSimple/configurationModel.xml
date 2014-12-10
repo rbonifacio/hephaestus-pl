@@ -3,7 +3,7 @@
 		<expression>R</expression>
 		<transformation>
 			<name>selectDtmc</name>
-			<args></args>
+			<args>simple.dot</args>
 		</transformation>
 	</configuration>	
 </configurationModel>

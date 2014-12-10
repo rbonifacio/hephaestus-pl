@@ -1,8 +1,8 @@
-<feature min="1" max="1" name="S" type="NONE" id="My Feature Model">
-  <feature min="1" max="1" name="R" type="NONE" id="r">
-    <feature min="0" max="1" name="P" type="NONE" id="p">
-    </feature>
-    <feature min="0" max="1" name="O" type="NONE" id="o">
-    </feature>
+<feature min="1" max="1" name="S" id="s">
+  <feature min="1" max="1" name="R"  id="r">
+      <feature min="0" max="1" name="P"  id="p">
+      </feature>
+      <feature min="0" max="1" name="O"  id="o">
+      </feature>
   </feature>
 </feature>
