@@ -9,6 +9,7 @@ import Data.GraphViz (graphToDot,
 import Data.GraphViz.Attributes.Complete (Attributes,
                                           Attribute (..),
                                           Label (StrLabel))
+import qualified Data.GraphViz.Commands.IO as GraphViz
 import Data.GraphViz.Types (GraphID (Num),
                             Number (Int))
 import Data.GraphViz.Types.Canonical (DotGraph)
@@ -17,6 +18,14 @@ import Data.Graph.Inductive.Graph
 import Data.Graph.Inductive.PatriciaTree (Gr)  -- Instância de Graph
 
 import qualified Data.Text.Lazy as Text (pack)
+
+
+writeDotFile :: FilePath -> FDTMC -> IO ()
+writeDotFile path fdtmc = GraphViz.writeDotFile path $  fdtmcToDot fdtmc
+
+
+fdtmcToDot :: FDTMC -> DotGraph Node
+fdtmcToDot = fglToDot . fdtmcToFGL
 
 
 fdtmcToFGL :: FDTMC -> Gr String String
@@ -36,10 +45,6 @@ fglToDot = graphToDot params
                         , fmtNode          = \(_, label) -> [labelFromString label]
                         , fmtEdge          = \(_, _, label) -> [labelFromString label]
                         }
-
-
-fdtmcToDot :: FDTMC -> DotGraph Node
-fdtmcToDot = fglToDot . fdtmcToFGL
 
 
 labelFromString :: String -> Attribute

@@ -43,6 +43,9 @@ productAllfeatures-build:
 	ghc -o HplDrivers/bin/$* --make HplDrivers/$* ${options}
 	HplDrivers/bin/$*
 
+generatedHephaestus:
+	ghc ${options} -main-is HplProducts.Test --make HplProducts/Test
+
 clean:
 	@find . -name "*.o" -exec rm -rf {} \;
 	@find . -name "*.hi" -exec rm -rf {} \;
