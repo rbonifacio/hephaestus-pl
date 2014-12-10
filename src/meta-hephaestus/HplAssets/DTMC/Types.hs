@@ -4,22 +4,24 @@ where
 import BasicTypes
 import Data.Generics
 
+import Data.FDTMC
+
 
 -- SelectDTMC
 
-data DtmcTransformation = SelectDTMC
+data DtmcTransformation = SelectDTMC [Id]
 			deriving (Show, Eq, Ord)
 
 data DtmcModel = DtmcModel {
-      graphs :: [Dtmc]
-} deriving (Show, Eq, Data, Typeable)
+      dtmcs :: [Dtmc]
+} deriving (Show, Eq, Typeable)
 
 
 data Dtmc = Dtmc {
       dtmcId :: Id, 
-      dtmcName :: String
+      chain :: FDTMC
 --TODO: put more things here.
-} deriving (Show, Data, Typeable)
+} deriving (Show, Typeable)
 
 data Value = Unbound | Value String
   deriving(Eq, Ord, Show, Data, Typeable)

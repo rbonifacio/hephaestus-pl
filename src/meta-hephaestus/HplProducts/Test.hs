@@ -22,7 +22,7 @@ data SPLModel = SPLModel{featureModel :: FeatureModel,
 data InstanceModel = InstanceModel{featureConfiguration ::
                                    FeatureConfiguration,
                                    dtmc :: DtmcModel}
-                   deriving (Data, Typeable)
+                   deriving Typeable
  
 data TransformationModel = DtmcTransformation DtmcTransformation
  
@@ -33,8 +33,8 @@ lstExport = []
  
 xml2Transformation ::
                      String -> [String] -> ParserResult TransformationModel
-xml2Transformation "selectDtmc" _
-  = Success (DtmcTransformation (SelectDTMC  ))
+xml2Transformation "selectDtmc" ids
+  = Success (DtmcTransformation (SelectDTMC ids))
  
 instance Transformation TransformationModel SPLModel InstanceModel
          where
