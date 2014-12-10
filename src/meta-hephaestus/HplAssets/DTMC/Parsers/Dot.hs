@@ -5,14 +5,27 @@ import BasicTypes
 
 import HplAssets.DTMC.Types
 
+import Data.FDTMC (FDTMC)
+import Data.FDTMC.Parsers.Dot (parseDotFile)
+
+import Control.Monad
+import Data.String.Utils (endswith)
+import System.Directory
+import System.IO.Unsafe
+
+
 emptyDtmc :: DtmcModel -> DtmcModel
 emptyDtmc dtmcmodel = dtmcmodel { dtmcs = [] }
 
--- Parser for fDTMC and order DTMCs
--- Transverse the DTMC resolving variabilities
--- TODO: Thiago put your code here.
-parseDtmcModel x = do 
-               let cm = parseResult DtmcModel { dtmcs = [] }
-               return cm
 
-parseResult  g  = Success g
+parseDtmcModel dtmcsSource = do
+    allFiles <- getDirectoryContents dtmcsSource
+    let files = filter (endswith ".dot") allFiles
+    fdtmcs <- mapM parseDotFile files
+    let dtmcs = map dtmcFromFile $ zip files fdtmcs 
+    return $ Success $ DtmcModel { dtmcs = dtmcs }
+
+
+dtmcFromFile :: (FilePath, FDTMC) -> Dtmc
+dtmcFromFile (filename, fdtmc) = Dtmc { dtmcId = filename,
+                                        chain = fdtmc }

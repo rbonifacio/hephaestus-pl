@@ -1,4 +1,4 @@
-options = -i../feature-modeling/src:../core/src:../configuration-knowledge/src:../funsat-0.6.2/src:../graphusion/src -XDeriveDataTypeable -XMultiParamTypeClasses
+options = -i../feature-modeling/src:../core/src:../configuration-knowledge/src:../funsat-0.6.2/src:../graphusion/src -XDeriveDataTypeable -XMultiParamTypeClasses -package text-0.11.3.1
 
 #
 # By running "make test" twice, bootstrapping is both completed and tested.

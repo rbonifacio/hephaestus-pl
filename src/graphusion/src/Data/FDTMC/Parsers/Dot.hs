@@ -7,6 +7,7 @@ import Data.GraphViz.Attributes.Complete (Attributes,
                                           Attribute (..),
                                           Label (StrLabel),
                                           sameAttribute)
+import Data.GraphViz.Commands.IO
 import Data.GraphViz.Types.Generalised
 
 import Data.Graph.Inductive.Graph
@@ -16,6 +17,10 @@ import Data.List (find)
 import Data.Maybe (fromMaybe)
 import qualified Data.Text.Lazy as Text (empty,
                                          unpack)
+
+
+parseDotFile :: FilePath -> IO (FDTMC)
+parseDotFile path = fmap dotToFDTMC (readDotFile path)
 
 
 dotToFDTMC = fglToFDTMC . dotToFGL
