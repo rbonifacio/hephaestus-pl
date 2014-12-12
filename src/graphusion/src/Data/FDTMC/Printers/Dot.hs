@@ -25,11 +25,7 @@ writeDotFile path fdtmc = GraphViz.writeDotFile path $  fdtmcToDot fdtmc
 
 
 fdtmcToDot :: FDTMC -> DotGraph Node
-fdtmcToDot = fglToDot . fdtmcToFGL
-
-
-fdtmcToFGL :: FDTMC -> Gr String String
-fdtmcToFGL = (nmap stateToString) . (emap transitionToString)
+fdtmcToDot = fglToDot . toStringGraph
 
 
 fglToDot :: Gr String String -> DotGraph Node

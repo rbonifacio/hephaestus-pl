@@ -23,14 +23,7 @@ parseDotFile :: FilePath -> IO (FDTMC)
 parseDotFile path = fmap dotToFDTMC (readDotFile path)
 
 
-dotToFDTMC = fglToFDTMC . dotToFGL
-
-
-fglToFDTMC :: Gr String String -> FDTMC
-fglToFDTMC = (nmap parseState) . (emap parseTransition)
-    where
-        parseState = stateFromString
-        parseTransition = transitionFromString
+dotToFDTMC = fromStringGraph . dotToFGL
 
 
 dotToFGL :: DotGraph Node -> Gr String String
