@@ -1,0 +1,11 @@
+
+
+
+Fazer PrettyPrinter do DTMC
+Suportar nomes completos de features, não só letras.
+Implentar compositionalDTMC.
+Rodar o max-flow no grafo com variabilidade resolvida e gerar sua saída.
+
+
+Apresentação dia 15/12 10:00h. Apresentaçaõ Top-Down.
+
