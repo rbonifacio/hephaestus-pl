@@ -22,10 +22,6 @@ data Dtmc = Dtmc {
       chain :: FDTMC
 } deriving (Show, Typeable)
 
-getDtmc (DtmcModel a) = a
-
-getFDTMC (Dtmc _ b) = b
-
 -- The equality test of a dtmc is based on 
 -- its id.
 instance Eq Dtmc where 

@@ -1,6 +1,6 @@
 <configurationModel>
 	<configuration>
-		<expression>R</expression>
+		<expression>r</expression>
 		<transformation>
 			<name>selectDtmc</name>
 			<args>simple.dot</args>
