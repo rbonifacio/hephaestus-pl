@@ -255,6 +255,15 @@ exportMetaData = fromList
        exportSelector = "bpm"
     }
   ),
+  ( "DotToDot",
+    ExportMetaData {
+       exportModule = "DTMC.PrettyPrinter.DotPP",
+       exportXType = "ExportDtmcDot",
+       exportXFun = "exportDtmcDot",
+       exportXExt = ".dot",
+       exportSelector = "dtmc"
+    }
+  ),
   ( "ReqToLatex",
     ExportMetaData {
        exportModule = "ReqModel.PrettyPrinter.Latex",

@@ -22,7 +22,7 @@ data SPLModel = SPLModel{featureModel :: FeatureModel,
 data InstanceModel = InstanceModel{featureConfiguration ::
                                    FeatureConfiguration,
                                    hpl :: HephaestusModel}
-                   deriving (Data, Typeable)
+                   deriving Typeable
  
 data TransformationModel = HephaestusTransformation HephaestusTransformation
  
