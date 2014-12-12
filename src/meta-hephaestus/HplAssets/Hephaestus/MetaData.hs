@@ -73,8 +73,11 @@ configurationKnowledge
      (
        FeatureRef "DTMC",
        [SelectAsset "DTMC"]
-     ) 
-
+     ),
+     (
+       And (FeatureRef "DTMC") (FeatureRef "DotToDot"),
+       [SelectExport "DotToDot"]
+     )
    ]
 
 

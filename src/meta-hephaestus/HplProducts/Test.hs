@@ -15,6 +15,7 @@ import Text.ParserCombinators.Parsec
 import HplAssets.DTMC.Parsers.Dot
 import HplAssets.DTMC.Types
 import HplAssets.DTMC
+import HplAssets.DTMC.PrettyPrinter.DotPP
  
 data SPLModel = SPLModel{featureModel :: FeatureModel,
                          splDtmc :: DtmcModel}
@@ -26,10 +27,10 @@ data InstanceModel = InstanceModel{featureConfiguration ::
  
 data TransformationModel = DtmcTransformation DtmcTransformation
  
-data ExportModel = UndefinedExport
+data ExportModel = ExportDtmcDot
  
 lstExport :: [ExportModel]
-lstExport = []
+lstExport = [ExportDtmcDot]
  
 xml2Transformation ::
                      String -> [String] -> ParserResult TransformationModel
@@ -59,7 +60,8 @@ mkEmptyInstance fc spl
                   dtmc = emptyDtmc (splDtmc spl)}
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
-export (UndefinedExport) _ _ = undefined
+export (ExportDtmcDot) x1 x2
+  = exportDtmcDot (x1 ++ ".dot") (dtmc x2)
 readProperties ps
   = (fromJust (findPropertyValue "name" ps),
      fromJust (findPropertyValue "feature-model" ps),

@@ -26,7 +26,7 @@ parseDtmcModel dtmcsSource = do
     fdtmcs <- mapM (parseDotFile . (combine dtmcsSource)) files
     let dtmcs = map dtmcFromFile $ zip files fdtmcs 
     let dtmcModel = DtmcModel { dtmcs = dtmcs }
-    writeDotFile "/tmp/teste.dot" $ resolve (head fdtmcs) ['p']
+    --writeDotFile "/tmp/teste.dot" $ resolve (head fdtmcs) ['p']
     return $ Success dtmcModel
 
 

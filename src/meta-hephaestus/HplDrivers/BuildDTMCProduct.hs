@@ -10,7 +10,11 @@ main = buildHpl fcDtmc
       (f { fId = "HephaestusPL-Dtmc" })
        [ 
          Root 
-         (f { fId = "SPLAsset" }) [Leaf $ f { fId = "DTMC" }]  
+         (f { fId = "SPLAsset" }) [Leaf $ f { fId = "DTMC" }],
+	 Root 
+         (f { fId = "OutpuFormat" }) [
+                                  Leaf $ f { fId = "DotToDot" }]  
+
        ]
 
   -- To turn off warnings

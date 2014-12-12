@@ -20,11 +20,11 @@ data DtmcModel = DtmcModel {
 data Dtmc = Dtmc {
       dtmcId :: Id, 
       chain :: FDTMC
---TODO: put more things here.
 } deriving (Show, Typeable)
 
-data Value = Unbound | Value String
-  deriving(Eq, Ord, Show, Data, Typeable)
+getDtmc (DtmcModel a) = a
+
+getFDTMC (Dtmc _ b) = b
 
 -- The equality test of a dtmc is based on 
 -- its id.
