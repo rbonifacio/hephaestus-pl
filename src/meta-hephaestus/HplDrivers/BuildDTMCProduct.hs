@@ -13,7 +13,7 @@ main = buildHpl fcDtmc
          (f { fId = "SPLAsset" }) [Leaf $ f { fId = "DTMC" }],
 	 Root 
          (f { fId = "OutputFormat" }) [
-                                  Leaf $ f { fId = "DotToDot" }]  
+                                  Leaf $ f { fId = "DtmcToDot" }]  
 
        ]
 

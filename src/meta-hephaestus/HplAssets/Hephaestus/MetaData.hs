@@ -75,8 +75,8 @@ configurationKnowledge
        [SelectAsset "DTMC"]
      ),
      (
-       And (FeatureRef "DTMC") (FeatureRef "DotToDot"),
-       [SelectExport "DotToDot"]
+       And (FeatureRef "DTMC") (FeatureRef "DtmcToDot"),
+       [SelectExport "DtmcToDot"]
      )
    ]
 
@@ -258,12 +258,12 @@ exportMetaData = fromList
        exportSelector = "bpm"
     }
   ),
-  ( "DotToDot",
+  ( "DtmcToDot",
     ExportMetaData {
        exportModule = "DTMC.PrettyPrinter.DotPP",
        exportXType = "ExportDtmcDot",
        exportXFun = "exportDtmcDot",
-       exportXExt = ".dot",
+       exportXExt = "",
        exportSelector = "dtmc"
     }
   ),

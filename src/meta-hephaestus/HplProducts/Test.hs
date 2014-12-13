@@ -60,8 +60,7 @@ mkEmptyInstance fc spl
                   dtmc = emptyDtmc (splDtmc spl)}
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
-export (ExportDtmcDot) x1 x2
-  = exportDtmcDot (x1 ++ ".dot") (dtmc x2)
+export (ExportDtmcDot) x1 x2 = exportDtmcDot (x1 ++ "") (dtmc x2)
 readProperties ps
   = (fromJust (findPropertyValue "name" ps),
      fromJust (findPropertyValue "feature-model" ps),

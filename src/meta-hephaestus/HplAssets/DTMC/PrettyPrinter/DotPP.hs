@@ -4,14 +4,23 @@ where
 import BasicTypes
 import HplAssets.DTMC.Types
 import Control.Monad
+import System.Directory
 import System.FilePath
 
 import Data.FDTMC
 import Data.FDTMC.Printers.Dot (writeDotFile)
 
 
--- TODO: FilePath precisa ser um diretório.
+-- | Neste caso, o @path@ é para um diretório
 exportDtmcDot:: FilePath -> DtmcModel -> IO()
-exportDtmcDot f dtmcModel = writeDotFile f $ pruneUnreachableStates fdtmc
+exportDtmcDot path dtmcModel = do
+    createDirectoryIfMissing True path
+    let models = dtmcs dtmcModel
+    mapM_ (exportOne path) models
+
+
+exportOne :: FilePath -> Dtmc -> IO()
+exportOne path dtmc = writeDotFile (path </> fdtmcId) cleanFDTMC
     where
-        fdtmc = chain (head $ dtmcs dtmcModel)
+        cleanFDTMC = pruneUnreachableStates $ chain dtmc
+        fdtmcId = dtmcId dtmc
