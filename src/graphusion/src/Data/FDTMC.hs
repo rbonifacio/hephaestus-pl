@@ -5,13 +5,16 @@ module Data.FDTMC (
     fromStringGraph,
     toStringGraph,
     resolve,
-    pruneUnreachableStates
+    pruneUnreachableStates,
+    append,
+    compose
 ) where
 
 import Data.Graph.Inductive.Basic (elfilter)
 import Data.Graph.Inductive.Graph (
-        Context, DynGraph, Edge, Graph, Node,
-        (&), delNodes, edges, emap, indeg, inn, newNodes, nmap, nodes, suc
+        Context, DynGraph, Edge, Graph, Node, LNode,
+        (&), delEdge, delEdges, delNodes, edges, emap, indeg, inn, insEdge, insEdges, insNodes,
+        labEdges, labNodes, lsuc, mkGraph, newNodes, nmap, nodeRange, nodes, out, suc
     )
 import Data.Graph.Inductive.PatriciaTree (Gr)  -- Instância de Graph
 import Data.Graph.Inductive.Query.MaxFlow (maxFlowgraph)
@@ -22,9 +25,8 @@ import Data.Logic.Propositional (Expr,
                                  Var (..))
 
 import Data.Either (either)
-import Data.List (null)
 import Data.Map (fromList)
-import Data.String.Utils (replace)
+import Data.String.Utils (join, replace, split)
 import Text.Printf (printf)
 
 
@@ -33,7 +35,12 @@ import Text.Printf (printf)
 type FDTMC = Gr StateNode Transition
 -- | Representa o label e as anotações do nó. Por enquanto, trata tudo
 -- como uma string.
-type StateNode = String
+data StateNode = StateNode { label :: String
+                           , annotations :: [Annotation] }
+    deriving (Show)
+type Annotation = String
+type Pointcut = String
+
 -- | Transição numa FDTMC. Pode ser uma feature expression ou uma
 -- simples probabilidade de transição.
 data Transition = FeatureExpression Expr | Probability Float
@@ -48,13 +55,12 @@ fromStringGraph = (nmap stateFromString) . (emap transitionFromString)
 
 
 toStringGraph :: FDTMC -> Gr String String
-toStringGraph = (nmap stateToString) . (emap transitionToString)
+toStringGraph = (nmap $ stateToString . removeAnnotations) . (emap transitionToString)
 
 
 -- | Converte um estado da FDTMC para string.
--- Elimina anotações e metadados.
 stateToString :: StateNode -> String
-stateToString = id  -- TODO: remover anotações
+stateToString state = join "\n" $ (label state) : map ("@" ++) (annotations state)
 
 
 -- | Converte uma transição da FDTMC para string.
@@ -64,7 +70,10 @@ transitionToString (FeatureExpression e) = show e
 
 
 stateFromString :: String -> StateNode
-stateFromString = id
+stateFromString state = StateNode { label = label
+                                  , annotations = annotations }
+    where
+        label:annotations = split "@" state
 
 
 transitionFromString :: String -> Transition
@@ -73,6 +82,10 @@ transitionFromString label = either parseProbability FeatureExpression expr
         expr = parseExpr "" label
         parseProbability _ = Probability probability
         probability = read (replace "," "." label) :: Float
+
+
+removeAnnotations :: StateNode -> StateNode
+removeAnnotations stateNode = stateNode { annotations = [] }
 
 
 -- | Resolve as variabilidades de um FDTMC com base numa seleção de features.
@@ -166,3 +179,108 @@ finalNodes graph = filter isFinal $ nodes graph
             [] -> True
             [x] -> x == node
             otherwise -> False
+
+
+-- | Insere uma FDTMC isomórfica a @fragment@ na FDTMC @base@ nos nós
+-- selecionados com o @pointcut@.
+-- Pré-condições:
+--
+--      * @base[pointcut]@ deve ser um estado final.
+--
+append :: FDTMC -> FDTMC -> Pointcut -> FDTMC
+append base fragment pointcut = append' base fragment joinpoints
+    where
+        joinpoints = evaluatePointcut base pointcut
+
+
+append' :: FDTMC -> FDTMC -> [Node] -> FDTMC
+append' base fragment [] = base
+append' base fragment (jp:jps) = append' partial fragment jps
+    where
+        partial = appendAt base fragment jp
+
+
+appendAt :: FDTMC -> FDTMC -> Node -> FDTMC
+appendAt base fragment node = linkToFragStart . delLoop $ base `union` fragment'
+    where
+        linkToFragStart = insEdge (node, startNode fragment', Probability 1.0)
+        delLoop graph = delEdges outEdges graph
+        outEdges = map (\(s, e, _) -> (s, e)) $ out base node
+        fragment' = fragment `renameWithRespectTo` base
+
+
+evaluatePointcut :: FDTMC -> Pointcut -> [Node]
+evaluatePointcut fdtmc pointcut = map fst . filter (`matches` pointcut) $ labNodes fdtmc
+    where
+        matches (_, state) pointcut = pointcut `elem` (annotations state)
+
+
+-- | Faz a união dos conjuntos de arestas e de nós de duas FDTMC, mas sem
+-- adicionar arestas de ligação de um para outro.
+-- Assume que a interseção entre os conjuntos de nós dos grafos é vazia.
+union :: FDTMC -> FDTMC -> FDTMC
+union f1 f2 = insEdges (labEdges f2) $ insNodes (labNodes f2) f1
+
+
+renameWithRespectTo toRename base = shiftNodesBy (maxBaseNode + 1) toRename
+    where
+        maxBaseNode = snd . nodeRange $ base
+
+
+shiftNodesBy :: Node -> FDTMC -> FDTMC
+shiftNodesBy amount fdtmc = mkGraph shiftedNodes shiftedEdges
+    where
+        shiftedNodes = [(n + amount, state) | (n, state) <- labNodes fdtmc]
+        shiftedEdges = [(from + amount, to + amount, transition) | (from, to, transition) <- labEdges fdtmc]
+
+
+-- | Insere a FDTMC `fragment` na FDTMC `base` no lugar da aresta entre os
+-- nós base[startPointcut] e base[endPointcut].
+-- Pré-condições:
+--
+--      * deve haver uma aresta @base[startPointcut]@ -> @base[endPointcut]@,
+--          que será substituída pela FDTMC @fragment@ com a mesma
+--          probabilidade de transição.
+--      * @fragment@ deve possuir __exatamente__ um estado final
+--          não-absorvente (sem arestas de saída).
+--
+compose :: FDTMC -> FDTMC -> Pointcut -> Pointcut -> FDTMC
+compose base fragment startPointcut endPointcut = compose' base fragment joinpoints
+    where
+        startJointpoints = evaluatePointcut base startPointcut
+        endJointpoints = evaluatePointcut base endPointcut
+        joinpoints = [(s, e) | s <- startJointpoints, e <- endJointpoints, e `elem` (suc base s)]
+
+
+compose' :: FDTMC -> FDTMC -> [(Node , Node)] -> FDTMC
+compose' base fragment [] = base
+compose' base fragment ((start, end):joinpoints) = compose' partial fragment joinpoints
+    where
+        partial = composeAt base fragment start end
+
+
+composeAt :: FDTMC -> FDTMC -> Node -> Node -> FDTMC
+composeAt base fragment start end = linkToFragStart . linkFromFragEnd $ base `union` fragment'
+    where
+        fragment' = fragment `renameWithRespectTo` base
+        linkToFragStart fdtmc = redirectEdge fdtmc start end (startNode fragment')
+        linkFromFragEnd = insEdge (strictlyFinalNode fragment', end, Probability 1.0)
+
+
+redirectEdge :: (DynGraph gr) => gr node edge -> Node -> Node -> Node -> gr node edge
+redirectEdge graph from currentTo newTo = insEdge newEdge $ delEdge currentEdge $ graph
+    where
+        newEdge = (from, newTo, label)
+        currentEdge = (from, currentTo)
+        label = if (length candidates == 1)
+                    then snd $ head candidates
+                    else error "Existe mais de uma aresta entre dois nós"
+        candidates = filter ((== currentTo) . fst) $ lsuc graph from
+
+
+strictlyFinalNode :: (DynGraph gr) => gr node edge -> Node
+strictlyFinalNode graph = if length finals == 1
+                            then head finals
+                            else error "O fragmento deve ter exatamente um estado final"
+    where
+        finals = filter (null . suc graph) $ nodes graph
