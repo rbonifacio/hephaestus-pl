@@ -8,6 +8,8 @@ import Data.FDTMC
 
 
 -- SelectDTMC
+-- AppendDTMC
+-- ComposeDTMC
 
 data DtmcTransformation = SelectDTMC [Id] |
                         AppendDTMC Id Pointcut |
@@ -17,7 +19,6 @@ data DtmcTransformation = SelectDTMC [Id] |
 data DtmcModel = DtmcModel {
       dtmcs :: [Dtmc]
 } deriving (Show, Eq, Typeable)
-
 
 data Dtmc = Dtmc {
       dtmcId :: Id, 
