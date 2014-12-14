@@ -34,6 +34,10 @@ lstExport = [ExportDtmcDot]
  
 xml2Transformation ::
                      String -> [String] -> ParserResult TransformationModel
+xml2Transformation "composeDTMC" [x,y,z]
+  = Success (DtmcTransformation (ComposeDTMC x y z))
+xml2Transformation "appendDTMC" [x,y]
+  = Success (DtmcTransformation (AppendDTMC x y))
 xml2Transformation "selectDtmc" ids
   = Success (DtmcTransformation (SelectDTMC ids))
  

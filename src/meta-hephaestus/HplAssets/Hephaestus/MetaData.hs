@@ -151,7 +151,9 @@ assetMetaData = fromList
        assetXFunParser = "parseDtmcModel",
        assetVarParser = "dtmcpl",
        assetParamParser = "(snd dtmcModel)",
-       assetLstTransf = [("selectDtmc", "SelectDTMC", "ids", "ids", "Success")]
+       assetLstTransf = [("selectDtmc", "SelectDTMC", "ids", "ids", "Success"),
+                        ("appendDTMC", "AppendDTMC","[x,y]", "x y", "Success"),
+                        ("composeDTMC", "ComposeDTMC","[x,y,z]", "x y z", "Success") ]
     }
   ),
   ( "Requirement",
