@@ -30,14 +30,12 @@ transformDtmc (SelectDTMC ids) model features product = product { dtmcs = select
 
 transformDtmc (AppendDTMC id point) model features product = product { dtmcs = appended }
     where
-        -- Aqui o segundo parâmetro de append' deve ser recursivo.
-        appended =  append' (head (dtmcs product)) chosenDtmc point : (dtmcs product)
+        appended =  map (append' chosenDtmc point ) (dtmcs product)
         chosenDtmc = fromMaybe (error "No fdtmc to append")  $ find (\dtmc -> dtmcId dtmc == id) $ dtmcs model
 
 transformDtmc (ComposeDTMC id startpoint endpoint) model features product = product { dtmcs = composed }
     where
-        -- Aqui o segundo parâmetro de compose' deve ser recursivo.
-        composed =  compose' (head (dtmcs product)) chosenDtmc startpoint endpoint : (dtmcs product)
+        composed =  map (compose' chosenDtmc startpoint endpoint) (dtmcs product)
         chosenDtmc = fromMaybe (error "No fdtmc to append")  $ find (\dtmc -> dtmcId dtmc == id) $ dtmcs model
 
 
@@ -46,11 +44,11 @@ resolve' features dtmc = dtmc { chain = resolve (chain dtmc) featureVars }
     where
         featureVars = translateFeatureConfiguration features
 
-append' :: Dtmc -> Dtmc -> Pointcut -> Dtmc
-append' base fragment pointcut = Dtmc { chain = append (chain base) (chain fragment) pointcut }
+append' :: Dtmc -> Pointcut -> Dtmc -> Dtmc
+append' fragment pointcut base = Dtmc { dtmcId = (dtmcId base), chain = append (chain base) (chain fragment) pointcut }
 
-compose' :: Dtmc -> Dtmc -> Pointcut -> Pointcut -> Dtmc
-compose' base fragment startpoint endpoint = Dtmc { chain = compose (chain base) (chain fragment) startpoint endpoint }
+compose' :: Dtmc -> Pointcut -> Pointcut -> Dtmc -> Dtmc
+compose' fragment startpoint endpoint base = Dtmc { dtmcId = (dtmcId base), chain = compose (chain base) (chain fragment) startpoint endpoint }
 
 
 translateFeatureConfiguration :: FeatureConfiguration -> FeatureSelection

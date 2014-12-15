@@ -4,5 +4,7 @@
       </feature>
       <feature min="0" max="1" name="O"  id="o">
       </feature>
+      <feature min="0" max="1" name="X"  id="x">
+      </feature>
   </feature>
 </feature>

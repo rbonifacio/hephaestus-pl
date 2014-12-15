@@ -1,9 +1,0 @@
-<configurationModel>
-	<configuration>
-		<expression>r</expression>
-		<transformation>
-			<name>selectDtmc</name>
-			<args>simple.dot</args>
-		</transformation>
-	</configuration>	
-</configurationModel>
