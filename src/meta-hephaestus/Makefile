@@ -30,6 +30,10 @@ productReq-build:
 	make BuildReqProduct.drive
 	make LoadTest.drive
 
+productCode-build:
+	make BuildCodeProduct.drive
+	make LoadTest.drive
+
 productDtmc-build:
 	make BuildDTMCProduct.drive
 	make LoadTest.drive
