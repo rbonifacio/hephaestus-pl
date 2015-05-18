@@ -12,34 +12,39 @@ import Data.Maybe
 import Data.Generics
 import BasicTypes
 import Text.ParserCombinators.Parsec
-import HplAssets.ReqModel.Parsers.XML.XmlRequirementParser
-import HplAssets.ReqModel.Types
-import HplAssets.Requirements
-import HplAssets.ReqModel.PrettyPrinter.Latex
+import HplAssets.ComponentModel.Parsers.ParserComponentModel
+import HplAssets.ComponentModel.Types
+import HplAssets.Components
+import HplAssets.ComponentModel.ExportSourceCode
  
 data SPLModel = SPLModel{featureModel :: FeatureModel,
-                         splReq :: RequirementModel}
+                         splComponentModel :: ComponentModel}
  
 data InstanceModel = InstanceModel{featureConfiguration ::
                                    FeatureConfiguration,
-                                   req :: RequirementModel}
+                                   componentModel :: ComponentModel}
                    deriving (Data, Typeable)
  
-data TransformationModel = RequirementTransformation RequirementTransformation
+data TransformationModel = ComponentTransformation ComponentTransformation
  
-data ExportModel = ExportReqLatex
+data ExportModel = ExportComponents
  
 lstExport :: [ExportModel]
-lstExport = [ExportReqLatex]
+lstExport = [ExportComponents]
  
 xml2Transformation ::
                      String -> [String] -> ParserResult TransformationModel
-xml2Transformation "selectAllRequirements" _
-  = Success (RequirementTransformation (SelectAllRequirements  ))
-xml2Transformation "selectRequirements" ids
-  = Success (RequirementTransformation (SelectRequirements ids))
-xml2Transformation "removeRequirements" ids
-  = Success (RequirementTransformation (RemoveRequirements ids))
+xml2Transformation "selectComponents" ids
+  = Success (ComponentTransformation (SelectComponents ids))
+xml2Transformation "selectAndMoveComponent" [x,y]
+  = Success (ComponentTransformation (SelectAndMoveComponent x y))
+xml2Transformation "selectAndMoveComponent" _
+  = Fail
+      "Invalid number of arguments to the transformation selectAndMoveComponent"
+xml2Transformation "createBuildEntries" e
+  = Success (ComponentTransformation (CreateBuildEntries e))
+xml2Transformation "preprocessFiles" e
+  = Success (ComponentTransformation (PreProcessor e))
  
 instance Transformation TransformationModel SPLModel InstanceModel
          where
@@ -48,8 +53,10 @@ instance Transformation TransformationModel SPLModel InstanceModel
 transform ::
             TransformationModel ->
               SPLModel -> FeatureConfiguration -> InstanceModel -> InstanceModel
-transform (RequirementTransformation x0) x1 x2 x3
-  = x3{req = transformReq x0 (splReq x1) (id x2) (req x3)}
+transform (ComponentTransformation x0) x1 x2 x3
+  = x3{componentModel =
+         transformComponent x0 (splComponentModel x1) (id x2)
+           (componentModel x3)}
  
 instance SPL SPLModel InstanceModel where
         makeEmptyInstance fc spl = mkEmptyInstance fc spl
@@ -61,11 +68,11 @@ mkEmptyInstance ::
                   FeatureConfiguration -> SPLModel -> InstanceModel
 mkEmptyInstance fc spl
   = InstanceModel{featureConfiguration = fc,
-                  req = emptyReq (splReq spl)}
+                  componentModel = emptyComponent (splComponentModel spl)}
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
-export (ExportReqLatex) x1 x2
-  = exportReqToLatex (x1 ++ ".tex") (req x2)
+export (ExportComponents) x1 x2
+  = exportSourceCode (x1 ++ "") (componentModel x2)
 readProperties ps
   = (fromJust (findPropertyValue "name" ps),
      fromJust (findPropertyValue "feature-model" ps),
@@ -83,16 +90,15 @@ main
        let iModel = fromJust (findPropertyValue "instance-model" ps)
        let cModel = fromJust (findPropertyValue "configuration-model" ps)
        let targetDir = fromJust (findPropertyValue "target-dir" ps)
-       let rModel = fromJust (findPropertyValue "requirement-model" ps)
+       let compModel = fromJust (findPropertyValue "component-model" ps)
        (Core.Success fm) <- parseFeatureModel ((ns fmSchema), snd fModel)
                               FMPlugin
        (Core.Success cm) <- parseConfigurationKnowledge
                               (ns ckSchema) (snd cModel)
        (Core.Success im) <- parseInstanceModel (ns fcSchema) (snd iModel)
-       (Core.Success reqpl) <- parseRequirementModel
-                                 (ns reqSchema) (snd rModel)
+       (Core.Success comppl) <- parseComponentModel (snd compModel)
        let fc = FeatureConfiguration im
-       let spl = SPLModel{featureModel = fm, splReq = reqpl}
+       let spl = SPLModel{featureModel = fm, splComponentModel = comppl}
        let product = build fm fc cm spl
        let out = (outputFile (snd targetDir) (snd name))
        sequence_ [export x out product | x <- lstExport]

@@ -64,7 +64,7 @@ configurationKnowledge
      ),         
      (
        FeatureRef "Code",
-       [SelectAsset "Code"]
+       [SelectAsset "Code", SelectExport "ExportSourceCode"]
      ), 
      (
        And (FeatureRef "Code") (FeatureRef "BuildFile"),
@@ -155,9 +155,9 @@ assetMetaData = fromList
        assetModuleParser = "ComponentModel.Parsers.ParserComponentModel",
        assetModule = "Components",
        assetModel = "ComponentModel",
-       assetSelector = [("preProcessFiles", "[String]"), ("buildEntries","[String]"), ("components", "[(Id, Id)]")],
-       assetSelector' = [("splMappings", "ComponentModel")],
-       assetEmpty = "emptyCode", --this asset extends function mkEmptyInstance in the Test.hs module inserting empty lists [] [] []
+       assetSelector = [("componentModel", "ComponentModel")],
+       assetSelector' = [("splComponentModel", "ComponentModel")],
+       assetEmpty = "emptyComponent", --this asset extends function mkEmptyInstance in the Test.hs module inserting empty lists [] [] []
        assetXType = "ComponentTransformation",
        assetXFun = "transformComponent",
        assetVarProperty = "compModel",
@@ -239,6 +239,15 @@ exportMetaData = fromList
        exportXExt = ".tex",
        exportSelector = "req"
     }
-  )
+  ),
+ ( "ExportSourceCode", 
+   ExportMetaData {
+     exportModule = "ComponentModel.ExportSourceCode",
+     exportXType = "ExportComponents",
+     exportXFun = "exportSourceCode",
+     exportXExt = "",
+     exportSelector = "componentModel"   
+   } 
+ )
  ]
               

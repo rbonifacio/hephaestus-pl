@@ -16,19 +16,21 @@
 module HplAssets.ComponentModel.Types
 where 
 
+import Data.Generics
+
 import BasicTypes
 
+data ComponentModel = ComponentModel {
+  srcDir :: FilePath,   
+  components :: [ComponentMapping]
+} deriving(Show, Data, Typeable)
+
+
+type Component = String 
+type ComponentMapping = (Id, Component)
 
 data ComponentTransformation = SelectComponents [Id] 
 			     | SelectAndMoveComponent Id String
 	                     | CreateBuildEntries [String]
 			     | PreProcessor [Path]
 			     deriving (Show, Eq, Ord)
-
-type ComponentModel = [ComponentMapping]
-type Component = String 
-type ComponentMapping = (Id, Component)
-
-
-
-

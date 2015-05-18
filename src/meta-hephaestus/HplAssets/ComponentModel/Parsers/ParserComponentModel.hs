@@ -20,13 +20,15 @@ parseResult (Ok g)  = Success (translateModel g)
 parseResult (Bad s) = Fail s
 
 translateModel :: ComponentModel -> T.ComponentModel
-translateModel (TComponentModel cs) = map translateMapping cs 
+translateModel (TComponentModel (TSrcDir rp)cs) = T.ComponentModel (path rp) (map translateMapping cs) 
 
 translateMapping :: ComponentMapping -> T.ComponentMapping 
 translateMapping (TComponentMapping (Ident i) p) = (i, path p)
 
-path :: RelativePath -> String
-path (BasicFilePath (Ident n)) = n
+path :: FPath -> String
+path (BasicFPath (Ident n)) = n
 path (BasicFileExt (Ident n)) = "." ++ n
-path (BasicFilePathExt (Ident n) (Ident e)) = n ++ "." ++ e
-path (ComposedFilePath (Ident i) p ) = i ++ "/" ++ path p
+path (BasicFPathExt (Ident n) (Ident e)) = n ++ "." ++ e
+path (BasicFPathExt2 (Ident n) p) = n ++ "-" ++ path p
+path (ComposedFPath (Ident i) p ) = i ++ "/" ++ path p
+path (AbsoluteFPath fpath ) = "/" ++ path fpath

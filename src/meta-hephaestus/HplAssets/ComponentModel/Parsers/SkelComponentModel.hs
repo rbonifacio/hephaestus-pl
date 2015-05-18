@@ -4,7 +4,6 @@ module HplAssets.ComponentModel.Parsers.SkelComponentModel where
 
 import HplAssets.ComponentModel.Parsers.AbsComponentModel
 import HplAssets.ComponentModel.Parsers.ErrM
-
 type Result = Err String
 
 failure :: Show a => a -> Result
@@ -17,20 +16,27 @@ transIdent x = case x of
 
 transComponentModel :: ComponentModel -> Result
 transComponentModel x = case x of
-  TComponentModel componentmappings  -> failure x
+  TComponentModel srcdir componentmappings  -> failure x
+
+
+transSrcDir :: SrcDir -> Result
+transSrcDir x = case x of
+  TSrcDir fpath  -> failure x
 
 
 transComponentMapping :: ComponentMapping -> Result
 transComponentMapping x = case x of
-  TComponentMapping id relativepath  -> failure x
+  TComponentMapping id fpath  -> failure x
 
 
-transRelativePath :: RelativePath -> Result
-transRelativePath x = case x of
-  BasicFilePath id  -> failure x
-  BasicFilePathExt id0 id  -> failure x
+transFPath :: FPath -> Result
+transFPath x = case x of
+  BasicFPath id  -> failure x
+  BasicFPathExt id1 id2  -> failure x
+  BasicFPathExt2 id fpath  -> failure x
   BasicFileExt id  -> failure x
-  ComposedFilePath id relativepath  -> failure x
+  ComposedFPath id fpath  -> failure x
+  AbsoluteFPath fpath  -> failure x
 
 
 

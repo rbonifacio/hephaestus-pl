@@ -58,10 +58,10 @@ transOption x = case x of
 transExpression :: Expression -> Result
 transExpression x = case x of
   BasicExp id  -> failure x
-  OrExp expression0 expression  -> failure x
-  AndExp expression0 expression  -> failure x
+  OrExp expression1 expression2  -> failure x
+  AndExp expression1 expression2  -> failure x
   NotExp expression  -> failure x
-  ImpliesExp expression0 expression  -> failure x
+  ImpliesExp expression1 expression2  -> failure x
 
 
 

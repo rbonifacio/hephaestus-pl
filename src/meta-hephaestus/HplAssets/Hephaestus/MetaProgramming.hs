@@ -100,9 +100,10 @@ initializeFieldWithFun dataName fieldName parmFun funName = everywhere (mkT init
   initializeField' (HsRecConstr (UnQual (HsIdent n)) updates) | n == dataName && funName == "emptyCode" =
                     HsRecConstr (UnQual (HsIdent n)) updates'
    where
-    updates' = updates ++ [ HsFieldUpdate (UnQual (HsIdent "components")) (HsList []),
-                            HsFieldUpdate (UnQual (HsIdent "buildEntries")) (HsList []),
-                            HsFieldUpdate (UnQual (HsIdent "preProcessFiles")) (HsList []) ]
+    updates' = updates ++ [ HsFieldUpdate (UnQual (HsIdent "mappings")) (HsList [])
+                       --   ,  HsFieldUpdate (UnQual (HsIdent "buildEntries")) (HsList [])
+                       --   ,  HsFieldUpdate (UnQual (HsIdent "preProcessFiles")) (HsList []) 
+                       ] -- this is really strange. why 
 
   initializeField' x = x
 

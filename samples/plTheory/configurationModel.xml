@@ -1,0 +1,10 @@
+<configurationModel>
+
+	<configuration>
+		<expression>plTheory</expression>
+		<transformation>
+			<name>selectComponents</name>
+			<args>SPLrefinement</args>
+		</transformation>
+	</configuration>
+</configurationModel>
