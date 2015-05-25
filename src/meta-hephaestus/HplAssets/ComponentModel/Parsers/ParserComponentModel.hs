@@ -23,7 +23,7 @@ translateModel :: ComponentModel -> T.ComponentModel
 translateModel (TComponentModel (TSrcDir rp)cs) = T.ComponentModel (path rp) (map translateMapping cs) 
 
 translateMapping :: ComponentMapping -> T.ComponentMapping 
-translateMapping (TComponentMapping (Ident i) p) = (i, path p)
+translateMapping (TComponentMapping (Ident i) p) = (i, map path p)
 
 path :: FPath -> String
 path (BasicFPath (Ident n)) = n

@@ -27,7 +27,7 @@ data ComponentModel = ComponentModel {
 
 
 type Component = String 
-type ComponentMapping = (Id, Component)
+type ComponentMapping = (Id, [Component])
 
 data ComponentTransformation = SelectComponents [Id] 
 			     | SelectAndMoveComponent Id String

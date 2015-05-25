@@ -2,6 +2,7 @@ options = -i../feature-modeling/src:../core/src:../configuration-knowledge/src:.
 
 bnfc = /Users/hephaestus/Library/Haskell/bin/bnfc
 
+
 #
 # By running "make test" twice, bootstrapping is both completed and tested.
 # If bootstrapping fails, see HplProducts/Baselines for versions to be restored.

@@ -16,15 +16,15 @@ emptyComponent cm = cm { components = [] }
 transformComponent :: ComponentTransformation -> ComponentModel -> FeatureConfiguration -> ComponentModel -> ComponentModel
 transformComponent (SelectComponents ids) spl _ product =
   let 
-    scs = [(snd x, snd x) | x <- components spl, fst x `elem` ids] 
+    scs = [(fst x, snd x) | x <- components spl, fst x `elem` ids] 
     pcs = components product 
   in product { components = pcs ++ scs}
   
-transformComponent (SelectAndMoveComponent i t) spl _ product = 
-  let 
-    scs = [snd x | x <- components spl, fst x == i] 
-    pcs = components product
-  in product { components = pcs ++ [ (c, t) | c <- scs] }
+-- transformComponent (SelectAndMoveComponent i t) spl _ product = 
+--  let 
+--    scs = [snd x | x <- components spl, fst x == i] 
+--    pcs = components product
+--  in product { components = pcs ++ [ (c, [t]) | c <- scs] }
 
 
 -- transformComponent (CreateBuildEntries e) spl _ product = 

@@ -2,7 +2,7 @@ TComponentModel. ComponentModel ::= SrcDir [ComponentMapping] ;
 
 TSrcDir. SrcDir ::= "src-dir" "=" FPath ";" ;
 
-TComponentMapping. ComponentMapping ::= Ident "=>" FPath ;
+TComponentMapping. ComponentMapping ::= Ident "=>" "[" [FPath] "]" ;
 
 BasicFPath.     FPath ::= Ident ;
 BasicFPathExt.  FPath ::= Ident "." Ident;
@@ -12,6 +12,6 @@ ComposedFPath.  FPath ::= Ident "/" FPath ;
 AbsoluteFPath.  FPath ::= "/" FPath ; 
 
 separator ComponentMapping ";" ;
-
+separator FPath "," ; 
 
  

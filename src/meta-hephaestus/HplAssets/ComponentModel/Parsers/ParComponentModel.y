@@ -13,19 +13,23 @@ import HplAssets.ComponentModel.Parsers.ErrM
 %name pComponentMapping ComponentMapping
 %name pFPath FPath
 %name pListComponentMapping ListComponentMapping
+%name pListFPath ListFPath
 
 -- no lexer declaration
 %monad { Err } { thenM } { returnM }
 %tokentype { Token }
 
 %token
-  '-' { PT _ (TS _ 1) }
-  '.' { PT _ (TS _ 2) }
-  '/' { PT _ (TS _ 3) }
-  ';' { PT _ (TS _ 4) }
-  '=' { PT _ (TS _ 5) }
-  '=>' { PT _ (TS _ 6) }
-  'src-dir' { PT _ (TS _ 7) }
+  ',' { PT _ (TS _ 1) }
+  '-' { PT _ (TS _ 2) }
+  '.' { PT _ (TS _ 3) }
+  '/' { PT _ (TS _ 4) }
+  ';' { PT _ (TS _ 5) }
+  '=' { PT _ (TS _ 6) }
+  '=>' { PT _ (TS _ 7) }
+  '[' { PT _ (TS _ 8) }
+  ']' { PT _ (TS _ 9) }
+  'src-dir' { PT _ (TS _ 10) }
 
 L_ident  { PT _ (TV $$) }
 
@@ -43,7 +47,7 @@ SrcDir : 'src-dir' '=' FPath ';' { TSrcDir $3 }
 
 
 ComponentMapping :: { ComponentMapping }
-ComponentMapping : Ident '=>' FPath { TComponentMapping $1 $3 } 
+ComponentMapping : Ident '=>' '[' ListFPath ']' { TComponentMapping $1 $4 } 
 
 
 FPath :: { FPath }
@@ -59,6 +63,12 @@ ListComponentMapping :: { [ComponentMapping] }
 ListComponentMapping : {- empty -} { [] } 
   | ComponentMapping { (:[]) $1 }
   | ComponentMapping ';' ListComponentMapping { (:) $1 $3 }
+
+
+ListFPath :: { [FPath] }
+ListFPath : {- empty -} { [] } 
+  | FPath { (:[]) $1 }
+  | FPath ',' ListFPath { (:) $1 $3 }
 
 
 

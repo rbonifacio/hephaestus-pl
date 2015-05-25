@@ -1,14 +1,14 @@
-src-dir = /Users/hephaestus/workspace/hephaestus/src/meta-hephaestus/HplProducts ; 
-SPLrefinement => SPLrefinement.pvs ;
-AssetMapping => AssetMapping.pvs ;
-Assets => Assets.pvs ;
-ConfigurationKnowledge => ConfigurationKnowledge.pvs ;
-FeatureModel => FeatureModel.pvs ;
-FeatureModelSemantics => FeatureModelSemantics.pvs ;
-Formula => Formula.pvs ;
-FormulaTheory => FormulaTheory.pvs ;
-maps => maps.pvs ; 
-Name => Name.pvs ; 
+src-dir = /Users/hephaestus/workspace/hephaestus-pl/samples/plTheory/src;
+SPLrefinement => [SPLrefinement.pvs] ;
+AssetMapping => [AssetMapping.pvs] ;
+Assets => [Assets.pvs] ;
+ConfigurationKnowledge => [ConfigurationKnowledge.pvs] ;
+FeatureModel => [FeatureModel.pvs] ;
+FeatureModelSemantics => [FeatureModelSemantics.pvs] ;
+Formula => [Formula.pvs] ;
+FormulaTheory => [FormulaTheory.pvs] ;
+maps => [maps.pvs] ; 
+Name => [Name.pvs] ; 
 
 
 

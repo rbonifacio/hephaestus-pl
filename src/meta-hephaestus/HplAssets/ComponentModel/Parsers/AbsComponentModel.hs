@@ -17,7 +17,7 @@ data SrcDir =
   deriving (Eq,Ord,Show,Read)
 
 data ComponentMapping =
-   TComponentMapping Ident FPath
+   TComponentMapping Ident [FPath]
   deriving (Eq,Ord,Show,Read)
 
 data FPath =

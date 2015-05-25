@@ -95,7 +95,7 @@ instance Print SrcDir where
 
 instance Print ComponentMapping where
   prt i e = case e of
-   TComponentMapping id fpath -> prPrec i 0 (concatD [prt 0 id , doc (showString "=>") , prt 0 fpath])
+   TComponentMapping id fpaths -> prPrec i 0 (concatD [prt 0 id , doc (showString "=>") , doc (showString "[") , prt 0 fpaths , doc (showString "]")])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -111,5 +111,9 @@ instance Print FPath where
    ComposedFPath id fpath -> prPrec i 0 (concatD [prt 0 id , doc (showString "/") , prt 0 fpath])
    AbsoluteFPath fpath -> prPrec i 0 (concatD [doc (showString "/") , prt 0 fpath])
 
+  prtList es = case es of
+   [] -> (concatD [])
+   [x] -> (concatD [prt 0 x])
+   x:xs -> (concatD [prt 0 x , doc (showString ",") , prt 0 xs])
 
 

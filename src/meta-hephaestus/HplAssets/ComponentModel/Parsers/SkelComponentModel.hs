@@ -26,7 +26,7 @@ transSrcDir x = case x of
 
 transComponentMapping :: ComponentMapping -> Result
 transComponentMapping x = case x of
-  TComponentMapping id fpath  -> failure x
+  TComponentMapping id fpaths  -> failure x
 
 
 transFPath :: FPath -> Result

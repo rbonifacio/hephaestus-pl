@@ -29,7 +29,9 @@ exportSourceCode o cm =
    bd = components cm
    s  = srcDir cm  
  in do 
-    copySourceFiles s o bd
+    putStrLn "Exporting source code...."
+    putStrLn s
+    sequence_ $ map (\f -> copySourceFiles s o (snd f)) bd
 --  exportBuildFile  (o ++ "/build.lst") (buildEntries bd)
 --  preprocessFiles (o ++ "/build.lst") (preProcessFiles bd) o
 
@@ -49,8 +51,8 @@ copySourceFiles source out (c:cs) =
 createOutDir out c =
  do
   print $ "Selected output dir: " ++ out
-  print $ "Selected output component" ++ (snd c)
-  let new = out </> (snd c)
+  print $ "Selected output component" ++ c
+  let new = out </> c
   let newDir = dropFileName new
   print new 
   print newDir 
@@ -62,8 +64,8 @@ createOutDir out c =
 -- name. 
 copySourceFile source out c = 
  do 
-  let old = source </> (fst c)
-  let new = out </> (snd c)
+  let old = source </> c
+  let new = out </> c
   print ("Copying file " ++ old ++ " to " ++ new)
   copyFile old new
 

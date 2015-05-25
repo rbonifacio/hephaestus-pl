@@ -22,13 +22,10 @@
       </zeroOrMore>
       <zeroOrMore>
         <element name="featureGroup">
-          <attribute name="id">
-            <data type="Name"/>
-          </attribute>
-          <attribute name="max">
+          <attribute name="min">
             <data type="integer"/>
           </attribute>
-          <attribute name="min">
+	  <attribute name="max">
             <data type="integer"/>
           </attribute>
           <oneOrMore>

@@ -28,7 +28,8 @@ There are no reserved words in ComponentModel.
 
 The symbols used in ComponentModel are the following:
   | src-dir | = | ; | =>
-  | . | - | / | 
+  | [ | ] | . | -
+  | / | , |  | 
 
 ===Comments===
 There are no single-line comments in the grammar.There are no multiple-line comments in the grammar.
@@ -41,7 +42,7 @@ All other symbols are terminals.
 
   | //ComponentModel// | -> | //SrcDir// //[ComponentMapping]// 
   | //SrcDir// | -> | ``src-dir`` ``=`` //FPath// ``;`` 
-  | //ComponentMapping// | -> | //Ident// ``=>`` //FPath// 
+  | //ComponentMapping// | -> | //Ident// ``=>`` ``[`` //[FPath]// ``]`` 
   | //FPath// | -> | //Ident// 
   |  |  **|**  | //Ident// ``.`` //Ident// 
   |  |  **|**  | //Ident// ``-`` //FPath// 
@@ -51,5 +52,8 @@ All other symbols are terminals.
   | //[ComponentMapping]// | -> | **eps**
   |  |  **|**  | //ComponentMapping// 
   |  |  **|**  | //ComponentMapping// ``;`` //[ComponentMapping]// 
+  | //[FPath]// | -> | **eps**
+  |  |  **|**  | //FPath// 
+  |  |  **|**  | //FPath// ``,`` //[FPath]// 
 
 
