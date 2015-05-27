@@ -1,0 +1,23 @@
+<configurationModel>
+	<configuration>
+		<expression>r</expression>
+		<transformation>
+			<name>selectDtmc</name>
+			<args>simple.dot</args>
+		</transformation>
+	</configuration>
+	<configuration>
+		<expression>p</expression>
+		<transformation>
+			<name>composeDTMC</name>
+			<args>compose_sqlite.dot, startSqlite, endSqlite</args>
+		</transformation>
+	</configuration>
+	<configuration>
+		<expression>o</expression>
+		<transformation>
+			<name>composeDTMC</name>
+			<args>compose_mem.dot, startMem, endMem</args>
+		</transformation>
+	</configuration>
+</configurationModel>

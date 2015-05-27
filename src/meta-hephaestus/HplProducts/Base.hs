@@ -28,7 +28,7 @@ data SPLModel = SPLModel {
 data InstanceModel = InstanceModel {
   featureConfiguration :: FeatureConfiguration
   -- Add product-specific model parts
-} deriving (Data, Typeable)
+} deriving (Typeable)
 
 -- Add embedding constructors for product-specific transformations
 data TransformationModel = UndefinedTransformation

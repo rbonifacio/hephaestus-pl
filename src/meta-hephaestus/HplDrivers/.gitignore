@@ -1,7 +1,2 @@
-BuildHephaestus
-BuildTest
-LoadAssets
-LoadBase
-LoadHephaestus
-LoadTest
-
+*.o
+*.hi

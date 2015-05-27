@@ -69,7 +69,15 @@ configurationKnowledge
      (
        And (FeatureRef "Code") (FeatureRef "BuildFile"),
        [SelectExport "BuildFile"]
-     ) 
+     ),
+     (
+       FeatureRef "DTMC",
+       [SelectAsset "DTMC"]
+     ),
+     (
+       And (FeatureRef "DTMC") (FeatureRef "DtmcToDot"),
+       [SelectExport "DtmcToDot"]
+     )
    ]
 
 
@@ -125,6 +133,27 @@ assetMetaData = fromList
 			 ("bindParameterBpm", "BindParameterBpm", "[np,vp]", "np (Value vp)", "Success"),
 			 ("evaluateAdvice", "EvaluateAdvice", "[id]", "id", "Success"),
 			 ("selectBusinessProcess", "SelectBusinessProcess", "[id]", "id", "Success") ]  
+    }
+  ),
+  ( "DTMC",
+    AssetMetaData {
+       assetModuleType = "DTMC.Types",
+       assetModuleParser = "DTMC.Parsers.Dot",
+       assetModule = "DTMC",
+       assetModel = "DtmcModel",
+       assetSelector = [("dtmc", "DtmcModel")],
+       assetSelector' = [("splDtmc", "DtmcModel")],
+       assetEmpty = "emptyDtmc",
+       assetXType = "DtmcTransformation",
+       assetXFun = "transformDtmc",
+       assetVarProperty = "dtmcModel",
+       assetNameProperty = "dtmc-model",
+       assetXFunParser = "parseDtmcModel",
+       assetVarParser = "dtmcpl",
+       assetParamParser = "(snd dtmcModel)",
+       assetLstTransf = [("selectDtmc", "SelectDTMC", "ids", "ids", "Success"),
+                        ("appendDTMC", "AppendDTMC","[id,point]", "id point", "Success"),
+                        ("composeDTMC", "ComposeDTMC","[id,startpoint,endpoint]", "id startpoint endpoint", "Success") ]
     }
   ),
   ( "Requirement",
@@ -229,6 +258,15 @@ exportMetaData = fromList
        exportXFun = "exportBpmToXML",
        exportXExt = ".xml",
        exportSelector = "bpm"
+    }
+  ),
+  ( "DtmcToDot",
+    ExportMetaData {
+       exportModule = "DTMC.PrettyPrinter.DotPP",
+       exportXType = "ExportDtmcDot",
+       exportXFun = "exportDtmcDot",
+       exportXExt = "",
+       exportSelector = "dtmc"
     }
   ),
   ( "ReqToLatex",

@@ -1,0 +1,6 @@
+name=fDTMC_Example_02
+feature-model=/home/fausto/Dropbox/gits/faustocarva/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcComposed/fmModel.xml
+configuration-model=/home/fausto/Dropbox/gits/faustocarva/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcComposed/configurationModel.xml
+instance-model=/home/fausto/Dropbox/gits/faustocarva/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcComposed/productConfiguration02.xml
+dtmc-model=/home/fausto/Dropbox/gits/faustocarva/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcComposed
+target-dir=/home/fausto/Dropbox/gits/faustocarva/hephaestus-pl/src/meta-hephaestus/HplProducts/samples/dtmcComposed/output

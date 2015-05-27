@@ -10,9 +10,10 @@ module Main where
 import HplAssets.Hephaestus
 import HplAssets.UseCases
 -- The following modules still must be fixed for corrected dependencies.
--- import HplAssets.BusinessProcesses
+import HplAssets.BusinessProcesses
+import HplAssets.DTMC
 -- import HplAssets.Components
--- import HplAssets.Requirements
+import HplAssets.Requirements
 
 
 main :: IO ()

@@ -1,0 +1,66 @@
+<configurationModel xmlns="ck.v20090401">
+
+	<configuration xmlns="">
+		<expression>withdraw</expression>
+		<transformation>
+			<name>selectScenarios</name>
+			<args>SC01</args>
+		</transformation>
+	</configuration>
+	
+	<configuration xmlns="">
+		<expression>buyStocks</expression>
+		<transformation>
+			<name>selectScenarios</name>
+			<args>SC03</args>
+		</transformation>
+	</configuration>
+
+	<configuration xmlns="">
+		<expression>transfer</expression>
+		<transformation>
+			<name>selectScenarios</name>
+			<args>SC02</args>
+		</transformation>
+	</configuration>
+
+	<configuration xmlns="">
+		<expression>PIN</expression>
+		<transformation>
+			<name>evaluateAspects</name>
+			<args>ADV01</args>
+		</transformation>
+	</configuration>
+	
+	<configuration xmlns="">
+		<expression>And(biometrics, fingerprint)</expression>
+		<transformation>
+			<name>evaluateAspects</name>
+			<args>ADV02</args>
+		</transformation>
+	</configuration>
+
+	<configuration xmlns="">
+		<expression>detailedTransaction</expression>
+		<transformation>
+			<name>evaluateAspects</name>
+			<args>ADV03</args>
+		</transformation>
+	</configuration>
+
+	<configuration xmlns="">
+		<expression>fraudDetection</expression>
+		<transformation>
+			<name>evaluateAspects</name>
+			<args>ADV04</args>
+		</transformation>
+	</configuration>
+
+	<configuration xmlns="">
+		<expression>operationlimit</expression>
+		<transformation>
+			<name>bindParameter</name>
+			<args>LIMIT, operationlimit</args>
+		</transformation>
+	</configuration>
+</configurationModel>

@@ -1,5 +1,0 @@
-\contentsline {section}{\numberline {1}Objective of the experiment}{1}
-\contentsline {section}{\numberline {2}Summary of the results}{1}
-\contentsline {section}{\numberline {3}Testing the implementation}{2}
-\contentsline {section}{\numberline {4}Description of the approach}{2}
-\contentsline {section}{\numberline {5}Future work}{4}

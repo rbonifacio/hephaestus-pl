@@ -1,0 +1,40 @@
+<feature min="1" max="1" name="BSN" type="NONE" id="My Feature Model">
+  <feature min="1" max="1" name="Root" type="NONE" id="root">
+    <feature min="0" max="1" name="Storage" type="NONE" id="storage">
+      <featureGroup min="1" max="1" id="group1">
+        <feature min="0" max="1" name="SQLite" type="NONE" id="sQLite">
+        </feature>
+        <feature min="0" max="1" name="Memory" type="NONE" id="memory">
+        </feature>
+      </featureGroup>
+    </feature>
+    <feature min="1" max="1" name="Monitoring" type="NONE" id="monitoring">
+      <feature min="1" max="1" name="Sensor" type="NONE" id="sensor">
+        <featureGroup min="1" max="1" id="group5">
+          <feature min="1" max="1" name="SPO2" type="NONE" id="sPO2">
+          </feature>
+          <feature min="1" max="1" name="ECG" type="NONE" id="eCG">
+          </feature>
+          <feature min="1" max="1" name="TEMP" type="NONE" id="tEMP">
+          </feature>
+          <feature min="1" max="1" name="ACC" type="NONE" id="aCC">
+          </feature>
+        </featureGroup>
+      </feature>
+      <feature min="1" max="1" name="SensorInformation" type="NONE" id="sensorInformation">
+        <featureGroup min="1" max="1" id="group6">
+          <feature min="1" max="1" name="Oxygenation" type="NONE" id="oxygenation">
+          </feature>
+          <feature min="1" max="1" name="PulseRate" type="NONE" id="pulseRate">
+          </feature>
+          <feature min="1" max="1" name="Temperature" type="NONE" id="temperature">
+          </feature>
+          <feature min="1" max="1" name="Position" type="NONE" id="position">
+          </feature>
+          <feature min="1" max="1" name="Fail" type="NONE" id="fail">
+          </feature>
+        </featureGroup>
+      </feature>
+    </feature>
+  </feature>
+</feature>

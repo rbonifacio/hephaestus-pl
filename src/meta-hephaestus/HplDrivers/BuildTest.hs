@@ -3,7 +3,9 @@ module Main where
 import HplAssets.Hephaestus.IO
 import FeatureModel.Types
 
-main = buildHpl fcUcmBpm --fcUcm
+
+-- This function take only one parameter, which is the name of the configuration to build and test (those under where keyword).
+main = buildHpl fcUcmBpm
  where
   fcUcm = FeatureConfiguration
      $ Root
@@ -32,7 +34,6 @@ main = buildHpl fcUcmBpm --fcUcm
 	 Root 
          (f { fId = "OutpuFormat" }) [Leaf $ f { fId = "UcmToXML" }, Leaf $ f { fId = "BpmToXML" }]  
        ]   
-       
   fcReq = FeatureConfiguration
      $ Root
       (f { fId = "HephaestusPL" })
@@ -40,7 +41,13 @@ main = buildHpl fcUcmBpm --fcUcm
          Root 
          (f { fId = "SPLAsset" }) [Leaf $ f { fId = "Requirement" }]  
        ]
-       
+  fcDtmc = FeatureConfiguration
+     $ Root
+      (f { fId = "HephaestusPL-Dtmc" })
+       [ 
+         Root 
+         (f { fId = "SPLAsset" }) [Leaf $ f { fId = "DTMC" }]  
+       ]
   fcUcm1 = FeatureConfiguration
      $ Root
       (f { fId = "HephaestusPL" })
@@ -48,7 +55,6 @@ main = buildHpl fcUcmBpm --fcUcm
          Root 
          (f { fId = "SPLAsset" }) [Leaf $ f { fId = "UseCase" }]  
        ]
-       
   fcComp = FeatureConfiguration
      $ Root
       (f { fId = "HephaestusPL" })
@@ -56,7 +62,6 @@ main = buildHpl fcUcmBpm --fcUcm
          Root 
          (f { fId = "SPLAsset" }) [Leaf $ f { fId = "Code" }]  
        ]
-       
   fc = FeatureConfiguration
      $ Root
       (f { fId = "HephaestusPL" })

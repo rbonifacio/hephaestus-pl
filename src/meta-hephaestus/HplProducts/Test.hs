@@ -12,34 +12,34 @@ import Data.Maybe
 import Data.Generics
 import BasicTypes
 import Text.ParserCombinators.Parsec
-import HplAssets.ReqModel.Parsers.XML.XmlRequirementParser
-import HplAssets.ReqModel.Types
-import HplAssets.Requirements
-import HplAssets.ReqModel.PrettyPrinter.Latex
+import HplAssets.DTMC.Parsers.Dot
+import HplAssets.DTMC.Types
+import HplAssets.DTMC
+import HplAssets.DTMC.PrettyPrinter.DotPP
  
 data SPLModel = SPLModel{featureModel :: FeatureModel,
-                         splReq :: RequirementModel}
+                         splDtmc :: DtmcModel}
  
 data InstanceModel = InstanceModel{featureConfiguration ::
                                    FeatureConfiguration,
-                                   req :: RequirementModel}
-                   deriving (Data, Typeable)
+                                   dtmc :: DtmcModel}
+                   deriving Typeable
  
-data TransformationModel = RequirementTransformation RequirementTransformation
+data TransformationModel = DtmcTransformation DtmcTransformation
  
-data ExportModel = ExportReqLatex
+data ExportModel = ExportDtmcDot
  
 lstExport :: [ExportModel]
-lstExport = [ExportReqLatex]
+lstExport = [ExportDtmcDot]
  
 xml2Transformation ::
                      String -> [String] -> ParserResult TransformationModel
-xml2Transformation "selectAllRequirements" _
-  = Success (RequirementTransformation (SelectAllRequirements  ))
-xml2Transformation "selectRequirements" ids
-  = Success (RequirementTransformation (SelectRequirements ids))
-xml2Transformation "removeRequirements" ids
-  = Success (RequirementTransformation (RemoveRequirements ids))
+xml2Transformation "composeDTMC" [id,startpoint,endpoint]
+  = Success (DtmcTransformation (ComposeDTMC id startpoint endpoint))
+xml2Transformation "appendDTMC" [id,point]
+  = Success (DtmcTransformation (AppendDTMC id point))
+xml2Transformation "selectDtmc" ids
+  = Success (DtmcTransformation (SelectDTMC ids))
  
 instance Transformation TransformationModel SPLModel InstanceModel
          where
@@ -48,8 +48,8 @@ instance Transformation TransformationModel SPLModel InstanceModel
 transform ::
             TransformationModel ->
               SPLModel -> FeatureConfiguration -> InstanceModel -> InstanceModel
-transform (RequirementTransformation x0) x1 x2 x3
-  = x3{req = transformReq x0 (splReq x1) (id x2) (req x3)}
+transform (DtmcTransformation x0) x1 x2 x3
+  = x3{dtmc = transformDtmc x0 (splDtmc x1) (id x2) (dtmc x3)}
  
 instance SPL SPLModel InstanceModel where
         makeEmptyInstance fc spl = mkEmptyInstance fc spl
@@ -61,11 +61,10 @@ mkEmptyInstance ::
                   FeatureConfiguration -> SPLModel -> InstanceModel
 mkEmptyInstance fc spl
   = InstanceModel{featureConfiguration = fc,
-                  req = emptyReq (splReq spl)}
+                  dtmc = emptyDtmc (splDtmc spl)}
  
 export :: ExportModel -> FilePath -> InstanceModel -> IO ()
-export (ExportReqLatex) x1 x2
-  = exportReqToLatex (x1 ++ ".tex") (req x2)
+export (ExportDtmcDot) x1 x2 = exportDtmcDot (x1 ++ "") (dtmc x2)
 readProperties ps
   = (fromJust (findPropertyValue "name" ps),
      fromJust (findPropertyValue "feature-model" ps),
@@ -83,16 +82,15 @@ main
        let iModel = fromJust (findPropertyValue "instance-model" ps)
        let cModel = fromJust (findPropertyValue "configuration-model" ps)
        let targetDir = fromJust (findPropertyValue "target-dir" ps)
-       let rModel = fromJust (findPropertyValue "requirement-model" ps)
+       let dtmcModel = fromJust (findPropertyValue "dtmc-model" ps)
        (Core.Success fm) <- parseFeatureModel ((ns fmSchema), snd fModel)
                               FMPlugin
        (Core.Success cm) <- parseConfigurationKnowledge
                               (ns ckSchema) (snd cModel)
        (Core.Success im) <- parseInstanceModel (ns fcSchema) (snd iModel)
-       (Core.Success reqpl) <- parseRequirementModel
-                                 (ns reqSchema) (snd rModel)
+       (Core.Success dtmcpl) <- parseDtmcModel (snd dtmcModel)
        let fc = FeatureConfiguration im
-       let spl = SPLModel{featureModel = fm, splReq = reqpl}
+       let spl = SPLModel{featureModel = fm, splDtmc = dtmcpl}
        let product = build fm fc cm spl
        let out = (outputFile (snd targetDir) (snd name))
        sequence_ [export x out product | x <- lstExport]
