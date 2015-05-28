@@ -1,0 +1,93 @@
+FeatureModelRefinements: THEORY
+ BEGIN
+  IMPORTING Name, FeatureModel, FeatureModelSemantics
+
+  % useful lemma
+  wtFormAddNode: LEMMA
+    FORALL(abs,con:FM, n1,n2:Name):
+      wfTree(abs) AND wfTree(con) AND			
+      features(con) = union(features(abs),n2) AND
+      features(abs)(n1) AND 
+      (NOT features(abs)(n2)) 
+      =>
+        (FORALL (f:Formula_):
+	  wt(abs,f) => wt(con,f))
+
+% Add Mandatory Node
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  addMandatoryNode(abs:WFM,con:FM, n1,n2:Name):bool =
+    features(con) = union(features(abs),n2) AND
+    formulae(con) = union(formulae(abs),union(IMPLIES_FORMULA(NAME_FORMULA(n2),NAME_FORMULA(n1)),IMPLIES_FORMULA(NAME_FORMULA(n1),NAME_FORMULA(n2)))) AND
+    features(abs)(n1) AND 
+    (NOT features(abs)(n2)) 
+
+  addMandatoryWF: THEOREM
+    FORALL(abs:WFM, n1,n2:Name,con:FM): 
+        (addMandatoryNode(abs,con,n1,n2)
+         => 
+          wfFM(con))
+
+  addMandatoryT: THEOREM
+    FORALL(abs:WFM, n1,n2:Name):
+      EXISTS(con:FM): 
+        (addMandatoryNode(abs,con,n1,n2)
+	 => 
+	 (FORALL (c:Configuration): 
+         semantics(abs)(c) 
+         => IF (c(n1)) THEN semantics(con)(union(c,n2)) ELSE semantics(con)(c) ENDIF 
+	 )
+	 AND 
+	 (FORALL (c:Configuration): 
+         semantics(con)(c) 
+         => IF (c(n2)) THEN semantics(abs)(remove(n2,c)) ELSE semantics(abs)(c) ENDIF 
+	 )
+	 AND wfFM(con)
+	)  
+
+ addMandatoryTWF: THEOREM
+    FORALL(abs:WFM, n1,n2:Name,con:FM): 
+        (addMandatoryNode(abs,con,n1,n2)
+        => 
+	 (FORALL (c:Configuration): 
+         semantics(abs)(c) 
+         => IF (c(n1)) THEN semantics(con)(union(c,n2)) ELSE semantics(con)(c) ENDIF 
+	 )
+	 AND 
+	 (FORALL (c:Configuration): 
+         semantics(con)(c) 
+         => IF (c(n2)) THEN semantics(abs)(remove(n2,c)) ELSE semantics(abs)(c) ENDIF 
+	 )
+	 AND wfFM(con))
+
+% Add Optional Node
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  addOptionalNode(abs:WFM,con:FM, n1,n2:Name):bool =
+    features(con) = union(features(abs),n2) AND
+    features(abs)(n1) AND 
+    formulae(con) = union(formulae(abs), IMPLIES_FORMULA(NAME_FORMULA(n2),NAME_FORMULA(n1))) AND
+    (NOT features(abs)(n2))
+
+  % preserva a semantica estatica
+  wfPreservation: LEMMA
+    FORALL(abs:WFM, n1,n2:Name,con:FM): 
+        (addOptionalNode(abs,con,n1,n2)
+         => 
+           wfFM(con))     
+
+  addNode: THEOREM
+    FORALL(abs:WFM, n1,n2:Name):
+      EXISTS(con:FM): 
+        (addOptionalNode(abs,con,n1,n2)
+         => 
+           refines(abs,con) and wfFM(con))
+
+  addOptNode: THEOREM
+    FORALL(abs:WFM, n1,n2:Name,con:FM): 
+        (addOptionalNode(abs,con,n1,n2)
+         => 
+           refines(abs,con) and wfFM(con))
+
+ END FeatureModelRefinements

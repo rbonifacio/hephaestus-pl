@@ -1,10 +1,59 @@
 <configurationModel>
+	<configuration>
+	  <expression>plTheory</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>SPLrefinement,set_aux_lemmas,set_comp_lemmas</args>
+	  </transformation>
+	</configuration>
+	
+	<configuration>
+	  <expression>populations</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>Population</args>
+	  </transformation>
+	</configuration>
+	
+	<configuration>
+	  <expression>mpl</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>MultiProductLines</args>
+	  </transformation>
+	</configuration>
 
 	<configuration>
-		<expression>plTheory</expression>
-		<transformation>
-			<name>selectComponents</name>
-			<args>SPLrefinement</args>
-		</transformation>
+	  <expression>propositionalFM</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>FeatureModel, FeatureModelSemantics, FeatureModelRefinements</args>
+	  </transformation>
 	</configuration>
+
+	<configuration>
+	  <expression>Or(propositionalFM, propositionalFE)</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>Formula_, FormulaTheory,Name</args>
+	  </transformation>
+	</configuration>
+
+	<configuration>
+	  <expression>cardinalityFM</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>CardinalityFM</args>
+	  </transformation>
+	</configuration>
+	
+	<configuration>
+	  <expression>Or(cardinalityFM,cardinalityFE)</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>Name</args>
+	  </transformation>
+	</configuration>
+
+
 </configurationModel>

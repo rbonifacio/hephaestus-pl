@@ -1,0 +1,311 @@
+MultiProductLines: THEORY
+BEGIN
+
+  IMPORTING SPLrefinement
+
+  c,c1,c2,c3: VAR Conf
+  pl,pl1,pl2: VAR PL
+  p,p1,p2: VAR finite_sets[Asset].finite_set
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%% MULTI PRODUCT LINES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  IMPORTING set_comp_lemmas
+  PC: TYPE = {pc:[# pl:PL, conf:Conf  #] | {|F(pl(pc))|}(conf(pc)) }
+  Constraint: TYPE
+  pc,pc1,pc2: VAR PC
+  pcs,pcs1,pcs2: VAR finite_sets[PC].finite_set
+  pls,pls1,pls2: VAR finite_sets[PL].finite_set
+  cs,cs1,cs2: VAR finite_sets[Constraint].finite_set
+
+  pls(pcs): finite_sets[PL].finite_set = 
+    {pl | EXISTS pc: pcs(pc) AND pl=pl(pc)}
+  
+  member(pl,pcs) : bool = 
+   pls(pcs)(pl)
+
+  remove(pl,pcs): finite_sets[PC].finite_set = 
+    {pc | pl/=pl(pc) AND pcs(pc)}
+
+  prod(pc): finite_sets[Asset].finite_set = ([| K(pl(pc)) |] (A(pl(pc))))(conf(pc));
+  product(pcs) : finite_sets[Asset].finite_set = 
+    { p:Asset | EXISTS (pc) : pcs(pc) AND prod(pc)(p) }
+
+  replace(pl1:PL,pl2:{pl2:PL | plRefinement(pl1,pl2)},pc:{p:PC | pl(p)=pl1}): PC = 
+    (# pl:=pl2, conf:=choose({c | member(c,{|F(pl2)|}) AND |-(([| K(pl(pc)) |] (A(pl(pc))))(conf(pc)), ([| K(pl2) |] (A(pl2)))(c)) })  #)
+
+  %talvez esteja retornando um conjunto maior do que o que foi passado de entrada
+  replace(pl1:PL,pl2:{pl2:PL | plRefinement(pl1,pl2)},pcs): finite_sets[PC].finite_set = 
+    {pc1 | EXISTS (pc2): pcs(pc2) AND 
+    	   IF (pl(pc2)=pl1) THEN pc1=replace(pl1,pl2,pc2)
+	   ELSE pc1=pc2 ENDIF } 
+
+  replaceStrong(pl1:PL,pl2:{pl2:PL | subset?({|F(pl1)|},{|F(pl2)|})},pc:{p:PC | pl(p)=pl1}): PC = 
+    (# pl:=pl2, conf:=conf(pc)  #)
+
+  replaceStrong(pl1:PL,pl2:{pl2:PL | subset?({|F(pl1)|},{|F(pl2)|})},pcs): finite_sets[PC].finite_set = 
+    {pc1 | EXISTS (pc2): pcs(pc2) AND 
+    	   IF (pl(pc2)=pl1) THEN pc1=replaceStrong(pl1,pl2,pc2)
+	   ELSE pc1=pc2 ENDIF } 
+
+  replacePLnotInMPL: THEOREM
+    FORALL pl1,pl2,pcs:
+      NOT(member(pl1,pcs)) AND plRefinement(pl1,pl2) =>  
+        pcs=replace(pl1,pl2,pcs)
+
+  replacePLmember: THEOREM
+    FORALL pl1,pl2,pcs:
+      member(pl1,pcs) AND plRefinement(pl1,pl2) =>  
+        member(pl2,replace(pl1,pl2,pcs))
+
+
+  replaceStrongPLnotInPCS: THEOREM
+    FORALL pl1,pl2,pcs:
+      NOT(member(pl1,pcs)) AND subset?({|F(pl1)|},{|F(pl2)|}) =>  
+        pcs=replaceStrong(pl1,pl2,pcs)
+
+  replaceStrongPLinPCS: THEOREM
+    FORALL pl1,pl2,pcs:
+      member(pl1,pcs) AND subset?({|F(pl1)|},{|F(pl2)|}) =>  
+        member(pl2,replaceStrong(pl1,pl2,pcs))
+
+
+  confs: [finite_sets[PL].finite_set, finite_sets[Constraint].finite_set -> finite_sets[set[PC]].finite_set];
+
+  % Definition <Well-formed SPL>
+  wfMPL(pls:finite_sets[PL].finite_set, cs:finite_sets[Constraint].finite_set): bool =
+    (FORALL pcs : confs(pls,cs)(pcs) => wfProduct( product(pcs) ))
+
+  % Definition <Product line> 
+  MPL : TYPE = {m:[# pls:finite_sets[PL].finite_set, cs:finite_sets[Constraint].finite_set  #] | wfMPL(pls(m),cs(m)) }
+  mpl,mpl1,mpl2: VAR MPL
+  member(pl,mpl) : bool = 
+   pls(mpl)(pl)
+
+  confs(mpl) : finite_sets[set[PC]].finite_set = confs(pls(mpl),cs(mpl))
+
+  semantics(mpl) : set[finite_sets[Asset].finite_set] = 
+    { p:finite_sets[Asset].finite_set | EXISTS (pcs) : (member(pcs,confs(mpl))) AND (p=product(pcs)) };
+
+  confsRestriction: AXIOM
+    FORALL pls,cs:
+      FORALL pcs: confs(pls,cs)(pcs) 
+      =>  
+        (FORALL(e:PC): pcs(e)
+	=> 
+	  pls(pl(e)) AND NOT(EXISTS (z:PC): pcs(z) AND z/=e AND pl(z)=pl(e)) )
+
+  confsAdd: AXIOM
+    FORALL pl,pls,cs:
+      FORALL pcs: confs(pls,cs)(pcs) 
+      =>  
+        confs(union(pl,pls),cs)(pcs) 
+
+  confsRem: AXIOM
+    FORALL pl,pls,cs:
+      NOT(member(pl,pls))
+      =>
+        FORALL pcs: confs(union(pl,pls),cs)(pcs) AND NOT(member(pl,pcs))
+        =>  
+          confs(pls,cs)(pcs) 
+
+  confsReplace: AXIOM
+    FORALL pl1,pl2,pls,cs:
+      NOT(member(pl1,pls)) AND 
+      NOT(member(pl2,pls)) AND 
+      subset?({|F(pl1)|},{|F(pl2)|})
+      =>
+        FORALL(pcs): confs(union(pl1,pls),cs)(pcs) => confs(union(pl2,pls),cs)(replaceStrong(pl1,pl2,pcs))
+%        subset?(replaceStrong(pl1,pl2,confs(union(pl1,pls),cs)),confs(union(pl2,pls),cs))
+
+  productUnion: THEOREM
+    FORALL(pc,pcs):
+      union(product(singleton(pc)),product(pcs))=product(union(singleton(pc),pcs))
+
+  prodRef: THEOREM
+    FORALL(pc1,pc2,pcs):
+      ( product(singleton(pc1)) |- product(singleton(pc2)) ) and wfProduct(union(product(singleton(pc1)),product(pcs)))
+        => wfProduct(union(product(singleton(pc2)),product(pcs))) AND 
+	   ( union(product(singleton(pc1)),product(pcs)) |- union(product(singleton(pc2)),product(pcs)))
+
+  notInMPL: THEOREM
+    FORALL mpl,pl:
+      NOT(pls(mpl)(pl)) =>  
+        FORALL pcs: confs(mpl)(pcs) => NOT(member(pl,pcs))
+
+  plInMPL: THEOREM
+    FORALL mpl,pl:
+      pls(mpl)(pl) AND (EXISTS pcs: confs(mpl)(pcs) AND member(pl,pcs)) =>  
+        EXISTS p1,p2: semantics(mpl)(p1) AND products(pl)(p2) AND subset?(p2,p1)
+
+  plPCS: THEOREM
+      FORALL pls,cs,pcs: 
+       confs(pls,cs)(pcs) =>
+         FORALL pl:
+           member(pl,pcs) => EXISTS pc,pcs1: pcs = union(pc,pcs1) AND pl(pc)=pl AND (NOT member(pl,pcs1))
+
+  plRefPCe: THEOREM
+    FORALL mpl:
+      FORALL pcs: 
+        confs(mpl)(pcs) =>
+          FORALL(e:PC): pcs(e) => 
+	    FORALL(pl): plRefinement(pl(e),pl) => 
+	      EXISTS(pc:PC,c:Conf): 
+	      pc = (# pl:=pl, conf:=c #) 
+	      AND pc = replace(pl(e),pl,e)
+	      AND (product(e) |- product(pc))
+
+  plRefPC: THEOREM
+    FORALL mpl:
+      FORALL pcs: 
+        confs(mpl)(pcs) =>
+          FORALL(e:PC): pcs(e) => 
+	    FORALL(pl): plRefinement(pl(e),pl) => 
+	      (product(e) |- product(replace(pl(e),pl,e)))
+
+  plMemberPCS: THEOREM
+    FORALL mpl,pl1,pl2,pls: 
+      pls(mpl)=union(pl1,pls)
+      AND plRefinement(pl1,pl2) 	
+      AND NOT(member(pl1,pls))  
+      AND NOT(member(pl2,pls))  
+      =>       
+      FORALL pcs: confs(mpl)(pcs) AND member(pl1,pcs) 
+      =>
+	     EXISTS pc1,pc2,pcs1: pcs = union(pc1,pcs1) AND 
+	     	    		  pl(pc1)=pl1 AND 
+				  (NOT member(pl1,pcs1)) AND
+	     	    		  pl(pc2)=pl2 AND 
+				  (NOT member(pl2,pcs1)) AND
+				  replace(pl1,pl2,pcs)=union(pc2,pcs1) AND
+				  (product(singleton(pc1)) |- product(singleton(pc2)))
+
+
+  plMemberReplaceStrongPCS: THEOREM
+    FORALL mpl,pl1,pl2,pls: 
+      pls(mpl)=union(pl1,pls)
+      AND strongerPLrefinement(pl1,pl2) 	
+      AND NOT(member(pl1,pls))  
+      AND NOT(member(pl2,pls))  
+      =>       
+      FORALL pcs: confs(mpl)(pcs) AND member(pl1,pcs) 
+      =>
+	     EXISTS pc1,pc2,pcs1: pcs = union(pc1,pcs1) AND 
+	     	    		  pl(pc1)=pl1 AND 
+				  (NOT member(pl1,pcs1)) AND
+	     	    		  pl(pc2)=pl2 AND 
+				  (NOT member(pl2,pcs1)) AND
+				  replaceStrong(pl1,pl2,pcs)=union(pc2,pcs1) AND
+				  (product(singleton(pc1)) |- product(singleton(pc2)))
+
+  replacePLinMPL: THEOREM
+    FORALL mpl,pl1,pl2,pls: 
+      pls(mpl)=union(pl1,pls)
+      AND plRefinement(pl1,pl2) 	
+      AND NOT(member(pl1,pls))  
+      AND NOT(member(pl2,pls))  
+      =>       
+        FORALL pcs1: confs(mpl)(pcs1) AND member(pl1,pcs1) 
+	=>  
+	  (product(pcs1) |- product(replace(pl1,pl2,pcs1)))
+
+  replaceStrongPLinMPL: THEOREM
+    FORALL mpl,pl1,pl2,pls: 
+      pls(mpl)=union(pl1,pls)
+      AND strongerPLrefinement(pl1,pl2) 	
+      AND NOT(member(pl1,pls))  
+      AND NOT(member(pl2,pls))  
+      =>       
+        FORALL pcs: confs(mpl)(pcs) AND member(pl1,pcs) 
+	=>  
+	  (product(pcs) |- product(replaceStrong(pl1,pl2,pcs)))
+
+  mplRefPL: THEOREM
+    FORALL mpl,pl1,pl2:
+      plRefinement(pl1,pl2) =>
+        FORALL pcs1: 
+	  confs(mpl)(pcs1) AND member(pl1,pcs1) => 
+	    EXISTS pcs2: (product(pcs1) |- product(pcs2)) 
+
+  
+  mplRefinement(mpl1,mpl2) : bool =
+    (FORALL p1: semantics(mpl1)(p1) => (EXISTS p2: semantics(mpl2)(p2) AND (p1 |- p2)))
+  
+  mplRef: THEOREM orders[MPL].preorder?( mplRefinement )   
+
+%QUANDO quer remover a linha? cs1==cs2??
+
+  constraintsRef(cs1,cs2,pls) : bool =
+    (FORALL pcs1: confs(pls,cs1)(pcs1) => 
+      confs(pls,cs2)(pcs1) 
+    )
+
+  constraintsRefCompMPL: THEOREM
+    FORALL(cs1,cs2,pls,mpl1):
+	constraintsRef(cs1,cs2,pls) AND
+	mpl1=(# pls:=pls, cs:=cs1 #) AND 
+	wfMPL(pls, cs2)
+	=> 
+	  mplRefinement(mpl1,(# pls:=pls, cs:=cs2 #))
+
+  compRemoveMPL: THEOREM
+    FORALL(pl1,pls,cs,mpl1):
+	mpl1=(# pls:=union(pl1,pls), cs:=cs #) AND 
+	NOT(member(pl1,pls)) AND
+	wfMPL(pls, cs) AND
+	(FORALL pcs: confs(union(pl1,pls),cs)(pcs) AND member(pl1,pcs) => 
+	  confs(pls,cs)(remove(pl1,pcs)) AND (product(pcs) |- product(remove(pl1,pcs))) 
+        )
+	=> 
+	  mplRefinement(mpl1,(# pls:=pls, cs:=cs #)) 
+
+
+
+  strongCompMPL: THEOREM
+    FORALL(pl1,pl2,pls,cs,mpl1):
+	strongerPLrefinement(pl1,pl2) AND
+	mpl1=(# pls:=union(pl1,pls), cs:=cs #) AND 
+	NOT(member(pl1,pls)) AND 
+	NOT(member(pl2,pls)) 
+	AND wfMPL(union(pl2,pls), cs)
+	=> 
+	  mplRefinement(mpl1,(# pls:=union(pl2,pls), cs:=cs #)) 
+
+  eqConfs: COROLLARY
+    FORALL(pl1,pl2):
+	equivalentFMs(F(pl1),F(pl2)) 
+	=> 
+	  (FORALL c: {|F(pl1)|}(c) => {|F(pl2)|}(c)) AND (FORALL c: {|F(pl2)|}(c) => {|F(pl1)|}(c))
+
+
+  strongCompMPLeq: COROLLARY
+    FORALL(pl1,pl2,pls,cs,mpl1):
+	strongerPLrefinement(pl1,pl2) AND
+	equivalentFMs(F(pl1),F(pl2)) AND
+	mpl1=(# pls:=union(pl1,pls), cs:=cs #) AND 
+	NOT(member(pl1,pls)) AND 
+	NOT(member(pl2,pls)) 
+%	AND wfMPL(union(pl2,pls), cs)
+	=> 
+	  mplRefinement(mpl1,(# pls:=union(pl2,pls), cs:=cs #)) AND wfMPL(union(pl2,pls), cs)
+
+%corolario de equivalencia de semantics de FM
+
+  compMPL: THEOREM
+    FORALL(pl1,pl2,pls,cs1,cs2,mpl1):
+	plRefinementAlt(pl1,pl2) AND
+	mpl1=(# pls:=union(pl1,pls), cs:=cs1 #) AND 
+	NOT(member(pl1,pls)) AND 
+	NOT(member(pl2,pls)) AND 
+
+	wfMPL(union(pl2,pls), cs2) AND 
+
+	(FORALL pcs1: confs(union(pl1,pls),cs1)(pcs1) => 
+	  EXISTS pcs2: confs(union(pl2,pls),cs2)(pcs2) AND 
+      	     pcs2=replace(pl1,pl2,pcs1)
+        )  => 
+	  mplRefinement(mpl1,(# pls:=union(pl2,pls), cs:=cs2 #)) 
+
+
+END MultiProductLines

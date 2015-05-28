@@ -3,13 +3,15 @@ SPLrefinement => [SPLrefinement.pvs] ;
 AssetMapping => [AssetMapping.pvs] ;
 Assets => [Assets.pvs] ;
 ConfigurationKnowledge => [ConfigurationKnowledge.pvs] ;
-FeatureModel => [FeatureModel.pvs] ;
-FeatureModelSemantics => [FeatureModelSemantics.pvs] ;
-Formula => [Formula.pvs] ;
-FormulaTheory => [FormulaTheory.pvs] ;
+FeatureModel => [FeatureModel.prf, FeatureModel.pvs] ;
+FeatureModelSemantics => [FeatureModelSemantics.prf, FeatureModelSemantics.pvs] ;
+FeatureModelRefinements => [FeatureModelRefinements.prf, FeatureModelRefinements.pvs] ;
+Formula_ => [Formula.pvs] ;
+FormulaTheory => [FormulaTheory.prf, FormulaTheory.pvs] ;
 maps => [maps.pvs] ; 
 Name => [Name.pvs] ; 
-
-
-
-
+set_aux_lemmas => [set_aux_lemmas.prf, set_aux_lemmas.pvs];
+set_com_lemmas => [set_comp_lemmas.prf, set_comp_lemmas.pvs];
+Population => [Population.prf, Population.pvs];
+MultiProductLines => [MultiProductLines.prs, MultiProductLines.pvs];
+CardinalityFM => [CardinalityFM.prf,CardinalityFM.pvs]

@@ -1,0 +1,2054 @@
+(FeatureModelRefinements
+ (wtFormAddNode 0
+  (wtFormAddNode-1 nil 3498314638 3507400820
+   ("" (skolem 1 (fm1 fm2 n1 n2))
+    (("" (expand wfTree)
+      (("" (flatten)
+        (("" (induct "f" 2)
+          (("1" (grind) nil nil) ("2" (grind) nil nil)
+           ("3" (grind) nil nil) ("4" (grind) nil nil)
+           ("5" (grind) nil nil) ("6" (grind) nil nil)
+           ("7" (grind) nil nil) ("8" (grind) nil nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((wfTree const-decl "bool" FeatureModel nil) nil
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil) nil
+    (wt def-decl "boolean" FormulaTheory nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (Formula__induction formula-decl nil Formula__adt nil)
+    (union const-decl "set" sets nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (member const-decl "bool" sets nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil))
+   227 150 t shostak))
+ (addMandatoryWF 0
+  (addMandatoryWF-2 nil 3507396885 3507400820
+   ("" (skolem 1 (fm1 F G fm2))
+    (("" (typepred fm1)
+      (("" (expand wfFM)
+        (("" (expand wfTree)
+          (("" (expand wfFormulae)
+            (("" (expand addMandatoryNode)
+              (("" (flatten)
+                (("" (lemma wtFormAddNode)
+                  (("" (instantiate -1 (fm1 fm2 F G))
+                    (("" (assert)
+                      (("" (expand wfTree)
+                        (("" (skolem 2 form)
+                          (("" (flatten)
+                            (("" (replace -4)
+                              ((""
+                                (expand union)
+                                ((""
+                                  (expand extend)
+                                  ((""
+                                    (expand member)
+                                    ((""
+                                      (expand singleton)
+                                      ((""
+                                        (bddsimp)
+                                        (("1"
+                                          (instantiate -2 form)
+                                          (("1"
+                                            (instantiate -1 form)
+                                            (("1" (assert) nil nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (replace -7)
+                                          (("2"
+                                            (expand wt +)
+                                            (("2"
+                                              (expand wt +)
+                                              (("2"
+                                                (bddsimp)
+                                                (("1"
+                                                  (instantiate 2 F)
+                                                  (("1"
+                                                    (replace -3)
+                                                    (("1"
+                                                      (assert)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil)
+                                                 ("2"
+                                                  (replace -3)
+                                                  (("2"
+                                                    (instantiate 2 G)
+                                                    (("2"
+                                                      (propax)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("3"
+                                          (replace -7)
+                                          (("3"
+                                            (expand wt +)
+                                            (("3"
+                                              (expand wt +)
+                                              (("3"
+                                                (replace -3)
+                                                (("3"
+                                                  (assert)
+                                                  (("3"
+                                                    (bddsimp)
+                                                    (("1"
+                                                      (instantiate 2 G)
+                                                      (("1"
+                                                        (propax)
+                                                        nil
+                                                        nil))
+                                                      nil)
+                                                     ("2"
+                                                      (instantiate 2 F)
+                                                      (("2"
+                                                        (assert)
+                                                        nil
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((WFM type-eq-decl nil FeatureModelSemantics nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (addMandatoryNode const-decl "bool" FeatureModelRefinements nil)
+    (wtFormAddNode formula-decl nil FeatureModelRefinements nil)
+    (finite_union application-judgement "finite_set" finite_sets nil)
+    (nonempty_finite_union2 application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (finite_extend application-judgement "finite_set[T]"
+     extend_set_props nil)
+    (nonempty_extend application-judgement "(nonempty?[T])"
+     extend_set_props nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (extend const-decl "R" extend nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (wt def-decl "boolean" FormulaTheory nil)
+    (member const-decl "bool" sets nil)
+    (union const-decl "set" sets nil)
+    (wfFormulae const-decl "boolean" FormulaTheory nil))
+   176 120 t nil)
+  (addMandatoryWF-1 nil 3498315195 3507396807
+   ("" (skolem 1 (fm1 F G fm2))
+    (("" (typepred fm1)
+      (("" (expand wfFM)
+        (("" (expand wfTree)
+          (("" (expand wfFormulae)
+            (("" (expand addMandatoryNode)
+              (("" (flatten)
+                (("" (lemma wtFormAddNode)
+                  (("" (instantiate -1 (fm1 fm2 F G))
+                    (("" (assert)
+                      (("" (expand wfTree)
+                        (("" (skolem 2 form)
+                          (("" (flatten)
+                            (("" (replace -4)
+                              ((""
+                                (expand union)
+                                ((""
+                                  (expand extend)
+                                  ((""
+                                    (expand member)
+                                    ((""
+                                      (expand singleton)
+                                      ((""
+                                        (bddsimp)
+                                        (("1"
+                                          (instantiate -2 form)
+                                          (("1"
+                                            (instantiate -1 form)
+                                            (("1" (assert) nil nil))
+                                            nil))
+                                          nil)
+                                         ("2"
+                                          (replace -7)
+                                          (("2"
+                                            (expand wellTyped +)
+                                            (("2"
+                                              (expand wellTyped +)
+                                              (("2"
+                                                (expand names)
+                                                (("2"
+                                                  (bddsimp)
+                                                  (("1"
+                                                    (instantiate 2 F)
+                                                    (("1"
+                                                      (replace -3)
+                                                      (("1"
+                                                        (assert)
+                                                        nil
+                                                        nil))
+                                                      nil))
+                                                    nil)
+                                                   ("2"
+                                                    (replace -3)
+                                                    (("2"
+                                                      (instantiate 2 G)
+                                                      (("2"
+                                                        (propax)
+                                                        nil
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil)
+                                         ("3"
+                                          (replace -7)
+                                          (("3"
+                                            (expand wellTyped +)
+                                            (("3"
+                                              (expand wellTyped +)
+                                              (("3"
+                                                (expand names +)
+                                                (("3"
+                                                  (replace -3)
+                                                  (("3"
+                                                    (assert)
+                                                    (("3"
+                                                      (bddsimp)
+                                                      (("1"
+                                                        (instantiate
+                                                         2
+                                                         G)
+                                                        (("1"
+                                                          (propax)
+                                                          nil
+                                                          nil))
+                                                        nil)
+                                                       ("2"
+                                                        (instantiate
+                                                         2
+                                                         F)
+                                                        (("2"
+                                                          (assert)
+                                                          nil
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unfinished
+   ((WFM type-eq-decl nil FeatureModelSemantics nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (addMandatoryNode const-decl "bool" FeatureModelRefinements nil)
+    (wtFormAddNode formula-decl nil FeatureModelRefinements nil)
+    (finite_union application-judgement "finite_set" finite_sets nil)
+    (nonempty_finite_union2 application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (finite_extend application-judgement "finite_set[T]"
+     extend_set_props nil)
+    (nonempty_extend application-judgement "(nonempty?[T])"
+     extend_set_props nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (extend const-decl "R" extend nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (names const-decl "set[Name]" FeatureModel nil)
+    (member const-decl "bool" sets nil)
+    (union const-decl "set" sets nil)
+    (wfFormulae const-decl "boolean" FormulaTheory nil))
+   243 110 t shostak))
+ (addMandatoryT_TCC1 0
+  (addMandatoryT_TCC1-1 nil 3507400757 3507400913
+   ("" (skolem 1 (fm1 F G fm2))
+    (("" (flatten)
+      (("" (lemma addMandatoryWF)
+        (("" (instantiate -1 (fm1 F G fm2))
+          (("" (assert) (("" (skosimp) nil nil)) nil)) nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((WFM type-eq-decl nil FeatureModelSemantics nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil)
+    (addMandatoryWF formula-decl nil FeatureModelRefinements nil))
+   40649 20 t nil))
+ (addMandatoryT_TCC2 0
+  (addMandatoryT_TCC2-1 nil 3507400757 3507400935
+   ("" (skolem 1 (fm1 F G fm2))
+    (("" (flatten)
+      (("" (lemma addMandatoryWF)
+        (("" (instantiate -1 (fm1 F G fm2))
+          (("" (assert) (("" (skosimp) nil nil)) nil)) nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((WFM type-eq-decl nil FeatureModelSemantics nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil)
+    (addMandatoryWF formula-decl nil FeatureModelRefinements nil))
+   12816 10 t nil))
+ (addMandatoryT_TCC3 0
+  (addMandatoryT_TCC3-1 nil 3507400757 3507400953
+   ("" (skolem 1 (fm1 F G fm2))
+    (("" (flatten)
+      (("" (lemma addMandatoryWF)
+        (("" (instantiate -1 (fm1 F G fm2)) (("" (assert) nil nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((WFM type-eq-decl nil FeatureModelSemantics nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (addMandatoryWF formula-decl nil FeatureModelRefinements nil))
+   9882 20 t nil))
+ (addMandatoryT 0
+  (addMandatoryT-1 nil 3503833961 3507400822
+   ("" (skolem 1 (fm1 F G))
+    ((""
+      (instantiate 1
+       "(# features:=union(features(fm1),G), formulae:=union(formulae(fm1),union(IMPLIES_FORMULA(NAME_FORMULA(G),NAME_FORMULA(F)),IMPLIES_FORMULA(NAME_FORMULA(F),NAME_FORMULA(G)))) #)")
+      (("" (flatten)
+        (("" (bddsimp)
+          (("1" (lemma addMandatoryWF)
+            (("1"
+              (instantiate -1
+               (fm1 F G
+                "(# features:=union(features(fm1),G), formulae:=union(formulae(fm1),union(IMPLIES_FORMULA(NAME_FORMULA(G),NAME_FORMULA(F)),IMPLIES_FORMULA(NAME_FORMULA(F),NAME_FORMULA(G)))) #)"))
+              (("1" (assert) nil nil)) nil))
+            nil)
+           ("2"
+            (expand* addMandatoryNode semantics satImpConsts names
+             satExpConsts union singleton extend remove member)
+            (("2" (flatten)
+              (("2" (lemma formNames2)
+                (("2" (lemma satisfies2)
+                  (("2" (skolem 2 c)
+                    (("2" (flatten)
+                      (("2" (typepred fm1)
+                        (("2" (expand* wfFM wfTree wfFormulae)
+                          (("2" (bddsimp)
+                            (("1" (skolem 2 form)
+                              (("1"
+                                (flatten)
+                                (("1"
+                                  (instantiate -1 form)
+                                  (("1"
+                                    (instantiate -3 (fm1 form G))
+                                    (("1"
+                                      (assert)
+                                      (("1"
+                                        (instantiate -2 (form c G))
+                                        (("1"
+                                          (assert)
+                                          (("1"
+                                            (instantiate -5 form)
+                                            (("1"
+                                              (assert)
+                                              (("1"
+                                                (expand remove -2)
+                                                (("1"
+                                                  (assert)
+                                                  (("1"
+                                                    (expand member)
+                                                    (("1"
+                                                      (propax)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil)
+                                     ("2"
+                                      (expand wfTree)
+                                      (("2" (propax) nil nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil)
+                             ("2" (skolem 2 name)
+                              (("2"
+                                (instantiate -5 name)
+                                (("2"
+                                  (flatten)
+                                  (("2" (assert) nil nil))
+                                  nil))
+                                nil))
+                              nil)
+                             ("3" (skolem 3 form)
+                              (("3"
+                                (flatten)
+                                (("3"
+                                  (instantiate -6 form)
+                                  (("3" (assert) nil nil))
+                                  nil))
+                                nil))
+                              nil)
+                             ("4" (skolem 3 name)
+                              (("4"
+                                (flatten)
+                                (("4"
+                                  (instantiate -5 name)
+                                  (("4" (assert) nil nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil)
+           ("3"
+            (expand* addMandatoryNode semantics satImpConsts names
+             satExpConsts union singleton extend remove member)
+            (("3" (flatten)
+              (("3" (lemma formNames2)
+                (("3" (lemma satisfies1)
+                  (("3" (expand* union singleton extend member)
+                    (("3" (skolem 2 c)
+                      (("3" (flatten)
+                        (("3" (typepred fm1)
+                          (("3" (expand* wfFM wfTree wfFormulae)
+                            (("3" (bddsimp)
+                              (("1"
+                                (skolem 2 form)
+                                (("1"
+                                  (flatten)
+                                  (("1"
+                                    (bddsimp)
+                                    (("1"
+                                      (instantiate -1 form)
+                                      (("1"
+                                        (instantiate -2 (form c G))
+                                        (("1"
+                                          (instantiate -3 (fm1 form G))
+                                          (("1"
+                                            (instantiate -6 form)
+                                            (("1"
+                                              (assert)
+                                              (("1" (assert) nil nil))
+                                              nil))
+                                            nil)
+                                           ("2"
+                                            (expand wfTree)
+                                            (("2" (propax) nil nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil)
+                                     ("2"
+                                      (replace -9)
+                                      (("2"
+                                        (expand satisfies +)
+                                        (("2"
+                                          (expand satisfies +)
+                                          (("2"
+                                            (flatten)
+                                            (("2"
+                                              (instantiate 2 F)
+                                              (("2" (assert) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil)
+                                     ("3"
+                                      (replace -9)
+                                      (("3"
+                                        (expand satisfies +)
+                                        (("3"
+                                          (expand satisfies +)
+                                          (("3"
+                                            (flatten)
+                                            (("3"
+                                              (instantiate 2 G)
+                                              (("3" (propax) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil)
+                               ("2"
+                                (skolem 2 name)
+                                (("2"
+                                  (flatten)
+                                  (("2"
+                                    (instantiate -5 name)
+                                    (("2" (assert) nil nil))
+                                    nil))
+                                  nil))
+                                nil)
+                               ("3"
+                                (skolem 3 form)
+                                (("3"
+                                  (flatten)
+                                  (("3"
+                                    (bddsimp)
+                                    (("1"
+                                      (instantiate -6 form)
+                                      (("1" (assert) nil nil))
+                                      nil)
+                                     ("2"
+                                      (replace -8)
+                                      (("2"
+                                        (expand satisfies +)
+                                        (("2"
+                                          (expand satisfies +)
+                                          (("2"
+                                            (flatten)
+                                            (("2"
+                                              (skolem -9 n1)
+                                              (("2"
+                                                (flatten)
+                                                (("2"
+                                                  (instantiate -5 G)
+                                                  (("2"
+                                                    (assert)
+                                                    nil
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil)
+                                     ("3"
+                                      (replace -8)
+                                      (("3"
+                                        (expand satisfies +)
+                                        (("3"
+                                          (expand satisfies +)
+                                          (("3"
+                                            (flatten)
+                                            (("3"
+                                              (skolem -9 n1)
+                                              (("3"
+                                                (flatten)
+                                                (("3"
+                                                  (assert)
+                                                  nil
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil)
+                               ("4"
+                                (skolem 3 name)
+                                (("4"
+                                  (flatten)
+                                  (("4"
+                                    (instantiate -5 name)
+                                    (("4" (assert) nil nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (nonempty_finite_union2 application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (finite_union application-judgement "finite_set" finite_sets nil)
+    (nonempty_extend application-judgement "(nonempty?[T])"
+     extend_set_props nil)
+    (finite_extend application-judgement "finite_set[T]"
+     extend_set_props nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (addMandatoryWF formula-decl nil FeatureModelRefinements nil)
+    (satisfies2 formula-decl nil FormulaTheory nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (wfFormulae const-decl "boolean" FormulaTheory nil) nil
+    (Configuration type-eq-decl nil Name nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (formNames2 formula-decl nil FormulaTheory nil)
+    (addMandatoryNode const-decl "bool" FeatureModelRefinements nil)
+    (satImpConsts const-decl "bool" FeatureModelSemantics nil)
+    (satExpConsts const-decl "bool" FeatureModelSemantics nil)
+    (remove const-decl "set" sets nil)
+    (member const-decl "bool" sets nil)
+    (semantics const-decl "set[Configuration]" FeatureModelSemantics
+     nil)
+    (satisfies1 formula-decl nil FormulaTheory nil)
+    (satisfies def-decl "boolean" FormulaTheory nil)
+    (NAME_FORMULA adt-constructor-decl "[Name -> (NAME?)]" Formula__adt
+     nil)
+    (NAME? adt-recognizer-decl "[Formula_ -> boolean]" Formula__adt
+     nil)
+    (IMPLIES_FORMULA adt-constructor-decl
+     "[[Formula_, Formula_] -> (IMPLIES?)]" Formula__adt nil)
+    (extend const-decl "R" extend nil)
+    (FALSE const-decl "bool" booleans nil)
+    (IMPLIES? adt-recognizer-decl "[Formula_ -> boolean]" Formula__adt
+     nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (singleton? const-decl "bool" sets nil)
+    (WFM type-eq-decl nil FeatureModelSemantics nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (union const-decl "set" sets nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil))
+   500 340 t shostak))
+ (addMandatoryTWF 0
+  (addMandatoryTWF-2 nil 3507399512 3507400822
+   ("" (skolem 1 (fm1 F G fm2))
+    (("" (flatten)
+      (("" (bddsimp)
+        (("1" (lemma addMandatoryWF)
+          (("1" (instantiate -1 (fm1 F G fm2)) (("1" (assert) nil nil))
+            nil))
+          nil)
+         ("2" (typepred fm1)
+          (("2" (lemma formNames2)
+            (("2" (lemma satisfies2)
+              (("2"
+                (expand* addMandatoryNode semantics satImpConsts
+                 satExpConsts wfFM wfTree wfFormulae union singleton
+                 extend member)
+                (("2" (flatten)
+                  (("2" (skolem 2 c)
+                    (("2" (flatten)
+                      (("2" (bddsimp)
+                        (("1" (skolem 2 form)
+                          (("1" (flatten)
+                            (("1" (instantiate -3 form)
+                              (("1"
+                                (instantiate -1 (form c G))
+                                (("1"
+                                  (instantiate -2 (fm1 form G))
+                                  (("1"
+                                    (assert)
+                                    (("1"
+                                      (assert)
+                                      (("1"
+                                        (assert)
+                                        (("1"
+                                          (instantiate -6 form)
+                                          (("1"
+                                            (replace -3)
+                                            (("1" (assert) nil nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil)
+                                   ("2"
+                                    (expand wfTree)
+                                    (("2" (propax) nil nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil)
+                         ("2" (skolem 2 name)
+                          (("2" (flatten)
+                            (("2"
+                              (expand* union singleton remove member)
+                              (("2"
+                                (flatten)
+                                (("2"
+                                  (instantiate -7 name)
+                                  (("2"
+                                    (assert)
+                                    (("2"
+                                      (replace -4)
+                                      (("2" (assert) nil nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil)
+                         ("3" (skolem 3 form)
+                          (("3" (flatten)
+                            (("3" (instantiate -8 form)
+                              (("3"
+                                (replace -5)
+                                (("3" (assert) nil nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil)
+                         ("4" (skolem 3 name)
+                          (("4" (replace -4)
+                            (("4" (assert)
+                              (("4"
+                                (flatten)
+                                (("4"
+                                  (instantiate -7 name)
+                                  (("4" (assert) nil nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil)
+         ("3" (lemma formNames2)
+          (("3" (lemma satisfies1)
+            (("3" (typepred fm1)
+              (("3"
+                (expand* addMandatoryNode semantics satImpConsts
+                 satExpConsts wfFM wfTree wfFormulae union singleton
+                 extend member)
+                (("3" (flatten)
+                  (("3" (skolem 2 c)
+                    (("3" (flatten)
+                      (("3" (bddsimp)
+                        (("1" (skolem 2 form)
+                          (("1" (flatten)
+                            (("1" (instantiate -1 form)
+                              (("1"
+                                (instantiate -2 (form c G))
+                                (("1"
+                                  (instantiate -3 (fm1 form G))
+                                  (("1"
+                                    (assert)
+                                    (("1"
+                                      (instantiate -8 form)
+                                      (("1"
+                                        (replace -5)
+                                        (("1"
+                                          (assert)
+                                          (("1"
+                                            (bddsimp -10)
+                                            (("1"
+                                              (assert)
+                                              (("1" (assert) nil nil))
+                                              nil)
+                                             ("2"
+                                              (replace -2)
+                                              (("2"
+                                                (expand satisfies +)
+                                                (("2"
+                                                  (expand satisfies +)
+                                                  (("2"
+                                                    (flatten)
+                                                    (("2"
+                                                      (instantiate 2 F)
+                                                      (("2"
+                                                        (assert)
+                                                        nil
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil)
+                                             ("3"
+                                              (replace -2)
+                                              (("3"
+                                                (expand satisfies +)
+                                                (("3"
+                                                  (expand satisfies +)
+                                                  (("3"
+                                                    (flatten)
+                                                    (("3"
+                                                      (instantiate 2 G)
+                                                      (("3"
+                                                        (propax)
+                                                        nil
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil)
+                                   ("2"
+                                    (expand wfTree)
+                                    (("2" (propax) nil nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil)
+                         ("2" (skolem 2 name)
+                          (("2" (flatten)
+                            (("2" (instantiate -7 name)
+                              (("2"
+                                (assert)
+                                (("2"
+                                  (replace -4)
+                                  (("2"
+                                    (assert)
+                                    (("2" (bddsimp) nil nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil)
+                         ("3" (skolem 3 form)
+                          (("3" (flatten)
+                            (("3" (replace -5)
+                              (("3"
+                                (assert)
+                                (("3"
+                                  (bddsimp)
+                                  (("1"
+                                    (instantiate -8 form)
+                                    (("1" (assert) nil nil))
+                                    nil)
+                                   ("2"
+                                    (replace -10)
+                                    (("2"
+                                      (expand satisfies +)
+                                      (("2"
+                                        (expand satisfies +)
+                                        (("2"
+                                          (flatten)
+                                          (("2"
+                                            (skolem -11 name)
+                                            (("2"
+                                              (flatten)
+                                              (("2"
+                                                (instantiate -7 name)
+                                                (("2"
+                                                  (assert)
+                                                  nil
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil)
+                                   ("3"
+                                    (replace -10)
+                                    (("3"
+                                      (expand satisfies +)
+                                      (("3"
+                                        (expand satisfies +)
+                                        (("3"
+                                          (flatten)
+                                          (("3"
+                                            (skolem -11 n1)
+                                            (("3"
+                                              (flatten)
+                                              (("3" (assert) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil)
+                         ("4" (skolem 3 name)
+                          (("4" (flatten)
+                            (("4" (replace -4)
+                              (("4"
+                                (assert)
+                                (("4"
+                                  (instantiate -7 name)
+                                  (("4" (assert) nil nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((satisfies def-decl "boolean" FormulaTheory nil)
+    (satisfies1 formula-decl nil FormulaTheory nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (satisfies2 formula-decl nil FormulaTheory nil)
+    (remove const-decl "set" sets nil)
+    (Configuration type-eq-decl nil Name nil) nil
+    (addMandatoryNode const-decl "bool" FeatureModelRefinements nil)
+    (satImpConsts const-decl "bool" FeatureModelSemantics nil)
+    (wfFormulae const-decl "boolean" FormulaTheory nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (member const-decl "bool" sets nil)
+    (extend const-decl "R" extend nil)
+    (union const-decl "set" sets nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (satExpConsts const-decl "bool" FeatureModelSemantics nil)
+    (semantics const-decl "set[Configuration]" FeatureModelSemantics
+     nil)
+    (formNames2 formula-decl nil FormulaTheory nil)
+    (addMandatoryWF formula-decl nil FeatureModelRefinements nil)
+    (Name type-decl nil Name nil) (set type-eq-decl nil sets nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (WFM type-eq-decl nil FeatureModelSemantics nil))
+   489 340 t nil)
+  (addMandatoryTWF-1 nil 3504542691 3507397591
+   ("" (skolem 1 (fm1 F G fm2))
+    (("" (flatten)
+      (("" (bddsimp)
+        (("1" (lemma addMandatoryWF)
+          (("1" (instantiate -1 (fm1 F G fm2)) (("1" (assert) nil nil))
+            nil))
+          nil)
+         ("2"
+          (expand* addMandatoryNode semantics satImpConsts names
+           satExpConsts)
+          (("2" (flatten)
+            (("2" (skolem 2 c)
+              (("2" (typepred fm1)
+                (("2" (expand* wfFM wfTree wfFormulae)
+                  (("2" (flatten)
+                    (("2" (lemma formNames2)
+                      (("2" (lemma satFormula2)
+                        (("2" (bddsimp)
+                          (("1" (skolem 2 form)
+                            (("1" (flatten)
+                              (("1"
+                                (instantiate -3 form)
+                                (("1"
+                                  (instantiate -2 (fm1 form G))
+                                  (("1"
+                                    (bddsimp)
+                                    (("1"
+                                      (expand names -3)
+                                      (("1" (propax) nil nil))
+                                      nil)
+                                     ("2"
+                                      (instantiate -1 (form c G))
+                                      (("2"
+                                        (assert)
+                                        (("2"
+                                          (instantiate -7 form)
+                                          (("2"
+                                            (assert)
+                                            (("2"
+                                              (replace -4)
+                                              (("2"
+                                                (expand*
+                                                 union
+                                                 singleton
+                                                 extend
+                                                 member)
+                                                nil
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil)
+                                   ("2"
+                                    (expand wfTree)
+                                    (("2" (propax) nil nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (skolem 2 name)
+                            (("2" (flatten)
+                              (("2"
+                                (expand* union singleton remove member)
+                                (("2"
+                                  (flatten)
+                                  (("2"
+                                    (instantiate -7 name)
+                                    (("2"
+                                      (assert)
+                                      (("2"
+                                        (replace -4)
+                                        (("2" (assert) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("3" (skolem 3 form)
+                            (("3" (flatten)
+                              (("3"
+                                (instantiate -8 form)
+                                (("3"
+                                  (replace -5)
+                                  (("3"
+                                    (assert)
+                                    (("3"
+                                      (expand*
+                                       union
+                                       singleton
+                                       extend
+                                       member)
+                                      nil
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("4" (replace -4)
+                            (("4" (expand* union singleton member)
+                              (("4"
+                                (skolem 3 name)
+                                (("4"
+                                  (flatten)
+                                  (("4"
+                                    (instantiate -7 name)
+                                    (("4" (assert) nil nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil)
+         ("3"
+          (expand* addMandatoryNode semantics satImpConsts names
+           satExpConsts)
+          (("3" (lemma formNames2)
+            (("3" (lemma satFormula1)
+              (("3" (expand* union singleton extend member)
+                (("3" (flatten)
+                  (("3" (typepred fm1)
+                    (("3" (expand* wfFM wfTree wfFormulae)
+                      (("3" (skolem 2 c)
+                        (("3" (flatten)
+                          (("3" (bddsimp)
+                            (("1" (skolem 2 form)
+                              (("1"
+                                (flatten)
+                                (("1"
+                                  (instantiate -1 form)
+                                  (("1"
+                                    (instantiate -2 (form c G))
+                                    (("1"
+                                      (instantiate -3 (fm1 form G))
+                                      (("1"
+                                        (instantiate -8 form)
+                                        (("1"
+                                          (assert)
+                                          (("1"
+                                            (bddsimp)
+                                            (("1"
+                                              (expand names -4)
+                                              (("1" (propax) nil nil))
+                                              nil)
+                                             ("2"
+                                              (expand names -2)
+                                              (("2" (propax) nil nil))
+                                              nil)
+                                             ("3"
+                                              (replace -2)
+                                              (("3"
+                                                (assert)
+                                                (("3"
+                                                  (bddsimp)
+                                                  (("1"
+                                                    (replace -7)
+                                                    (("1"
+                                                      (expand names 2)
+                                                      (("1"
+                                                        (expand
+                                                         names
+                                                         2)
+                                                        (("1"
+                                                          (propax)
+                                                          nil
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil)
+                                                   ("2"
+                                                    (replace -7)
+                                                    (("2"
+                                                      (expand
+                                                       satFormula
+                                                       +)
+                                                      (("2"
+                                                        (expand
+                                                         satFormula
+                                                         +)
+                                                        (("2"
+                                                          (flatten)
+                                                          (("2"
+                                                            (expand
+                                                             names
+                                                             +)
+                                                            (("2"
+                                                              (expand
+                                                               names
+                                                               +)
+                                                              (("2"
+                                                                (propax)
+                                                                nil
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil)
+                                             ("4"
+                                              (replace -3)
+                                              (("4"
+                                                (assert)
+                                                (("4"
+                                                  (bddsimp)
+                                                  (("1"
+                                                    (replace -8)
+                                                    (("1"
+                                                      (expand
+                                                       wellTyped)
+                                                      (("1"
+                                                        (expand names)
+                                                        (("1"
+                                                          (expand
+                                                           wellTyped)
+                                                          (("1"
+                                                            (expand
+                                                             names)
+                                                            (("1"
+                                                              (expand
+                                                               satFormula)
+                                                              (("1"
+                                                                (expand
+                                                                 satFormula)
+                                                                (("1"
+                                                                  (bddsimp)
+                                                                  (("1"
+                                                                    (instantiate
+                                                                     2
+                                                                     F)
+                                                                    (("1"
+                                                                      (propax)
+                                                                      nil
+                                                                      nil))
+                                                                    nil)
+                                                                   ("2"
+                                                                    (instantiate
+                                                                     4
+                                                                     F)
+                                                                    (("2"
+                                                                      (assert)
+                                                                      nil
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil)
+                                                   ("2"
+                                                    (replace -8)
+                                                    (("2"
+                                                      (expand
+                                                       satFormula)
+                                                      (("2"
+                                                        (expand
+                                                         satFormula)
+                                                        (("2"
+                                                          (flatten)
+                                                          (("2"
+                                                            (instantiate
+                                                             4
+                                                             G)
+                                                            (("2"
+                                                              (propax)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil)
+                                       ("2"
+                                        (expand wfTree)
+                                        (("2" (propax) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil)
+                             ("2" (skolem 2 name)
+                              (("2"
+                                (flatten)
+                                (("2"
+                                  (instantiate -7 name)
+                                  (("2"
+                                    (assert)
+                                    (("2"
+                                      (replace -4)
+                                      (("2"
+                                        (bddsimp)
+                                        (("1" (assert) nil nil)
+                                         ("2" (assert) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil)
+                             ("3" (skolem 3 form)
+                              (("3"
+                                (replace -5)
+                                (("3"
+                                  (flatten)
+                                  (("3"
+                                    (assert)
+                                    (("3"
+                                      (bddsimp)
+                                      (("1"
+                                        (instantiate -1 form)
+                                        (("1"
+                                          (instantiate -2 (form c G))
+                                          (("1"
+                                            (instantiate
+                                             -3
+                                             (fm1 form G))
+                                            (("1"
+                                              (assert)
+                                              (("1"
+                                                (bddsimp)
+                                                (("1"
+                                                  (expand names -3)
+                                                  (("1"
+                                                    (propax)
+                                                    nil
+                                                    nil))
+                                                  nil)
+                                                 ("2"
+                                                  (instantiate -6 form)
+                                                  (("2"
+                                                    (assert)
+                                                    nil
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil)
+                                             ("2"
+                                              (expand wfTree)
+                                              (("2" (propax) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil)
+                                       ("2"
+                                        (replace -10)
+                                        (("2"
+                                          (expand satFormula +)
+                                          (("2"
+                                            (expand satFormula +)
+                                            (("2"
+                                              (flatten)
+                                              (("2"
+                                                (skolem -11 name)
+                                                (("2"
+                                                  (flatten)
+                                                  (("2"
+                                                    (instantiate
+                                                     -7
+                                                     name)
+                                                    (("2"
+                                                      (assert)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil)
+                                       ("3"
+                                        (replace -10)
+                                        (("3"
+                                          (expand satFormula +)
+                                          (("3"
+                                            (expand satFormula +)
+                                            (("3"
+                                              (flatten)
+                                              (("3"
+                                                (skolem -11 n1)
+                                                (("3"
+                                                  (flatten)
+                                                  (("3"
+                                                    (assert)
+                                                    nil
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil)
+                             ("4" (skolem 3 name)
+                              (("4"
+                                (replace -4)
+                                (("4"
+                                  (flatten)
+                                  (("4"
+                                    (instantiate -7 name)
+                                    (("4"
+                                      (assert)
+                                      (("4" (assert) nil nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unfinished
+   ((names def-decl "set[Name]" FormulaTheory nil)
+    (semantics const-decl "set[Configuration]" FeatureModelSemantics
+     nil)
+    (names const-decl "set[Name]" FeatureModel nil)
+    (satExpConsts const-decl "bool" FeatureModelSemantics nil)
+    (satImpConsts const-decl "bool" FeatureModelSemantics nil)
+    (addMandatoryNode const-decl "bool" FeatureModelRefinements nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (wfFormulae const-decl "boolean" FormulaTheory nil)
+    (formNames2 formula-decl nil FormulaTheory nil)
+    (member const-decl "bool" sets nil)
+    (extend const-decl "R" extend nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (union const-decl "set" sets nil)
+    (Configuration type-eq-decl nil Name nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (nonempty_extend application-judgement "(nonempty?[T])"
+     extend_set_props nil)
+    (finite_extend application-judgement "finite_set[T]"
+     extend_set_props nil)
+    (nonempty_finite_union2 application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (finite_union application-judgement "finite_set" finite_sets nil)
+    (remove const-decl "set" sets nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (addMandatoryWF formula-decl nil FeatureModelRefinements nil)
+    (Name type-decl nil Name nil) (set type-eq-decl nil sets nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (WFM type-eq-decl nil FeatureModelSemantics nil))
+   433 280 t shostak))
+ (addOptionalNode_TCC1 0
+  (addOptionalNode_TCC1-1 nil 3498314548 3507400822
+   ("" (subtype-tcc) nil nil) unchecked
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (Name type-decl nil Name nil) (set type-eq-decl nil sets nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (WFM type-eq-decl nil FeatureModelSemantics nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (wfFormulae const-decl "boolean" FormulaTheory nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (singleton const-decl "(singleton?)" sets nil))
+   51 30 nil nil))
+ (wfPreservation 0
+  (wfPreservation-2 nil 3507400786 3507400790
+   ("" (skolem 1 (fm1 F G fm2))
+    (("" (expand addOptionalNode)
+      (("" (typepred fm1)
+        (("" (expand wfFM)
+          (("" (expand wfTree)
+            (("" (expand wfFormulae)
+              (("" (lemma wtFormAddNode)
+                (("" (flatten)
+                  (("" (replace -5)
+                    (("" (skolem 2 form)
+                      (("" (expand union +)
+                        (("" (expand singleton +)
+                          (("" (expand member)
+                            (("" (flatten)
+                              ((""
+                                (instantiate -1 (fm1 fm2 F G))
+                                ((""
+                                  (expand wfTree)
+                                  ((""
+                                    (assert)
+                                    ((""
+                                      (bddsimp)
+                                      (("1"
+                                        (instantiate -1 form)
+                                        (("1"
+                                          (instantiate -2 form)
+                                          (("1" (assert) nil nil))
+                                          nil))
+                                        nil)
+                                       ("2"
+                                        (replace -6)
+                                        (("2"
+                                          (expand wt +)
+                                          (("2"
+                                            (expand wt +)
+                                            (("2"
+                                              (replace -3)
+                                              (("2"
+                                                (expand union)
+                                                (("2"
+                                                  (expand singleton)
+                                                  (("2"
+                                                    (expand member)
+                                                    (("2"
+                                                      (bddsimp)
+                                                      (("1"
+                                                        (instantiate
+                                                         2
+                                                         F)
+                                                        (("1"
+                                                          (assert)
+                                                          nil
+                                                          nil))
+                                                        nil)
+                                                       ("2"
+                                                        (instantiate
+                                                         2
+                                                         G)
+                                                        (("2"
+                                                          (propax)
+                                                          nil
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((WFM type-eq-decl nil FeatureModelSemantics nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (wtFormAddNode formula-decl nil FeatureModelRefinements nil)
+    (union const-decl "set" sets nil)
+    (member const-decl "bool" sets nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (wt def-decl "boolean" FormulaTheory nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (wfFormulae const-decl "boolean" FormulaTheory nil)
+    (addOptionalNode const-decl "bool" FeatureModelRefinements nil))
+   3445 90 t nil)
+  (wfPreservation-1 nil 3498322864 3507400763
+   ("" (skolem 1 (fm1 F G fm2))
+    (("" (expand addOptionalNode)
+      (("" (typepred fm1)
+        (("" (expand wfFM)
+          (("" (expand wfTree)
+            (("" (expand wfFormulae)
+              (("" (lemma wtFormAddNode)
+                (("" (flatten)
+                  (("" (replace -5)
+                    (("" (skolem 2 form)
+                      (("" (expand union +)
+                        (("" (expand singleton +)
+                          (("" (expand member)
+                            (("" (flatten)
+                              ((""
+                                (instantiate -1 (fm1 fm2 F G))
+                                ((""
+                                  (expand wfTree)
+                                  ((""
+                                    (assert)
+                                    ((""
+                                      (bddsimp)
+                                      (("1"
+                                        (instantiate -1 form)
+                                        (("1"
+                                          (instantiate -2 form)
+                                          (("1" (assert) nil nil))
+                                          nil))
+                                        nil)
+                                       ("2"
+                                        (replace -6)
+                                        (("2"
+                                          (expand wellTyped +)
+                                          (("2"
+                                            (expand wellTyped +)
+                                            (("2"
+                                              (expand names +)
+                                              (("2"
+                                                (replace -3)
+                                                (("2"
+                                                  (expand union)
+                                                  (("2"
+                                                    (expand singleton)
+                                                    (("2"
+                                                      (expand member)
+                                                      (("2"
+                                                        (bddsimp)
+                                                        (("1"
+                                                          (instantiate
+                                                           2
+                                                           F)
+                                                          (("1"
+                                                            (assert)
+                                                            nil
+                                                            nil))
+                                                          nil)
+                                                         ("2"
+                                                          (instantiate
+                                                           2
+                                                           G)
+                                                          (("2"
+                                                            (propax)
+                                                            nil
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unfinished
+   ((addOptionalNode const-decl "bool" FeatureModelRefinements nil)
+    (wfFormulae const-decl "boolean" FormulaTheory nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (names const-decl "set[Name]" FeatureModel nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (member const-decl "bool" sets nil)
+    (union const-decl "set" sets nil)
+    (wtFormAddNode formula-decl nil FeatureModelRefinements nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (Name type-decl nil Name nil) (set type-eq-decl nil sets nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (WFM type-eq-decl nil FeatureModelSemantics nil))
+   4250 90 t shostak))
+ (addNode_TCC1 0
+  (addNode_TCC1-1 nil 3498322845 3507400822
+   ("" (lemma wfPreservation) (("" (propax) nil nil)) nil) unchecked
+   ((wfPreservation formula-decl nil FeatureModelRefinements nil)) 1 0
+   t nil))
+ (addNode 0
+  (addNode-2 nil 3507400811 3507400814
+   ("" (skolem 1 (fm1 F G))
+    ((""
+      (instantiate 1
+       "(# features:=union(features(fm1),G), formulae:=union(formulae(fm1), IMPLIES_FORMULA(NAME_FORMULA(G),NAME_FORMULA(F))) #)")
+      (("1" (lemma wfPreservation)
+        (("1" (flatten)
+          (("1"
+            (instantiate -1
+             (fm1 F G
+              "(# features:=union(features(fm1),G), formulae:=union(formulae(fm1), IMPLIES_FORMULA(NAME_FORMULA(G),NAME_FORMULA(F))) #)"))
+            (("1" (assert)
+              (("1"
+                (expand* addOptionalNode refines subset? semantics
+                 satImpConsts satExpConsts union singleton member)
+                (("1" (skolem 1 c)
+                  (("1" (flatten)
+                    (("1" (bddsimp)
+                      (("1" (skolem 2 form)
+                        (("1" (flatten)
+                          (("1" (bddsimp)
+                            (("1" (instantiate -4 form)
+                              (("1" (assert) nil nil)) nil)
+                             ("2" (replace -5)
+                              (("2"
+                                (expand satisfies +)
+                                (("2"
+                                  (expand satisfies +)
+                                  (("2"
+                                    (flatten)
+                                    (("2"
+                                      (skolem -6 n1)
+                                      (("2"
+                                        (flatten)
+                                        (("2"
+                                          (instantiate -3 G)
+                                          (("2" (assert) nil nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil)
+                       ("2" (skolem 2 name)
+                        (("2" (flatten)
+                          (("2" (instantiate -3 name)
+                            (("2" (assert) nil nil)) nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (skosimp)
+        (("2" (expand singleton) (("2" (assert) nil nil)) nil)) nil))
+      nil))
+    nil)
+   unchecked
+   ((IMPLIES const-decl "[bool, bool -> bool]" booleans nil) nil nil
+    (NAME_FORMULA adt-constructor-decl "[Name -> (NAME?)]" Formula__adt
+     nil)
+    (NAME? adt-recognizer-decl "[Formula_ -> boolean]" Formula__adt
+     nil)
+    (IMPLIES_FORMULA adt-constructor-decl
+     "[[Formula_, Formula_] -> (IMPLIES?)]" Formula__adt nil)
+    (IMPLIES? adt-recognizer-decl "[Formula_ -> boolean]" Formula__adt
+     nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (singleton? const-decl "bool" sets nil)
+    (WFM type-eq-decl nil FeatureModelSemantics nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (union const-decl "set" sets nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil)
+    (wfPreservation formula-decl nil FeatureModelRefinements nil)
+    (refines const-decl "bool" FeatureModelSemantics nil)
+    (semantics const-decl "set[Configuration]" FeatureModelSemantics
+     nil)
+    (satExpConsts const-decl "bool" FeatureModelSemantics nil)
+    (member const-decl "bool" sets nil)
+    (satImpConsts const-decl "bool" FeatureModelSemantics nil)
+    (subset? const-decl "bool" sets nil)
+    (addOptionalNode const-decl "bool" FeatureModelRefinements nil)
+    (satisfies def-decl "boolean" FormulaTheory nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil))
+   2513 160 t nil)
+  (addNode-1 nil 3498474149 3507397591
+   ("" (skolem 1 (fm1 F G))
+    ((""
+      (instantiate 1
+       "(# features:=union(features(fm1),G), formulae:=union(formulae(fm1), IMPLIES_FORMULA(NAME_FORMULA(G),NAME_FORMULA(F))) #)")
+      (("1" (lemma wfPreservation)
+        (("1" (flatten)
+          (("1"
+            (instantiate -1
+             (fm1 F G
+              "(# features:=union(features(fm1),G), formulae:=union(formulae(fm1), IMPLIES_FORMULA(NAME_FORMULA(G),NAME_FORMULA(F))) #)"))
+            (("1" (assert)
+              (("1"
+                (expand* addOptionalNode refines subset? semantics
+                 satImpConsts names satExpConsts union singleton
+                 member)
+                (("1" (skolem 1 c)
+                  (("1" (flatten)
+                    (("1" (bddsimp)
+                      (("1" (skolem 2 form)
+                        (("1" (flatten)
+                          (("1" (bddsimp)
+                            (("1" (instantiate -4 form)
+                              (("1" (assert) nil nil)) nil)
+                             ("2" (replace -5)
+                              (("2"
+                                (expand satFormula +)
+                                (("2"
+                                  (expand satFormula +)
+                                  (("2"
+                                    (flatten)
+                                    (("2"
+                                      (skolem -6 n1)
+                                      (("2"
+                                        (flatten)
+                                        (("2"
+                                          (instantiate -3 G)
+                                          (("2" (assert) nil nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil)
+                       ("2" (skolem 2 name)
+                        (("2" (flatten)
+                          (("2" (instantiate -3 name)
+                            (("2" (assert) nil nil)) nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (skosimp)
+        (("2" (expand singleton) (("2" (assert) nil nil)) nil)) nil))
+      nil))
+    nil)
+   unfinished
+   ((nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (addOptionalNode const-decl "bool" FeatureModelRefinements nil)
+    (subset? const-decl "bool" sets nil)
+    (satImpConsts const-decl "bool" FeatureModelSemantics nil)
+    (satExpConsts const-decl "bool" FeatureModelSemantics nil)
+    (member const-decl "bool" sets nil)
+    (names const-decl "set[Name]" FeatureModel nil)
+    (semantics const-decl "set[Configuration]" FeatureModelSemantics
+     nil)
+    (refines const-decl "bool" FeatureModelSemantics nil)
+    (wfPreservation formula-decl nil FeatureModelRefinements nil)
+    (Name type-decl nil Name nil) (set type-eq-decl nil sets nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (union const-decl "set" sets nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (WFM type-eq-decl nil FeatureModelSemantics nil)
+    (singleton? const-decl "bool" sets nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (IMPLIES? adt-recognizer-decl "[Formula_ -> boolean]" Formula__adt
+     nil)
+    (IMPLIES_FORMULA adt-constructor-decl
+     "[[Formula_, Formula_] -> (IMPLIES?)]" Formula__adt nil)
+    (NAME? adt-recognizer-decl "[Formula_ -> boolean]" Formula__adt
+     nil)
+    (NAME_FORMULA adt-constructor-decl "[Name -> (NAME?)]" Formula__adt
+     nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil))
+   248 110 t shostak))
+ (addOptNode 0
+  (addOptNode-1 nil 3507545542 3507545700
+   ("" (skolem 1 (fm1 F G fm2))
+    (("" (flatten)
+      (("" (lemma wfPreservation)
+        (("" (instantiate -1 (fm1 F G fm2))
+          (("" (assert)
+            ((""
+              (expand* addOptionalNode refines subset? semantics
+               satImpConsts satExpConsts union singleton member)
+              (("" (skolem 1 c)
+                (("" (flatten)
+                  (("" (bddsimp)
+                    (("1" (skolem 2 form)
+                      (("1" (flatten)
+                        (("1" (replace -4)
+                          (("1" (assert)
+                            (("1" (instantiate -6 form)
+                              (("1"
+                                (assert)
+                                (("1"
+                                  (replace -6)
+                                  (("1"
+                                    (expand satisfies +)
+                                    (("1"
+                                      (expand satisfies +)
+                                      (("1"
+                                        (flatten)
+                                        (("1"
+                                          (skolem -7 n1)
+                                          (("1"
+                                            (flatten)
+                                            (("1"
+                                              (instantiate -5 G)
+                                              (("1" (assert) nil nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil)
+                     ("2" (skolem 2 name)
+                      (("2" (flatten)
+                        (("2" (instantiate -5 name)
+                          (("2" (assert)
+                            (("2" (replace -2) (("2" (assert) nil nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   proved
+   ((refines const-decl "bool" FeatureModelSemantics nil)
+    (semantics const-decl "set[Configuration]" FeatureModelSemantics
+     nil)
+    (satExpConsts const-decl "bool" FeatureModelSemantics nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (member const-decl "bool" sets nil)
+    (union const-decl "set" sets nil)
+    (satImpConsts const-decl "bool" FeatureModelSemantics nil)
+    (subset? const-decl "bool" sets nil)
+    (addOptionalNode const-decl "bool" FeatureModelRefinements nil)
+    (satisfies def-decl "boolean" FormulaTheory nil)
+    (WFM type-eq-decl nil FeatureModelSemantics nil)
+    (wfFM const-decl "bool" FeatureModelSemantics nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil)
+    (wfPreservation formula-decl nil FeatureModelRefinements nil))
+   158498 120 t shostak)))
+

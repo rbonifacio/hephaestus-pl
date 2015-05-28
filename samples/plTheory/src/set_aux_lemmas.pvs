@@ -1,0 +1,60 @@
+set_aux_lemmas [T: TYPE]: THEORY
+ BEGIN
+
+  cardUnion: LEMMA
+    FORALL(an:T,anSet:finite_sets[T].finite_set):
+      (NOT member(an,anSet)) =>  
+        finite_sets[T].Card(anSet) < finite_sets[T].Card(union(an,anSet))
+
+  setMember: LEMMA
+    FORALL(anSet:finite_sets[T].finite_set,an:T):
+      member(an,anSet) =>
+        EXISTS(anSet2:finite_sets[T].finite_set):
+	  anSet = union(an,anSet2) AND (NOT member(an,anSet2))
+
+  lemmaUnionRemove : LEMMA
+    FORALL(X,Y:finite_sets[T].finite_set,item:T) :
+      Y = remove(item,X) and member(item,X) =>
+      X = union(Y,item)
+
+  lemmaUnionRemove2 : LEMMA
+    FORALL(X:finite_sets[T].finite_set,item:T) :
+      member(item,X) =>
+      union(item,remove(item, X)) = X
+
+  lemmaUnionRemove3 : LEMMA
+    FORALL(X:finite_sets[T].finite_set,item1,item2:T) :
+      member(item1,X) AND member(item2,X) =>
+      union(union(item1,item2),remove(item1,remove(item2, X))) = X
+
+
+  finiteIntersection: LEMMA 
+    FORALL(A:finite_sets[T].finite_set,B:set[T]) :
+      is_finite[T](intersection(A,B))
+
+  finiteComprehension : LEMMA
+    forall(S:finite_sets[T].finite_set) :
+      is_finite({x:T | S(x)})
+
+  finiteUnion : LEMMA
+    FORALL(X,Y:set[T]) :
+      (is_finite[T](X) and is_finite[T](Y)) => is_finite[T](union(X,Y))
+
+%  finiteUnionAlt : LEMMA
+%    FORALL(X,Y:set[T]) :
+%      is_finite[T](union(X,Y)) => (is_finite[T](X) and is_finite[T](Y))
+
+%  removeFinite:LEMMA
+%    FORALL(X,Y: set[T], it:T):
+%      member(it,Y) AND X = remove(it,Y) AND is_finite[T](Y) => is_finite[T](X)
+
+  singletonMember: LEMMA
+    FORALL(x,y:T):
+      singleton(x)(y) => x=y
+
+  memberUnion: LEMMA
+    FORALL(x,y:T, S:set[T]):
+      S(x) => member(x,union(S,y))
+
+
+ END set_aux_lemmas

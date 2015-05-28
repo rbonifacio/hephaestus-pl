@@ -1,0 +1,95 @@
+set_comp_lemmas[S: TYPE,T: TYPE]: THEORY
+ BEGIN
+  IMPORTING set_aux_lemmas
+
+  basicLemma : LEMMA
+    (FORALL (item:S, f:[S->finite_sets[T].finite_set]) :
+      {a: T | EXISTS (it: S): (f(it)(a)) AND it = item} = f(item) )
+
+  basicLemma2 : LEMMA
+    (FORALL (item:S, C:finite_sets[T].finite_set) :
+      {a: T | EXISTS (it: S): (C(a)) AND it = item} = C )
+
+  setCompOR : LEMMA
+    FORALL(Y:finite_sets[S].finite_set, item:S, f:[S->finite_sets[T].finite_set]):
+      {a: T | EXISTS (it: S): (f(it)(a)) AND (Y(it) OR it = item)}
+      =
+      union(
+        {a: T | EXISTS (it: S): (f(it)(a)) AND Y(it)},
+	{a: T | EXISTS (it: S): (f(it)(a)) AND it = item}
+      )
+
+  setCompOR2 : LEMMA
+    FORALL(Y:finite_sets[S].finite_set, item:S, X:set[T]):
+      {a: T | EXISTS (it: S): (X(a)) AND (Y(it) OR it = item)}
+      =
+      union(
+        {a: T | EXISTS (it: S): (X(a)) AND Y(it)},
+	{a: T | EXISTS (it: S): (X(a)) AND it = item}
+      )
+
+  setCompFinite : LEMMA
+    FORALL (f:[S->finite_sets[T].finite_set]) : 
+     (FORALL (item:S) : is_finite[T](f(item))) =>
+      FORALL(items:finite_sets[S].finite_set) :
+        is_finite[T]({ a:T |  EXISTS (item:S) : (f(item)(a)) AND items(item) })
+
+  setCompFinite2 : LEMMA
+     FORALL (C:finite_sets[T].finite_set) :
+      FORALL(X:finite_sets[S].finite_set) :
+        is_finite[T]({ a:T |  EXISTS (it:S) : (C(a)) AND X(it) })
+
+  setCompIntersec : LEMMA
+    FORALL (C:finite_sets[S].finite_set, prod:T ,f:[[S->boolean],T->boolean]) :
+
+      {i:S | C(i) AND f(i,prod) }
+      = intersection({i:S | C(i)}, {i:S | f(i,prod) })
+
+
+  setCompOR3 : LEMMA
+    FORALL(Y:finite_sets[S].finite_set, item:S, f:[S,T,T->S],F,G:T):
+      {i: S | EXISTS (it: S): (Y(it) OR it = item) AND i = f(it,F,G)}
+      =
+      union(
+        {i: S | EXISTS (it: S): (i=f(it,F,G)) AND Y(it)},
+	{i: S | EXISTS (it: S): (i=f(it,F,G)) AND it = item}
+      )
+
+  setCompOR4 : LEMMA
+    FORALL(Y:finite_sets[S].finite_set, item:S, e:S, F,G:T):
+      {i: S | EXISTS (it: S): (Y(it) OR it = item) AND i = e}
+      =
+      union(
+        {i: S | EXISTS (it: S): (i=e) AND Y(it)},
+	{i: S | EXISTS (it: S): (i=e) AND it = item}
+      )
+
+  basicLemma3 : LEMMA
+    (FORALL (item:S, f:[S,T,T->S],F,G:T) :
+      ({i: S | EXISTS (it: S): (i=f(it,F,G)) AND it = item}) = f(item,F,G) )
+
+  singletonIsFinite : LEMMA
+    (FORALL (C:set[S]) :
+      singleton?(C) => is_finite(C) )
+
+  setCompFinite3 : LEMMA
+    FORALL (f:[S,T,T->S],F,G:T) : 
+    	   FORALL(S:finite_sets[S].finite_set) :
+	         is_finite({i:S | EXISTS (it:S): S(it) AND i=f(it,F,G)})
+
+  setCompFinite4 : LEMMA
+    FORALL (f:[S->finite_sets[T].finite_set]) : 
+      FORALL(items:finite_sets[S].finite_set) :
+        is_finite[T]({ a:T |  EXISTS (item:S) : (f(item)(a)) AND items(item) })
+
+  setCompFinite5 : LEMMA
+    FORALL (f:[T->S]) : 
+    	   FORALL(S:finite_sets[T].finite_set) :
+	         is_finite({i:S | EXISTS (it:T): S(it) AND i=f(it)})
+
+  setCompFinite6 : LEMMA
+    FORALL (f:[S,T->bool],e:T) : 
+    	   FORALL(S:finite_sets[S].finite_set) :
+	         is_finite({i:S | S(i) AND f(i,e)})
+
+ END set_comp_lemmas

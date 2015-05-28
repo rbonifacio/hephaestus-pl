@@ -1,0 +1,279 @@
+(FormulaTheory
+ (names_TCC1 0
+  (names_TCC1-1 nil 3498313094 3507395017
+   ("" (termination-tcc) nil nil) proved
+   ((real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   102 80 nil nil))
+ (names_TCC2 0
+  (names_TCC2-1 nil 3498313094 3507395017
+   ("" (termination-tcc) nil nil) proved
+   ((real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   128 80 nil nil))
+ (names_TCC3 0
+  (names_TCC3-1 nil 3498313094 3507395017
+   ("" (termination-tcc) nil nil) proved
+   ((reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   117 100 nil nil))
+ (names_TCC4 0
+  (names_TCC4-1 nil 3498313094 3507395018
+   ("" (termination-tcc) nil nil) proved
+   ((real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   125 100 nil nil))
+ (names_TCC5 0
+  (names_TCC5-1 nil 3498313094 3507395018
+   ("" (termination-tcc) nil nil) proved
+   ((reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   110 100 nil nil))
+ (wt_TCC1 0
+  (wt_TCC1-1 nil 3507394996 3507395018 ("" (termination-tcc) nil nil)
+   proved
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (Name type-decl nil Name nil) (set type-eq-decl nil sets nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   123 100 nil nil))
+ (wt_TCC2 0
+  (wt_TCC2-1 nil 3507394996 3507395018 ("" (termination-tcc) nil nil)
+   proved
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (Name type-decl nil Name nil) (set type-eq-decl nil sets nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   111 90 nil nil))
+ (wt_TCC3 0
+  (wt_TCC3-1 nil 3507394996 3507395018 ("" (termination-tcc) nil nil)
+   proved
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (Name type-decl nil Name nil) (set type-eq-decl nil sets nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   107 90 nil nil))
+ (wt_TCC4 0
+  (wt_TCC4-1 nil 3507394996 3507395018 ("" (termination-tcc) nil nil)
+   proved
+   ((boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (Name type-decl nil Name nil) (set type-eq-decl nil sets nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   125 80 nil nil))
+ (satisfies_TCC1 0
+  (satisfies_TCC1-1 nil 3507394996 3507395018
+   ("" (termination-tcc) nil nil) proved
+   ((real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   104 100 nil nil))
+ (satisfies_TCC2 0
+  (satisfies_TCC2-1 nil 3507394996 3507395018
+   ("" (termination-tcc) nil nil) proved
+   ((real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   122 100 nil nil))
+ (satisfies_TCC3 0
+  (satisfies_TCC3-1 nil 3507394996 3507395018
+   ("" (termination-tcc) nil nil) proved
+   ((real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   109 80 nil nil))
+ (satisfies_TCC4 0
+  (satisfies_TCC4-1 nil 3507394996 3507395019
+   ("" (termination-tcc) nil nil) proved
+   ((real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (reduce_nat adt-def-decl "[Formula_ -> nat]" Formula__adt nil)
+    (complexity const-decl "nat" FormulaTheory nil)
+    (posint_plus_nnint_is_posint application-judgement "posint"
+     integers nil))
+   123 90 nil nil))
+ (formNames 0
+  (formNames-1 nil 3498313480 3507395019
+   ("" (induct "f" 1)
+    (("1" (grind) nil nil) ("2" (grind) nil nil) ("3" (grind) nil nil)
+     ("4" (grind) nil nil) ("5" (grind) nil nil) ("6" (grind) nil nil))
+    nil)
+   proved
+   ((NOT const-decl "[bool -> bool]" booleans nil)
+    (emptyset const-decl "set" sets nil)
+    (Formula__induction formula-decl nil Formula__adt nil)
+    (names const-decl "set[Name]" FeatureModel nil)
+    (names def-decl "set[Name]" FormulaTheory nil)
+    (wt def-decl "boolean" FormulaTheory nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (Formula_ type-decl nil Formula__adt nil))
+   327 240 t shostak))
+ (formNames2 0
+  (formNames2-1 nil 3498313499 3507395019
+   ("" (induct "f" 1)
+    (("1" (grind) nil nil) ("2" (grind) nil nil) ("3" (grind) nil nil)
+     ("4" (grind) nil nil) ("5" (grind) nil nil) ("6" (grind) nil nil))
+    nil)
+   proved
+   ((emptyset const-decl "set" sets nil)
+    (Formula__induction formula-decl nil Formula__adt nil)
+    (names def-decl "set[Name]" FormulaTheory nil)
+    (names const-decl "set[Name]" FeatureModel nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (wt def-decl "boolean" FormulaTheory nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (Formula_ type-decl nil Formula__adt nil))
+   267 180 t shostak))
+ (satisfies1 0
+  (satisfies1-1 nil 3507395039 3507395058
+   ("" (induct "f" 1)
+    (("1" (grind) nil nil) ("2" (grind) nil nil) ("3" (grind) nil nil)
+     ("4" (grind) nil nil) ("5" (grind) nil nil) ("6" (grind) nil nil))
+    nil)
+   proved
+   ((nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (nonempty_union2 application-judgement "(nonempty?)" sets nil)
+    (member const-decl "bool" sets nil)
+    (emptyset const-decl "set" sets nil)
+    (Formula__induction formula-decl nil Formula__adt nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (singleton? const-decl "bool" sets nil)
+    (union const-decl "set" sets nil)
+    (satisfies def-decl "boolean" FormulaTheory nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (names def-decl "set[Name]" FormulaTheory nil)
+    (set type-eq-decl nil sets nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (Configuration type-eq-decl nil Name nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (Name type-decl nil Name nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (Formula_ type-decl nil Formula__adt nil))
+   19345 360 t shostak))
+ (satisfies2 0
+  (satisfies2-1 nil 3507395062 3507395073
+   ("" (induct "f" 1)
+    (("1" (grind) nil nil) ("2" (grind) nil nil) ("3" (grind) nil nil)
+     ("4" (grind) nil nil) ("5" (grind) nil nil) ("6" (grind) nil nil))
+    nil)
+   proved
+   ((/= const-decl "boolean" notequal nil)
+    (member const-decl "bool" sets nil)
+    (emptyset const-decl "set" sets nil)
+    (Formula__induction formula-decl nil Formula__adt nil)
+    (remove const-decl "set" sets nil)
+    (satisfies def-decl "boolean" FormulaTheory nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (names def-decl "set[Name]" FormulaTheory nil)
+    (set type-eq-decl nil sets nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (Configuration type-eq-decl nil Name nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (Name type-decl nil Name nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (Formula_ type-decl nil Formula__adt nil))
+   10744 340 t shostak))
+ (wtFormSameFeatures 0
+  (wtFormSameFeatures-1 nil 3498313558 3507395019
+   ("" (skosimp)
+    (("" (induct "f" 1)
+      (("1" (grind) nil nil) ("2" (grind) nil nil)
+       ("3" (grind) nil nil) ("4" (grind) nil nil)
+       ("5" (grind) nil nil) ("6" (grind) nil nil)
+       ("7" (grind) nil nil))
+      nil))
+    nil)
+   proved
+   ((abs!1 skolem-const-decl "FM" FormulaTheory nil)
+    (wfTree const-decl "bool" FeatureModel nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (FM type-eq-decl nil FeatureModel nil)
+    (Formula_ type-decl nil Formula__adt nil)
+    (set type-eq-decl nil sets nil) (Name type-decl nil Name nil)
+    (con!1 skolem-const-decl "FM" FormulaTheory nil)
+    (wt def-decl "boolean" FormulaTheory nil)
+    (IMPLIES const-decl "[bool, bool -> bool]" booleans nil)
+    (Formula__induction formula-decl nil Formula__adt nil)
+    (names const-decl "set[Name]" FeatureModel nil))
+   150 100 t shostak)))
+

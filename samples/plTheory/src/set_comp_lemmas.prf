@@ -1,0 +1,1760 @@
+(set_comp_lemmas
+ (basicLemma 0
+  (basicLemma-1 nil 3499762643 3502636435
+   ("" (skolem 1 (item f))
+    (("" (decompose-equality 1)
+      (("" (bddsimp)
+        (("1" (skolem -1 it)
+          (("1" (flatten) (("1" (assert) nil nil)) nil)) nil)
+         ("2" (instantiate 1 item) (("2" (propax) nil nil)) nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((S formal-type-decl nil set_comp_lemmas nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (set type-eq-decl nil sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (T formal-type-decl nil set_comp_lemmas nil))
+   78 20 t shostak))
+ (basicLemma2 0
+  (basicLemma2-1 nil 3499762923 3502636435
+   ("" (skolem 1 (it C))
+    (("" (decompose-equality 1)
+      (("" (bddsimp)
+        (("1" (skolem -1 i) (("1" (flatten) nil nil)) nil)
+         ("2" (instantiate 1 it) (("2" (propax) nil nil)) nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((S formal-type-decl nil set_comp_lemmas nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (set type-eq-decl nil sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (T formal-type-decl nil set_comp_lemmas nil))
+   29 10 t shostak))
+ (setCompOR 0
+  (setCompOR-1 nil 3499763040 3502636435
+   ("" (skolem 1 (Y item f))
+    (("" (expand* union member)
+      (("" (decompose-equality 1)
+        (("" (bddsimp)
+          (("1" (skolem -1 it)
+            (("1" (flatten)
+              (("1" (instantiate 1 it)
+                (("1" (instantiate 2 it)
+                  (("1" (assert) (("1" (assert) nil nil)) nil)) nil))
+                nil))
+              nil))
+            nil)
+           ("2" (skolem -1 it)
+            (("2" (flatten)
+              (("2" (instantiate 1 it) (("2" (assert) nil nil)) nil))
+              nil))
+            nil)
+           ("3" (skolem -1 it)
+            (("3" (flatten)
+              (("3" (instantiate 1 it) (("3" (assert) nil nil)) nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((member const-decl "bool" sets nil)
+    (union const-decl "set" sets nil)
+    (T formal-type-decl nil set_comp_lemmas nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (set type-eq-decl nil sets nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (S formal-type-decl nil set_comp_lemmas nil))
+   47 30 t shostak))
+ (setCompOR2 0
+  (setCompOR2-1 nil 3499763747 3502636435
+   ("" (skolem 1 (Y item X))
+    (("" (expand* union member)
+      (("" (decompose-equality 1)
+        (("" (bddsimp)
+          (("1" (skosimp) (("1" (grind) nil nil)) nil)
+           ("2" (skosimp) (("2" (grind) nil nil)) nil)
+           ("3" (skosimp) (("3" (grind) nil nil)) nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((member const-decl "bool" sets nil)
+    (union const-decl "set" sets nil)
+    (T formal-type-decl nil set_comp_lemmas nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (set type-eq-decl nil sets nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (S formal-type-decl nil set_comp_lemmas nil))
+   75 50 t shostak))
+ (setCompFinite 0
+  (setCompFinite-1 nil 3499763885 3580336816
+   ("" (skolem 1 f)
+    ((""
+      (lemma
+       "measure_induction[finite_sets[S].finite_set,nat, finite_sets[S].Card, <]")
+      (("1"
+        (instantiate -1
+         "LAMBDA(fs:finite_sets[S].finite_set): is_finite[T] ({a: T | EXISTS (it: S): (f(it)(a)) AND (fs)(it)})")
+        (("1" (bddsimp)
+          (("1" (skolem 1 x)
+            (("1" (flatten)
+              (("1" (case "empty?(x)")
+                (("1" (lemma sets_lemmas[S].emptyset_is_empty?)
+                  (("1" (instantiate -1 x)
+                    (("1" (assert)
+                      (("1" (replace -1 1)
+                        (("1" (expand emptyset 1)
+                          (("1" (use sets[T].emptyset)
+                            (("1" (replace -1 1 RL)
+                              (("1" (grind) nil nil)) nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil)
+                 ("2" (expand empty?)
+                  (("2" (expand member)
+                    (("2" (skolem 1 item)
+                      (("2" (name "Y" "remove(item,x)")
+                        (("2" (instantiate -3 Y)
+                          (("2" (lemma finite_sets[S].card_remove)
+                            (("2" (instantiate -1 (x item))
+                              (("2"
+                                (assert)
+                                (("2"
+                                  (lemma
+                                   set_aux_lemmas[S].lemmaUnionRemove)
+                                  (("2"
+                                    (instantiate -1 (x Y item))
+                                    (("2"
+                                      (expand member)
+                                      (("2"
+                                        (replace -1 1)
+                                        (("2"
+                                          (expand union +)
+                                          (("2"
+                                            (expand singleton +)
+                                            (("2"
+                                              (expand member)
+                                              (("2"
+                                                (lemma setCompOR)
+                                                (("2"
+                                                  (instantiate
+                                                   -1
+                                                   (Y item f))
+                                                  (("2"
+                                                    (replace -1)
+                                                    (("2"
+                                                      (lemma
+                                                       finite_sets[T].finite_union)
+                                                      (("2"
+                                                        (instantiate
+                                                         -1
+                                                         ("{a: T | EXISTS (it: S): (f(it)(a)) AND Y(it)}"
+                                                          "{a: T | EXISTS (it: S): (f(it)(a)) AND it = item}"))
+                                                        (("1"
+                                                          (propax)
+                                                          nil
+                                                          nil)
+                                                         ("2"
+                                                          (lemma
+                                                           basicLemma)
+                                                          (("2"
+                                                            (typepred
+                                                             "f(item)")
+                                                            (("2"
+                                                              (instantiate
+                                                               -2
+                                                               (item
+                                                                f))
+                                                              (("2"
+                                                                (replace
+                                                                 -2)
+                                                                (("2"
+                                                                  (propax)
+                                                                  nil
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (lemma wf_nat) (("2" (grind) nil nil)) nil))
+      nil))
+    nil)
+   unfinished
+   ((< const-decl "bool" reals nil)
+    (restrict const-decl "R" restrict nil)
+    (Card const-decl "nat" finite_sets nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number nonempty-type-decl nil numbers nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (set type-eq-decl nil sets nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (S formal-type-decl nil set_comp_lemmas nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (irreflexive_restrict application-judgement "(irreflexive?[S])"
+     restrict_order_props nil)
+    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
+     restrict_order_props nil)
+    (transitive_restrict application-judgement "(transitive?[S])"
+     restrict_order_props nil)
+    (strict_order_restrict application-judgement "(strict_order?[S])"
+     restrict_order_props nil)
+    (trichotomous_restrict application-judgement "(trichotomous?[S])"
+     restrict_order_props nil)
+    (strict_total_order_restrict application-judgement
+     "(strict_total_order?[S])" restrict_order_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (well_founded? const-decl "bool" orders nil)
+    (pred type-eq-decl nil defined_types nil)
+    (T formal-type-decl nil set_comp_lemmas nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (lemmaUnionRemove formula-decl nil set_aux_lemmas nil)
+    (union const-decl "set" sets nil)
+    (finite_union judgement-tcc nil finite_sets nil)
+    (basicLemma formula-decl nil set_comp_lemmas nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (setCompOR formula-decl nil set_comp_lemmas nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (card_remove formula-decl nil finite_sets nil)
+    (remove const-decl "set" sets nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (finite_remove application-judgement "finite_set" finite_sets nil)
+    (emptyset_is_empty? formula-decl nil sets_lemmas nil)
+    (finite_emptyset name-judgement "finite_set" finite_sets nil)
+    (emptyset const-decl "set" sets nil)
+    (member const-decl "bool" sets nil)
+    (empty? const-decl "bool" sets nil)
+    (wf_nat formula-decl nil naturalnumbers nil))
+   31532 130 t shostak))
+ (setCompFinite2 0
+  (setCompFinite2-1 nil 3499764734 3579962940
+   ("" (skolem 1 c)
+    ((""
+      (use "measure_induction[finite_sets[S].finite_set,nat, finite_sets[S].Card, <]")
+      (("1" (bddsimp)
+        (("1" (skolem 1 x)
+          (("1" (flatten)
+            (("1" (case "empty?(x)")
+              (("1" (lemma sets_lemmas[S].emptyset_is_empty?)
+                (("1" (instantiate -1 x)
+                  (("1" (assert)
+                    (("1" (replace -1 1)
+                      (("1" (expand emptyset 1)
+                        (("1" (use sets[T].emptyset)
+                          (("1" (replace -1 1 RL)
+                            (("1" (assert) nil nil)) nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil)
+               ("2" (expand* empty? member)
+                (("2" (skolem 1 item)
+                  (("2" (name "y" "remove(item,x)")
+                    (("2" (instantiate -3 y)
+                      (("2" (lemma finite_sets[S].card_remove)
+                        (("2" (instantiate -1 (x item))
+                          (("2" (assert)
+                            (("2" (assert)
+                              (("2"
+                                (lemma
+                                 set_aux_lemmas[S].lemmaUnionRemove)
+                                (("2"
+                                  (instantiate -1 (x y item))
+                                  (("2"
+                                    (expand member)
+                                    (("2"
+                                      (replace -1 1)
+                                      (("2"
+                                        (expand*
+                                         union
+                                         singleton
+                                         member
+                                         +)
+                                        (("2"
+                                          (lemma setCompOR2)
+                                          (("2"
+                                            (instantiate -1 (y item c))
+                                            (("2"
+                                              (replace -1 1)
+                                              (("2"
+                                                (lemma
+                                                 finite_sets[T].finite_union)
+                                                (("2"
+                                                  (instantiate
+                                                   -1
+                                                   ("{a: T | EXISTS (it: S): (c(a)) AND y(it)}"
+                                                    "{a: T | EXISTS (it: S): (c(a)) AND it = item}"))
+                                                  (("1"
+                                                    (propax)
+                                                    nil
+                                                    nil)
+                                                   ("2"
+                                                    (lemma basicLemma2)
+                                                    (("2"
+                                                      (instantiate
+                                                       -1
+                                                       (item c))
+                                                      (("2"
+                                                        (replace -1)
+                                                        (("2"
+                                                          (typepred c)
+                                                          (("2"
+                                                            (propax)
+                                                            nil
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (lemma wf_nat) (("2" (grind) nil nil)) nil))
+      nil))
+    nil)
+   unchecked
+   ((pred type-eq-decl nil defined_types nil)
+    (well_founded? const-decl "bool" orders nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (strict_total_order_restrict application-judgement
+     "(strict_total_order?[S])" restrict_order_props nil)
+    (trichotomous_restrict application-judgement "(trichotomous?[S])"
+     restrict_order_props nil)
+    (strict_order_restrict application-judgement "(strict_order?[S])"
+     restrict_order_props nil)
+    (transitive_restrict application-judgement "(transitive?[S])"
+     restrict_order_props nil)
+    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
+     restrict_order_props nil)
+    (irreflexive_restrict application-judgement "(irreflexive?[S])"
+     restrict_order_props nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (S formal-type-decl nil set_comp_lemmas nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (set type-eq-decl nil sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (number nonempty-type-decl nil numbers nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (Card const-decl "nat" finite_sets nil)
+    (restrict const-decl "R" restrict nil)
+    (< const-decl "bool" reals nil)
+    (T formal-type-decl nil set_comp_lemmas nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (empty? const-decl "bool" sets nil)
+    (emptyset const-decl "set" sets nil)
+    (finite_emptyset name-judgement "finite_set" finite_sets nil)
+    (emptyset_is_empty? formula-decl nil sets_lemmas nil)
+    (setCompOR2 formula-decl nil set_comp_lemmas nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (basicLemma2 formula-decl nil set_comp_lemmas nil)
+    (finite_union judgement-tcc nil finite_sets nil)
+    (union const-decl "set" sets nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (lemmaUnionRemove formula-decl nil set_aux_lemmas nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (card_remove formula-decl nil finite_sets nil)
+    (remove const-decl "set" sets nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (finite_remove application-judgement "finite_set" finite_sets nil)
+    (member const-decl "bool" sets nil)
+    (wf_nat formula-decl nil naturalnumbers nil))
+   258342 380 t shostak))
+ (setCompIntersec 0
+  (setCompIntersec-1 nil 3499764622 3502636435
+   ("" (skolem 1 (c prod f))
+    (("" (expand singleton)
+      (("" (expand intersection)
+        (("" (expand member) (("" (propax) nil nil)) nil)) nil))
+      nil))
+    nil)
+   unchecked
+   ((singleton const-decl "(singleton?)" sets nil)
+    (member const-decl "bool" sets nil)
+    (intersection const-decl "set" sets nil))
+   25 10 t shostak))
+ (setCompOR3 0
+  (setCompOR3-1 nil 3501516796 3502636436
+   ("" (skolem 1 (Y item f F G))
+    (("" (expand* union member)
+      (("" (decompose-equality 1)
+        (("" (bddsimp)
+          (("1" (skolem -1 it)
+            (("1" (flatten)
+              (("1" (instantiate 1 it)
+                (("1" (instantiate 2 it) (("1" (bddsimp) nil nil))
+                  nil))
+                nil))
+              nil))
+            nil)
+           ("2" (skolem -1 it)
+            (("2" (flatten)
+              (("2" (instantiate 1 it) (("2" (bddsimp) nil nil)) nil))
+              nil))
+            nil)
+           ("3" (skolem -1 it)
+            (("3" (instantiate 1 it) (("3" (bddsimp) nil nil)) nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((member const-decl "bool" sets nil)
+    (union const-decl "set" sets nil)
+    (S formal-type-decl nil set_comp_lemmas nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (T formal-type-decl nil set_comp_lemmas nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (set type-eq-decl nil sets nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil))
+   43 20 t shostak))
+ (setCompOR4 0
+  (setCompOR4-1 nil 3579971196 3579971266
+   ("" (skolem 1 (Y item e F G))
+    (("" (expand* union member)
+      (("" (decompose-equality 1)
+        (("" (bddsimp)
+          (("1" (skolem -1 it)
+            (("1" (instantiate 1 it)
+              (("1" (instantiate 2 it) (("1" (bddsimp) nil nil)) nil))
+              nil))
+            nil)
+           ("2" (skolem -1 it)
+            (("2" (instantiate 1 it)
+              (("2" (flatten) (("2" (assert) nil nil)) nil)) nil))
+            nil)
+           ("3" (skolem -1 it)
+            (("3" (instantiate 1 it)
+              (("3" (flatten) (("3" (assert) nil nil)) nil)) nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((member const-decl "bool" sets nil)
+    (union const-decl "set" sets nil)
+    (S formal-type-decl nil set_comp_lemmas nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (set type-eq-decl nil sets nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil))
+   69874 90 t shostak))
+ (basicLemma3_TCC1 0
+  (basicLemma3_TCC1-1 nil 3501585565 3579964735
+   ("" (skolem 1 (item f F G))
+    (("" (expand singleton?)
+      (("" (instantiate 1 "f(item, F, G)")
+        (("1" (skolem 1 y)
+          (("1" (typepred y)
+            (("1" (skolem -1 it)
+              (("1" (flatten)
+                (("1" (replace -2) (("1" (assert) nil nil)) nil)) nil))
+              nil))
+            nil))
+          nil)
+         ("2" (instantiate 1 item) (("2" (propax) nil nil)) nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((singleton? const-decl "bool" sets nil)
+    (T formal-type-decl nil set_comp_lemmas nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (S formal-type-decl nil set_comp_lemmas nil)
+    (NOT const-decl "[bool -> bool]" booleans nil))
+   30 10 t nil))
+ (basicLemma3 0
+  (basicLemma3-1 nil 3502634894 3502636422
+   ("" (skolem 1 (item f F G))
+    (("" (lemma basicLemma3_TCC1)
+      (("" (instantiate -1 (item f F G))
+        (("" (lemma sets[S].singleton_elt_lem)
+          ((""
+            (instantiate -1
+             ("{i: S | EXISTS (it: S): (i = f(it, F, G)) AND it = item}"
+              "f(item, F, G)"))
+            (("" (bddsimp)
+              (("" (instantiate 1 item) (("" (propax) nil nil)) nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((basicLemma3_TCC1 subtype-tcc nil set_comp_lemmas nil)
+    (S formal-type-decl nil set_comp_lemmas nil)
+    (singleton_elt_lem formula-decl nil sets nil)
+    (T formal-type-decl nil set_comp_lemmas nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (set type-eq-decl nil sets nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil))
+   287159 90 t shostak))
+ (singletonIsFinite 0
+  (singletonIsFinite-1 nil 3502637292 3502639824
+   ("" (skolem 1 C)
+    (("" (flatten)
+      (("" (lemma sets[S].singleton_elt_def)
+        (("" (instantiate -1 C)
+          (("" (assert)
+            (("" (lemma sets[S].the_lem)
+              (("" (expand choose)
+                (("" (instantiate -1 C)
+                  (("" (lemma sets[S].the_prop)
+                    (("" (instantiate -1 C)
+                      (("" (lemma finite_sets[S].finite_singleton)
+                        (("" (instantiate -1 C)
+                          ((""
+                            (case "C=singleton[S](singleton_elt[S](C))")
+                            (("1" (assert) nil nil)
+                             ("2" (decompose-equality 1)
+                              (("2"
+                                (expand singleton)
+                                (("2"
+                                  (expand singleton_elt)
+                                  (("2"
+                                    (expand member)
+                                    (("2"
+                                      (bddsimp)
+                                      (("1"
+                                        (expand singleton?)
+                                        (("1"
+                                          (copy -6)
+                                          (("1"
+                                            (skolem -1 elm)
+                                            (("1"
+                                              (copy -1)
+                                              (("1"
+                                                (copy -1)
+                                                (("1"
+                                                  (instantiate -1 x!1)
+                                                  (("1"
+                                                    (instantiate
+                                                     -2
+                                                     "the(C)")
+                                                    (("1"
+                                                      (instantiate
+                                                       -3
+                                                       "the! (x: S): C(x)")
+                                                      (("1"
+                                                        (assert)
+                                                        nil
+                                                        nil)
+                                                       ("2"
+                                                        (grind)
+                                                        nil
+                                                        nil))
+                                                      nil))
+                                                    nil)
+                                                   ("2"
+                                                    (propax)
+                                                    nil
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil)
+                                       ("2" (grind) nil nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   unchecked
+   ((the_lem formula-decl nil sets nil) (the const-decl "(p)" sets nil)
+    (injective? const-decl "bool" functions nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (member const-decl "bool" sets nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (singleton_elt const-decl "T" sets nil)
+    (finite_singleton judgement-tcc nil finite_sets nil)
+    (the_prop formula-decl nil sets nil)
+    (singleton? const-decl "bool" sets nil)
+    (choose const-decl "(p)" sets nil) (set type-eq-decl nil sets nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (singleton_elt_def formula-decl nil sets nil)
+    (S formal-type-decl nil set_comp_lemmas nil))
+   440220 160 t shostak))
+ (setCompFinite3 0
+  (setCompFinite3-1 nil 3501516223 3502638833
+   ("" (skolem 1 (f F G))
+    ((""
+      (use "measure_induction[finite_sets[S].finite_set,nat, finite_sets[S].Card, <]")
+      (("1" (bddsimp)
+        (("1" (skolem 1 x)
+          (("1" (flatten)
+            (("1" (case "empty?(x)")
+              (("1" (lemma sets_lemmas[S].emptyset_is_empty?)
+                (("1" (instantiate -1 x)
+                  (("1" (assert)
+                    (("1" (replace -1)
+                      (("1" (expand emptyset 1)
+                        (("1" (use sets[S].emptyset)
+                          (("1" (replace -1 1 RL)
+                            (("1" (grind) nil nil)) nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil)
+               ("2" (expand empty?)
+                (("2" (expand member)
+                  (("2" (skolem 1 item)
+                    (("2" (name "Y" "remove(item,x)")
+                      (("2" (instantiate -3 Y)
+                        (("2" (lemma finite_sets[S].card_remove)
+                          (("2" (instantiate -1 (x item))
+                            (("2" (assert)
+                              (("2"
+                                (lemma
+                                 set_aux_lemmas[S].lemmaUnionRemove)
+                                (("2"
+                                  (instantiate -1 (x Y item))
+                                  (("2"
+                                    (expand member)
+                                    (("2"
+                                      (replace -1 1)
+                                      (("2"
+                                        (expand union +)
+                                        (("2"
+                                          (expand singleton +)
+                                          (("2"
+                                            (expand member)
+                                            (("2"
+                                              (lemma setCompOR3)
+                                              (("2"
+                                                (instantiate
+                                                 -1
+                                                 (Y item f F G))
+                                                (("2"
+                                                  (replace -1)
+                                                  (("2"
+                                                    (lemma
+                                                     finite_sets[S].finite_union)
+                                                    (("2"
+                                                      (instantiate
+                                                       -1
+                                                       ("{i: S | EXISTS (it: S): (i = f(it, F, G)) AND Y(it)}"
+                                                        "{i: S |
+                         EXISTS (it: S): (i = f(it, F, G)) AND it = item}"))
+                                                      (("1"
+                                                        (propax)
+                                                        nil
+                                                        nil)
+                                                       ("2"
+                                                        (lemma
+                                                         basicLemma3)
+                                                        (("2"
+                                                          (instantiate
+                                                           -1
+                                                           (item
+                                                            f
+                                                            F
+                                                            G))
+                                                          (("2"
+                                                            (case
+                                                             "singleton?({i: S | EXISTS (it: S): (i = f(it, F, G)) AND it = item})")
+                                                            (("1"
+                                                              (lemma
+                                                               singletonIsFinite)
+                                                              (("1"
+                                                                (instantiate
+                                                                 -1
+                                                                 "{i: S | EXISTS (it: S): (i = f(it, F, G)) AND it = item}")
+                                                                (("1"
+                                                                  (assert)
+                                                                  nil
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("2"
+                                                              (lemma
+                                                               basicLemma3_TCC1)
+                                                              (("2"
+                                                                (instantiate
+                                                                 -1
+                                                                 (item
+                                                                  f
+                                                                  F
+                                                                  G))
+                                                                (("2"
+                                                                  (propax)
+                                                                  nil
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil)
+                                                       ("3"
+                                                        (typepred Y)
+                                                        (("3"
+                                                          (case
+                                                           "{i: S | EXISTS (it: S): Y(it) AND i = f(it, F, G)}={i: S | EXISTS (it: S): (i = f(it, F, G)) AND Y(it)}")
+                                                          (("1"
+                                                            (assert)
+                                                            nil
+                                                            nil)
+                                                           ("2"
+                                                            (decompose-equality
+                                                             1)
+                                                            (("2"
+                                                              (hide-all-but
+                                                               1)
+                                                              (("2"
+                                                                (bddsimp)
+                                                                (("1"
+                                                                  (skolem
+                                                                   -1
+                                                                   it)
+                                                                  (("1"
+                                                                    (flatten)
+                                                                    (("1"
+                                                                      (instantiate
+                                                                       1
+                                                                       it)
+                                                                      (("1"
+                                                                        (assert)
+                                                                        nil
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil)
+                                                                 ("2"
+                                                                  (skolem
+                                                                   -1
+                                                                   it)
+                                                                  (("2"
+                                                                    (flatten)
+                                                                    (("2"
+                                                                      (instantiate
+                                                                       1
+                                                                       it)
+                                                                      (("2"
+                                                                        (assert)
+                                                                        nil
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (lemma wf_nat) (("2" (grind) nil nil)) nil))
+      nil))
+    nil)
+   unchecked
+   ((wf_nat formula-decl nil naturalnumbers nil)
+    (lemmaUnionRemove formula-decl nil set_aux_lemmas nil)
+    (union const-decl "set" sets nil)
+    (finite_union judgement-tcc nil finite_sets nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (basicLemma3 formula-decl nil set_comp_lemmas nil)
+    (singleton? const-decl "bool" sets nil)
+    (nonempty_finite_union2 application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (finite_union application-judgement "finite_set" finite_sets nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (singletonIsFinite formula-decl nil set_comp_lemmas nil)
+    (basicLemma3_TCC1 subtype-tcc nil set_comp_lemmas nil)
+    (setCompOR3 formula-decl nil set_comp_lemmas nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (card_remove formula-decl nil finite_sets nil)
+    (remove const-decl "set" sets nil)
+    (finite_remove application-judgement "finite_set" finite_sets nil)
+    (emptyset_is_empty? formula-decl nil sets_lemmas nil)
+    (finite_emptyset name-judgement "finite_set" finite_sets nil)
+    (emptyset const-decl "set" sets nil)
+    (member const-decl "bool" sets nil)
+    (empty? const-decl "bool" sets nil)
+    (T formal-type-decl nil set_comp_lemmas nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (< const-decl "bool" reals nil)
+    (restrict const-decl "R" restrict nil)
+    (Card const-decl "nat" finite_sets nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (>= const-decl "bool" reals nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number nonempty-type-decl nil numbers nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (set type-eq-decl nil sets nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (S formal-type-decl nil set_comp_lemmas nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (irreflexive_restrict application-judgement "(irreflexive?[S])"
+     restrict_order_props nil)
+    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
+     restrict_order_props nil)
+    (transitive_restrict application-judgement "(transitive?[S])"
+     restrict_order_props nil)
+    (strict_order_restrict application-judgement "(strict_order?[S])"
+     restrict_order_props nil)
+    (trichotomous_restrict application-judgement "(trichotomous?[S])"
+     restrict_order_props nil)
+    (strict_total_order_restrict application-judgement
+     "(strict_total_order?[S])" restrict_order_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (well_founded? const-decl "bool" orders nil)
+    (pred type-eq-decl nil defined_types nil))
+   23058 420 t shostak))
+ (setCompFinite4 0
+  (setCompFinite4-1 nil 3579964746 3580337083
+   ("" (skolem 1 f)
+    ((""
+      (use "measure_induction[finite_sets[S].finite_set,nat, finite_sets[S].Card, <]")
+      (("1" (bddsimp)
+        (("1" (skolem 1 x)
+          (("1" (flatten)
+            (("1"
+              (case "empty?(x)
+")
+              (("1" (lemma sets_lemmas[S].emptyset_is_empty?)
+                (("1" (instantiate -1 x)
+                  (("1" (assert)
+                    (("1" (replace -1 1)
+                      (("1" (expand emptyset 1)
+                        (("1" (use sets[T].emptyset)
+                          (("1" (replace -1 1 RL)
+                            (("1" (assert) nil nil)) nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil)
+               ("2" (expand* empty? member)
+                (("2" (skolem 1 item)
+                  (("2" (name "Y" "remove(item,x)")
+                    (("2" (instantiate -3 Y)
+                      (("2" (lemma finite_sets[S].card_remove)
+                        (("2" (instantiate -1 (x item))
+                          (("2" (assert)
+                            (("2"
+                              (lemma
+                               set_aux_lemmas[S].lemmaUnionRemove)
+                              (("2"
+                                (instantiate -1 (x Y item))
+                                (("2"
+                                  (expand member)
+                                  (("2"
+                                    (replace -1 1)
+                                    (("2"
+                                      (expand union +)
+                                      (("2"
+                                        (expand singleton +)
+                                        (("2"
+                                          (expand member)
+                                          (("2"
+                                            (lemma setCompOR)
+                                            (("2"
+                                              (instantiate
+                                               -1
+                                               (Y item f))
+                                              (("2"
+                                                (replace -1)
+                                                (("2"
+                                                  (lemma
+                                                   finite_sets[T].finite_union)
+                                                  (("2"
+                                                    (instantiate
+                                                     -1
+                                                     ("{a: T | EXISTS (it: S): (f(it)(a)) AND Y(it)}"
+                                                      "{a: T | EXISTS (it: S): (f(it)(a)) AND it = item}"))
+                                                    (("1"
+                                                      (propax)
+                                                      nil
+                                                      nil)
+                                                     ("2"
+                                                      (lemma
+                                                       basicLemma)
+                                                      (("2"
+                                                        (typepred
+                                                         "f(item)")
+                                                        (("2"
+                                                          (instantiate
+                                                           -2
+                                                           (item f))
+                                                          (("2"
+                                                            (replace
+                                                             -2)
+                                                            (("2"
+                                                              (propax)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (lemma wf_nat) (("2" (grind) nil nil)) nil))
+      nil))
+    nil)
+   unchecked
+   ((pred type-eq-decl nil defined_types nil)
+    (well_founded? const-decl "bool" orders nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (strict_total_order_restrict application-judgement
+     "(strict_total_order?[S])" restrict_order_props nil)
+    (trichotomous_restrict application-judgement "(trichotomous?[S])"
+     restrict_order_props nil)
+    (strict_order_restrict application-judgement "(strict_order?[S])"
+     restrict_order_props nil)
+    (transitive_restrict application-judgement "(transitive?[S])"
+     restrict_order_props nil)
+    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
+     restrict_order_props nil)
+    (irreflexive_restrict application-judgement "(irreflexive?[S])"
+     restrict_order_props nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (S formal-type-decl nil set_comp_lemmas nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (set type-eq-decl nil sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (number nonempty-type-decl nil numbers nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (Card const-decl "nat" finite_sets nil)
+    (restrict const-decl "R" restrict nil)
+    (< const-decl "bool" reals nil)
+    (T formal-type-decl nil set_comp_lemmas nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (empty? const-decl "bool" sets nil)
+    (emptyset const-decl "set" sets nil)
+    (finite_emptyset name-judgement "finite_set" finite_sets nil)
+    (emptyset_is_empty? formula-decl nil sets_lemmas nil)
+    (lemmaUnionRemove formula-decl nil set_aux_lemmas nil)
+    (union const-decl "set" sets nil)
+    (finite_union judgement-tcc nil finite_sets nil) nil nil
+    (basicLemma formula-decl nil set_comp_lemmas nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (setCompOR formula-decl nil set_comp_lemmas nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (card_remove formula-decl nil finite_sets nil)
+    (remove const-decl "set" sets nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (finite_remove application-judgement "finite_set" finite_sets nil)
+    (member const-decl "bool" sets nil)
+    (wf_nat formula-decl nil naturalnumbers nil))
+   237369 330 t shostak))
+ (setCompFinite5 0
+  (setCompFinite5-1 nil 3579972263 3579974132
+   ("" (skolem 1 f)
+    ((""
+      (use "measure_induction[finite_sets[T].finite_set,nat, finite_sets[T].Card, <]")
+      (("1" (bddsimp)
+        (("1" (skolem 1 x)
+          (("1" (flatten)
+            (("1" (case "empty?(x)")
+              (("1" (lemma sets_lemmas[T].emptyset_is_empty?)
+                (("1" (instantiate -1 x)
+                  (("1" (assert)
+                    (("1" (use sets[T].emptyset)
+                      (("1" (replace -2 1)
+                        (("1" (expand emptyset 1)
+                          (("1" (use sets[S].emptyset)
+                            (("1" (assert) nil nil)) nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil)
+               ("2" (expand empty?)
+                (("2" (expand member)
+                  (("2" (skolem 1 item)
+                    (("2" (name "Y" "remove(item,x)")
+                      (("2" (instantiate -3 Y)
+                        (("2" (lemma finite_sets[T].card_remove)
+                          (("2" (instantiate -1 (x item))
+                            (("2" (assert)
+                              (("2"
+                                (lemma
+                                 set_aux_lemmas[T].lemmaUnionRemove)
+                                (("2"
+                                  (instantiate -1 (x Y item))
+                                  (("2"
+                                    (expand member)
+                                    (("2"
+                                      (replace -1 1)
+                                      (("2"
+                                        (expand union +)
+                                        (("2"
+                                          (expand singleton +)
+                                          (("2"
+                                            (expand member)
+                                            (("2"
+                                              (case
+                                               "{i: S | EXISTS (it: T): (Y(it) OR it = item) AND i = f(it)}=union({i: S | EXISTS (it: T): Y(it) AND i = f(it)}, {i: S | EXISTS (it: T): it = item AND i = f(it)})")
+                                              (("1"
+                                                (lemma
+                                                 finite_sets[S].finite_union)
+                                                (("1"
+                                                  (instantiate
+                                                   -1
+                                                   ("{i: S | EXISTS (it: T): Y(it) AND i = f(it)}"
+                                                    "{i: S | EXISTS (it: T): it = item AND i = f(it)}"))
+                                                  (("1"
+                                                    (assert)
+                                                    nil
+                                                    nil)
+                                                   ("2"
+                                                    (case
+                                                     "{i: S | EXISTS (it: T): it = item AND i = f(it)}=singleton(f(item))")
+                                                    (("1"
+                                                      (replace -1)
+                                                      (("1"
+                                                        (assert)
+                                                        nil
+                                                        nil))
+                                                      nil)
+                                                     ("2"
+                                                      (hide-all-but 1)
+                                                      (("2"
+                                                        (expand*
+                                                         singleton)
+                                                        (("2"
+                                                          (decompose-equality
+                                                           1)
+                                                          (("2"
+                                                            (bddsimp)
+                                                            (("1"
+                                                              (skolem
+                                                               -1
+                                                               it)
+                                                              (("1"
+                                                                (flatten)
+                                                                (("1"
+                                                                  (assert)
+                                                                  nil
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("2"
+                                                              (instantiate
+                                                               1
+                                                               item)
+                                                              (("2"
+                                                                (propax)
+                                                                nil
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil)
+                                               ("2"
+                                                (hide-all-but 1)
+                                                (("2"
+                                                  (expand*
+                                                   union
+                                                   member)
+                                                  (("2"
+                                                    (decompose-equality
+                                                     1)
+                                                    (("2"
+                                                      (bddsimp)
+                                                      (("1"
+                                                        (skolem -1 it)
+                                                        (("1"
+                                                          (instantiate
+                                                           1
+                                                           it)
+                                                          (("1"
+                                                            (instantiate
+                                                             2
+                                                             it)
+                                                            (("1"
+                                                              (bddsimp)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil)
+                                                       ("2"
+                                                        (skolem -1 it)
+                                                        (("2"
+                                                          (instantiate
+                                                           1
+                                                           it)
+                                                          (("2"
+                                                            (bddsimp)
+                                                            nil
+                                                            nil))
+                                                          nil))
+                                                        nil)
+                                                       ("3"
+                                                        (skolem -1 it)
+                                                        (("3"
+                                                          (instantiate
+                                                           1
+                                                           it)
+                                                          (("3"
+                                                            (bddsimp)
+                                                            nil
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (lemma wf_nat) (("2" (grind) nil nil)) nil))
+      nil))
+    nil)
+   unchecked
+   ((pred type-eq-decl nil defined_types nil)
+    (well_founded? const-decl "bool" orders nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (strict_total_order_restrict application-judgement
+     "(strict_total_order?[S])" restrict_order_props nil)
+    (trichotomous_restrict application-judgement "(trichotomous?[S])"
+     restrict_order_props nil)
+    (strict_order_restrict application-judgement "(strict_order?[S])"
+     restrict_order_props nil)
+    (transitive_restrict application-judgement "(transitive?[S])"
+     restrict_order_props nil)
+    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
+     restrict_order_props nil)
+    (irreflexive_restrict application-judgement "(irreflexive?[S])"
+     restrict_order_props nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (T formal-type-decl nil set_comp_lemmas nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (set type-eq-decl nil sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (number nonempty-type-decl nil numbers nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (Card const-decl "nat" finite_sets nil)
+    (restrict const-decl "R" restrict nil)
+    (< const-decl "bool" reals nil)
+    (S formal-type-decl nil set_comp_lemmas nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (empty? const-decl "bool" sets nil)
+    (emptyset const-decl "set" sets nil)
+    (finite_emptyset name-judgement "finite_set" finite_sets nil)
+    (emptyset_is_empty? formula-decl nil sets_lemmas nil)
+    (member const-decl "bool" sets nil)
+    (finite_remove application-judgement "finite_set" finite_sets nil)
+    (remove const-decl "set" sets nil)
+    (card_remove formula-decl nil finite_sets nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (nonempty_finite_union2 application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (finite_union application-judgement "finite_set" finite_sets nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (singleton? const-decl "bool" sets nil)
+    (finite_union judgement-tcc nil finite_sets nil)
+    (union const-decl "set" sets nil)
+    (lemmaUnionRemove formula-decl nil set_aux_lemmas nil)
+    (wf_nat formula-decl nil naturalnumbers nil))
+   1869516 410 t shostak))
+ (setCompFinite5not 0
+  (setCompFinite5not-1 nil 3584208492 3584209404
+   ("" (skolem 1 f)
+    ((""
+      (use "measure_induction[finite_sets[T].finite_set,nat, finite_sets[T].Card, <]")
+      (("1" (bddsimp)
+        (("1" (skolem 1 x)
+          (("1" (flatten)
+            (("1" (case "empty?(x)")
+              (("1" (lemma sets_lemmas[T].emptyset_is_empty?)
+                (("1" (instantiate -1 x)
+                  (("1" (assert)
+                    (("1" (use sets[T].emptyset)
+                      (("1" (replace -2 1)
+                        (("1" (expand emptyset 1)
+                          (("1" (use sets[S].emptyset)
+                            (("1" (replace -1 1 RL)
+                              (("1" (assert) nil nil)) nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil)
+               ("2" (expand* empty? member)
+                (("2" (skolem 1 item)
+                  (("2" (name "Y" "remove(item,x)")
+                    (("2" (instantiate -3 Y)
+                      (("2" (lemma finite_sets[T].card_remove)
+                        (("2" (instantiate -1 (x item))
+                          (("2" (replace -2 -1)
+                            (("2" (assert)
+                              (("2"
+                                (lemma
+                                 set_aux_lemmas[T].lemmaUnionRemove)
+                                (("2"
+                                  (instantiate -1 (x Y item))
+                                  (("2"
+                                    (assert)
+                                    (("2"
+                                      (expand member)
+                                      (("2"
+                                        (replace -1 1)
+                                        (("2"
+                                          (expand union +)
+                                          (("2"
+                                            (expand singleton +)
+                                            (("2"
+                                              (expand member)
+                                              (("2"
+                                                (case
+                                                 "{i: S | EXISTS (it: T): (Y(it) OR it = item) AND i /= f(it)}=union({i: S | EXISTS (it: T): Y(it) AND i /= f(it)}, {i: S | EXISTS (it: T): it = item AND i /= f(it)})")
+                                                (("1"
+                                                  (lemma
+                                                   finite_sets[S].finite_union)
+                                                  (("1"
+                                                    (instantiate
+                                                     -1
+                                                     ("{i: S | EXISTS (it: T): Y(it) AND i /= f(it)}"
+                                                      "{i: S | EXISTS (it: T): it = item AND i /= f(it)}"))
+                                                    (("1"
+                                                      (assert)
+                                                      nil
+                                                      nil)
+                                                     ("2"
+                                                      (postpone)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil)
+                                                 ("2"
+                                                  (decompose-equality
+                                                   1)
+                                                  (("2"
+                                                    (expand*
+                                                     union
+                                                     singleton
+                                                     member)
+                                                    (("2"
+                                                      (bddsimp 1)
+                                                      (("1"
+                                                        (skolem -1 it)
+                                                        (("1"
+                                                          (bddsimp)
+                                                          (("1"
+                                                            (flatten)
+                                                            (("1"
+                                                              (instantiate
+                                                               2
+                                                               it)
+                                                              (("1"
+                                                                (assert)
+                                                                nil
+                                                                nil))
+                                                              nil))
+                                                            nil)
+                                                           ("2"
+                                                            (instantiate
+                                                             2
+                                                             it)
+                                                            (("2"
+                                                              (assert)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil)
+                                                       ("2"
+                                                        (skolem -1 it)
+                                                        (("2"
+                                                          (flatten)
+                                                          (("2"
+                                                            (instantiate
+                                                             1
+                                                             it)
+                                                            (("2"
+                                                              (assert)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil)
+                                                       ("3"
+                                                        (skolem -1 it)
+                                                        (("3"
+                                                          (flatten)
+                                                          (("3"
+                                                            (instantiate
+                                                             1
+                                                             it)
+                                                            (("3"
+                                                              (assert)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (lemma wf_nat) (("2" (grind) nil nil)) nil))
+      nil))
+    nil)
+   unfinished nil 911963 550 t shostak))
+ (setCompFinite6 0
+  (setCompFinite6-1 nil 3580333652 3580336293
+   ("" (skolem 1 (f e))
+    ((""
+      (use "measure_induction[finite_sets[S].finite_set,nat, finite_sets[S].Card, <]")
+      (("1" (bddsimp)
+        (("1" (skolem 1 x)
+          (("1" (flatten)
+            (("1" (case "empty?(x)")
+              (("1" (lemma sets_lemmas[S].emptyset_is_empty?)
+                (("1" (instantiate -1 x)
+                  (("1" (assert)
+                    (("1" (use sets[S].emptyset)
+                      (("1" (replace -2 1)
+                        (("1" (expand emptyset 1)
+                          (("1" (assert) nil nil)) nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil)
+               ("2" (expand* empty? member)
+                (("2" (skolem 1 item)
+                  (("2" (name "Y" "remove(item,x)")
+                    (("2" (instantiate -3 Y)
+                      (("2" (lemma finite_sets[S].card_remove)
+                        (("2" (instantiate -1 (x item))
+                          (("2" (assert)
+                            (("2"
+                              (lemma
+                               set_aux_lemmas[S].lemmaUnionRemove)
+                              (("2"
+                                (instantiate -1 (x Y item))
+                                (("2"
+                                  (expand member)
+                                  (("2"
+                                    (replace -1 1)
+                                    (("2"
+                                      (expand union +)
+                                      (("2"
+                                        (expand singleton +)
+                                        (("2"
+                                          (expand member)
+                                          (("2"
+                                            (case
+                                             "{i: S | (Y(i) OR i = item) AND f(i,e)}=union({i: S | Y(i) AND f(i,e)}, {i: S | i = item AND f(i,e)})")
+                                            (("1"
+                                              (lemma
+                                               finite_sets[S].finite_union)
+                                              (("1"
+                                                (instantiate
+                                                 -1
+                                                 ("{i: S | Y(i) AND f(i,e)}"
+                                                  "{i: S | i = item AND f(i,e)}"))
+                                                (("1" (assert) nil nil)
+                                                 ("2"
+                                                  (case
+                                                   "{i: S | i = item AND f(i, e)}=IF(f(item,e)) THEN singleton(item) ELSE emptyset ENDIF")
+                                                  (("1"
+                                                    (case "f(item,e)")
+                                                    (("1"
+                                                      (assert)
+                                                      nil
+                                                      nil)
+                                                     ("2"
+                                                      (assert)
+                                                      nil
+                                                      nil))
+                                                    nil)
+                                                   ("2"
+                                                    (decompose-equality
+                                                     1)
+                                                    (("2"
+                                                      (expand
+                                                       singleton
+                                                       1)
+                                                      (("2"
+                                                        (expand
+                                                         emptyset
+                                                         1)
+                                                        (("2"
+                                                          (bddsimp)
+                                                          (("1"
+                                                            (assert)
+                                                            nil
+                                                            nil)
+                                                           ("2"
+                                                            (assert)
+                                                            nil
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil)
+                                             ("2"
+                                              (expand* union member)
+                                              (("2"
+                                                (decompose-equality 1)
+                                                (("2"
+                                                  (bddsimp)
+                                                  nil
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (lemma wf_nat) (("2" (grind) nil nil)) nil))
+      nil))
+    nil)
+   unchecked
+   ((pred type-eq-decl nil defined_types nil)
+    (well_founded? const-decl "bool" orders nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (strict_total_order_restrict application-judgement
+     "(strict_total_order?[S])" restrict_order_props nil)
+    (trichotomous_restrict application-judgement "(trichotomous?[S])"
+     restrict_order_props nil)
+    (strict_order_restrict application-judgement "(strict_order?[S])"
+     restrict_order_props nil)
+    (transitive_restrict application-judgement "(transitive?[S])"
+     restrict_order_props nil)
+    (antisymmetric_restrict application-judgement "(antisymmetric?[S])"
+     restrict_order_props nil)
+    (irreflexive_restrict application-judgement "(irreflexive?[S])"
+     restrict_order_props nil)
+    (measure_induction formula-decl nil measure_induction nil)
+    (S formal-type-decl nil set_comp_lemmas nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (set type-eq-decl nil sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (number nonempty-type-decl nil numbers nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (>= const-decl "bool" reals nil)
+    (nat nonempty-type-eq-decl nil naturalnumbers nil)
+    (Card const-decl "nat" finite_sets nil)
+    (restrict const-decl "R" restrict nil)
+    (< const-decl "bool" reals nil)
+    (AND const-decl "[bool, bool -> bool]" booleans nil)
+    (T formal-type-decl nil set_comp_lemmas nil)
+    (empty? const-decl "bool" sets nil)
+    (emptyset const-decl "set" sets nil)
+    (finite_emptyset name-judgement "finite_set" finite_sets nil)
+    (emptyset_is_empty? formula-decl nil sets_lemmas nil)
+    (lemmaUnionRemove formula-decl nil set_aux_lemmas nil)
+    (union const-decl "set" sets nil)
+    (finite_union judgement-tcc nil finite_sets nil)
+    (singleton? const-decl "bool" sets nil)
+    (IF const-decl "[boolean, T, T -> T]" if_def nil)
+    (nonempty_singleton_finite application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (finite_union application-judgement "finite_set" finite_sets nil)
+    (nonempty_finite_union2 application-judgement
+     "non_empty_finite_set" finite_sets nil)
+    (OR const-decl "[bool, bool -> bool]" booleans nil)
+    (singleton const-decl "(singleton?)" sets nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (card_remove formula-decl nil finite_sets nil)
+    (remove const-decl "set" sets nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (finite_remove application-judgement "finite_set" finite_sets nil)
+    (member const-decl "bool" sets nil)
+    (wf_nat formula-decl nil naturalnumbers nil))
+   511305 340 t shostak)))
+

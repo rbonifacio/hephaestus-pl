@@ -1,0 +1,40 @@
+FeatureModelSemantics: THEORY
+ BEGIN
+  IMPORTING Name, FeatureModel, FormulaTheory
+
+  % well-formed feature model
+  wfFM(fm: FM): bool = 
+    wfTree(fm) AND wfFormulae(fm)                 
+
+  WFM : TYPE = (wfFM)
+
+  % configuration only contain names from the feature model
+  satImpConsts(fm: WFM, c:Configuration): bool =
+    FORALL (n: Name): c(n) => features(fm)(n)
+
+  satExpConsts(fm: WFM, c:Configuration): bool =
+    FORALL (f: Formula_): formulae(fm)(f) => satisfies(f,c)
+
+  % semantics of a feature model
+  semantics(fm: WFM): set[Configuration] =
+    {c:Configuration | satImpConsts(fm,c) AND satExpConsts(fm,c)}
+
+  % refinement notion for feature models
+  refines(abs,con: WFM): bool = subset?(semantics(abs),semantics(con))
+
+  refines2(abs,con: WFM): bool =
+    FORALL (c1: Configuration): semantics(abs)(c1) 
+      => EXISTS(c2: Configuration): semantics(con)(c2)
+
+  wtFormRefinement: LEMMA
+    FORALL(abs,con:FM):
+      (FORALL(name:Name): features(abs)(name) => features(con)(name) ) AND
+      wfTree(abs) AND wfTree(con) =>
+      	(FORALL (f:Formula_): wt(abs,f) => wt(con,f))
+
+  notMember: THEOREM
+    FORALL(fm:WFM,opt:Name):
+      (not(features(fm)(opt))) =>
+        (FORALL (c:Configuration) : semantics(fm)(c) => NOT c(opt)) 
+
+ END FeatureModelSemantics
