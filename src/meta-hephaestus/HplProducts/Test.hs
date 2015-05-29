@@ -120,56 +120,6 @@ normalizedSchema cDir sch = cDir </> sch
 outputFile :: FilePath -> String -> FilePath
 outputFile f n = f </> n
  
-xml2ConfigurationKnowledge ::
-                             XmlConfigurationKnowledge ->
-                               ParserResult (ConfigurationKnowledge TransformationModel)
-xml2ConfigurationKnowledge ck
-  = let cs = xmlConfigurations ck
-        mcs = map xml2Configuration cs
-      in
-      if and [isSuccess c | c <- mcs] then
-        Success [ci | (Success ci) <- mcs] else
-        Fail (unwords [showError e | e <- mcs, isSuccess e == False])
- 
-xml2Configuration ::
-                    XmlConfiguration ->
-                      ParserResult (ConfigurationItem TransformationModel)
-xml2Configuration c
-  = let pe = parse parseExpression "" (xmlExpression c)
-        ts
-          = [xml2Transformation (tName t) (splitAndTrim ',' (tArgs t)) |
-             t <- (xmlTransformations c)]
-        pr = parseConstraint (xmlRequired c)
-        pp = parseConstraint (xmlProvided c)
-        pl = [pe, pr, pp]
-      in
-      if and [isSuccess t | t <- ts] then
-        let pts = [a | (Success a) <- ts] in
-          case pl of
-              [Right exp, Right req, Right prov]
-                -> Success
-                     (ConstrainedConfigurationItem{expression = exp,
-                                                   transformations = pts, required = req,
-                                                   provided = prov})
-              [Right exp, _, _]
-                -> Success
-                     (ConfigurationItem{expression = exp, transformations = pts})
-              otherwise
-                -> Fail
-                     ("Error parsing configuration item with " ++ " expression " ++
-                        (show $ xmlExpression c)
-                        ++ ", required "
-                        ++ (show $ xmlRequired c)
-                        ++ ", provided "
-                        ++ (show $ xmlProvided c)
-                        ++ ". ")
-        else Fail (unwords [showError e | e <- ts, isSuccess e == False])
-  where  
-        parseConstraint ::
-                          Maybe String -> Either ParseError FeatureExpression
-        parseConstraint (Nothing) = parse pzero "" ""
-        parseConstraint (Just s) = parse parseExpression "" s
- 
 parseConfigurationKnowledge ::
                               String ->
                                 String ->
@@ -177,5 +127,6 @@ parseConfigurationKnowledge ::
 parseConfigurationKnowledge schema fileName
   = do result <- parseXmlConfigurationKnowledge schema fileName
        case result of
-           (Core.Success xml) -> return $ xml2ConfigurationKnowledge xml
+           (Core.Success xml)
+             -> return $ xml2ConfigurationKnowledge xml2Transformation xml
            (Core.Fail err) -> return $ Core.Fail err
