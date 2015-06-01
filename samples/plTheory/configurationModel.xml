@@ -55,5 +55,44 @@
 	  </transformation>
 	</configuration>
 
+	<configuration>
+	  <expression>renaming</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>RenamingAssets</args>
+	  </transformation>
+	</configuration>
+
+	<configuration>
+	  <expression>compositional</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>ConfigurationKnowledge, CKinst</args>
+	  </transformation>
+	</configuration>
+
+	<configuration>
+	  <expression>transformation</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>CKtrans, CKtInst</args>     
+	  </transformation>
+	</configuration>
+
+	<configuration>
+	  <expression>selectAssets</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>CKselect, CKselectInst</args>
+	  </transformation>
+	</configuration>
+
+	<configuration>
+	  <expression>preprocess</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>CKifdef</args>               
+	  </transformation>
+	</configuration>
 
 </configurationModel>

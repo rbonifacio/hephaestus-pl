@@ -1,0 +1,35 @@
+CKifdef: THEORY
+BEGIN
+  IMPORTING AssetMapping
+  
+  AssetIfdef: TYPE = [AssetName,boolean]
+
+  n: VAR AssetName
+  a,b,a1,a2: VAR Asset
+  tag: VAR bool
+  am,amt: VAR AM
+  t: VAR AssetIfdef
+  assets: VAR finite_sets[Asset].finite_set 
+
+  preprocessfile(a,tag):Asset
+
+  preprocessRefinement(a,b):bool =
+   FORALL(tag):|-(preprocessfile(a,tag),preprocessfile(b,tag))
+ 
+  ifdefrefinement: AXIOM
+    |-(a,b) <=> FORALL(tag):|-(preprocessfile(a,tag),preprocessfile(b,tag))
+
+  preprocess(t,am,amt):AM = 
+    IF (dom(amt)(t`1)) THEN ow((t`1,preprocessfile(map(amt,singleton(t`1)),t`2)),amt)
+    ELSE amt
+    ENDIF
+
+  keepdom: LEMMA
+    dom(amt) = dom(preprocess(t,am,amt))
+  
+  preprocessPreserves: THEOREM
+   FORALL (am1: AM, am2: AM, t: AssetIfdef, amt1: AM, amt2: AM):
+    (am1 |> am2) AND (amt1 |> amt2) =>
+     (preprocess(t, am1, amt1) |> preprocess(t, am2, amt2));
+
+END CKifdef

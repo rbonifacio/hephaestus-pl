@@ -1,0 +1,35 @@
+(CKtInst
+ (IMP_CK_replaceFeatureExp_EqualCKeval_TCC1 0
+  (IMP_CK_replaceFeatureExp_EqualCKeval_TCC1-1 nil 3596278526
+   ("" (expand* syntaxReplaceFeatureExp conditionsReplaceFeatureExp)
+    (("" (expand getExp)
+      (("" (expand extend)
+        (("" (expand wfTree)
+          (("" (assert)
+            (("" (expand getRS)
+              (("" (skolem 1 (fm am "_" "_" it1 it2 its))
+                (("" (skolem 1 (ck1 ck2))
+                  (("" (flatten)
+                    (("" (skolem 1 c)
+                      (("" (flatten) (("" (postpone) nil nil)) nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   nil nil))
+ (IMP_CK_simpleDeleteAsset_EqualCKeval_TCC1 0
+  (IMP_CK_simpleDeleteAsset_EqualCKeval_TCC1-1 nil 3596278526
+   ("" (mapped-axiom-tcc) nil nil) nil nil))
+ (IMP_CK_addMandatory_EqualCKeval_TCC1 0
+  (IMP_CK_addMandatory_EqualCKeval_TCC1-1 nil 3596278526
+   ("" (mapped-axiom-tcc) nil nil) nil nil))
+ (IMP_CK_addOptional_EqualCKeval_TCC1 0
+  (IMP_CK_addOptional_EqualCKeval_TCC1-1 nil 3596278526
+   ("" (mapped-axiom-tcc) nil nil) nil nil)))
+

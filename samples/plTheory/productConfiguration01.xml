@@ -1,8 +1,14 @@
 <feature  name="PLTheory"  id="plTheory">
+  <feature  name="MPL"  id="mpl">
+  </feature>
   <feature  name="FM"  id="fm">
+    <feature  name="Intermediate FM"  id="intermediateFM">
+      <feature name="Propositional FM" id="propositionalFM"/>
+    </feature>
   </feature>
-  <feature  name="Assets"  id="assets">
+  <feature  name="Assets" id="assets">
+    <feature name="Renaming" id="renaming"/>
   </feature>
-  <feature  name="CK"  id="ck">
-  </feature>
+  <feature  name="CK"  id="ck" />
+  <feature  name="Populations"  id="populations" />
 </feature>

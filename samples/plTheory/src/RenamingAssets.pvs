@@ -1,0 +1,30 @@
+RenamingAssets: THEORY
+BEGIN
+%  IMPORTING Assets
+  Id: TYPE+
+  Asset: TYPE+
+
+  a,a1,a2: VAR Asset
+  s,s1,s2: VAR finite_sets[Asset].finite_set
+  fs,fs1,fs2: VAR finite_sets[Asset].finite_set
+  id,id1,id2,newId,oldId: VAR Id
+
+  renameAsset(a,newId,oldId):Asset
+%  renameAsset : [Id,Id,Asset->Asset]
+
+  safeToRename(s,newId,oldId):bool
+
+  rename(s,newId,oldId):set[Asset] = 
+    {x:Asset | (EXISTS (a:Asset): s(a) AND x=renameAsset(a,newId,oldId))};
+
+  % Assumption <Assets refinement>
+  |- : [set[Asset],set[Asset]->bool]
+
+  % Axiom <Asset refinement is pre-order>
+  assetRefinement: AXIOM orders[set[Asset]].preorder?( |- ) 
+
+  renaming: AXIOM
+    FORALL(s,id1,id2): ( safeToRename(s,newId,oldId) => (s |- rename(s,newId,oldId)) )
+  
+
+END RenamingAssets

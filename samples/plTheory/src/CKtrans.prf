@@ -1,0 +1,444 @@
+(CKtrans
+ (exps_TCC1 0
+  (exps_TCC1-1 nil 3596278242 ("" (termination-tcc) nil nil)
+   ((real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (nnint_plus_posint_is_posint application-judgement "posint"
+     integers nil)
+    (length def-decl "nat" list_props nil))
+   nil))
+ (transform_TCC1 0
+  (transform_TCC1-1 nil 3596278242
+   ("" (instantiate 1 "LAMBDA(x:Transformation, y,z:AM): z")
+    (("" (propax) nil nil)) nil)
+   ((AM type-eq-decl nil AssetMapping nil)
+    (unique const-decl "bool" maps nil)
+    (finite_set type-eq-decl nil finite_sets nil)
+    (is_finite const-decl "bool" finite_sets nil)
+    (set type-eq-decl nil sets nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (Asset nonempty-type-decl nil Assets nil)
+    (AssetName nonempty-type-decl nil Assets nil)
+    (Transformation nonempty-type-decl nil CKtrans nil))
+   nil))
+ (semantics_TCC1 0
+  (semantics_TCC1-1 nil 3596278242 ("" (subtype-tcc) nil nil)
+   ((emptyset const-decl "set" sets nil)
+    (unique const-decl "bool" maps nil)
+    (finite_emptyset name-judgement "finite_set" finite_sets nil))
+   nil))
+ (compAmRef 0
+  (compAmRef-1 nil 3596281849
+   ("" (skolem 1 (am1 am2))
+    (("" (flatten)
+      (("" (induct ck)
+        (("1" (expand semanticsCK)
+          (("1" (skolem 1 (c amt1 amt2))
+            (("1" (flatten)
+              (("1" (lemma amRefCompositional)
+                (("1" (instantiate -1 (amt1 amt2))
+                  (("1" (assert)
+                    (("1" (instantiate -1 "domain(amt1)")
+                      (("1" (instantiate -1 emptyset)
+                        (("1"
+                          (lemma
+                           "sets_lemmas[Asset].union_commutative")
+                          (("1"
+                            (lemma "sets_lemmas[Asset].union_empty")
+                            (("1" (copy -2)
+                              (("1"
+                                (instantiate
+                                 -1
+                                 (emptyset "map(amt1,domain(amt1))"))
+                                (("1"
+                                  (replace -1)
+                                  (("1"
+                                    (copy -2)
+                                    (("1"
+                                      (instantiate
+                                       -4
+                                       (emptyset
+                                        "map(amt2,domain(amt2))"))
+                                      (("1"
+                                        (instantiate
+                                         -3
+                                         ("map(amt2,domain(amt2))"))
+                                        (("1"
+                                          (instantiate
+                                           -1
+                                           ("map(amt1,domain(amt1))"))
+                                          (("1"
+                                            (replace -1)
+                                            (("1"
+                                              (replace -3)
+                                              (("1"
+                                                (assert)
+                                                (("1"
+                                                  (lemma
+                                                   "sets_lemmas[Asset].union_commutative")
+                                                  (("1"
+                                                    (instantiate
+                                                     -1
+                                                     (emptyset
+                                                      "map(amt2, domain(amt1))"))
+                                                    (("1"
+                                                      (replace -1)
+                                                      (("1"
+                                                        (lemma
+                                                         "sets_lemmas[Asset].union_empty")
+                                                        (("1"
+                                                          (instantiate
+                                                           -1
+                                                           "map(amt2, domain(amt1))")
+                                                          (("1"
+                                                            (replace
+                                                             -1)
+                                                            (("1"
+                                                              (expand
+                                                               "|>"
+                                                               -8)
+                                                              (("1"
+                                                                (flatten)
+                                                                (("1"
+                                                                  (case
+                                                                   "dom(amt1)=domain(amt1) AND dom(amt2)=domain(amt2)")
+                                                                  (("1"
+                                                                    (flatten)
+                                                                    (("1"
+                                                                      (case
+                                                                       "map(amt1, domain(amt1))=image(amt1) AND map(amt2, domain(amt2))=image(amt2)")
+                                                                      (("1"
+                                                                        (flatten)
+                                                                        (("1"
+                                                                          (assert)
+                                                                          (("1"
+                                                                            (replace
+                                                                             -1)
+                                                                            (("1"
+                                                                              (replace
+                                                                               -3
+                                                                               -11
+                                                                               RL)
+                                                                              (("1"
+                                                                                (replace
+                                                                                 -12
+                                                                                 -11)
+                                                                                (("1"
+                                                                                  (replace
+                                                                                   -4
+                                                                                   -11)
+                                                                                  (("1"
+                                                                                    (replace
+                                                                                     -2)
+                                                                                    (("1"
+                                                                                      (propax)
+                                                                                      nil
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil)
+                                                                       ("2"
+                                                                        (bddsimp
+                                                                         1)
+                                                                        (("1"
+                                                                          (expand
+                                                                           map
+                                                                           1)
+                                                                          (("1"
+                                                                            (expand
+                                                                             image)
+                                                                            (("1"
+                                                                              (decompose-equality
+                                                                               1)
+                                                                              (("1"
+                                                                                (expand
+                                                                                 domain
+                                                                                 1)
+                                                                                (("1"
+                                                                                  (bddsimp)
+                                                                                  (("1"
+                                                                                    (skolem
+                                                                                     -1
+                                                                                     an)
+                                                                                    (("1"
+                                                                                      (flatten)
+                                                                                      (("1"
+                                                                                        (instantiate
+                                                                                         1
+                                                                                         an)
+                                                                                        (("1"
+                                                                                          (propax)
+                                                                                          nil
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil)
+                                                                                   ("2"
+                                                                                    (skolem
+                                                                                     -1
+                                                                                     an)
+                                                                                    (("2"
+                                                                                      (flatten)
+                                                                                      (("2"
+                                                                                        (instantiate
+                                                                                         1
+                                                                                         an)
+                                                                                        (("2"
+                                                                                          (propax)
+                                                                                          nil
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil)
+                                                                                   ("3"
+                                                                                    (skolem
+                                                                                     -1
+                                                                                     an)
+                                                                                    (("3"
+                                                                                      (flatten)
+                                                                                      (("3"
+                                                                                        (instantiate
+                                                                                         1
+                                                                                         an)
+                                                                                        (("3"
+                                                                                          (propax)
+                                                                                          nil
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil)
+                                                                                   ("4"
+                                                                                    (skolem
+                                                                                     -1
+                                                                                     an)
+                                                                                    (("4"
+                                                                                      (flatten)
+                                                                                      (("4"
+                                                                                        (instantiate
+                                                                                         1
+                                                                                         an)
+                                                                                        (("4"
+                                                                                          (propax)
+                                                                                          nil
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil)
+                                                                                   ("5"
+                                                                                    (skolem
+                                                                                     -1
+                                                                                     an)
+                                                                                    (("5"
+                                                                                      (instantiate
+                                                                                       1
+                                                                                       an)
+                                                                                      (("5"
+                                                                                        (assert)
+                                                                                        (("5"
+                                                                                          (instantiate
+                                                                                           1
+                                                                                           x!1)
+                                                                                          (("5"
+                                                                                            (propax)
+                                                                                            nil
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil)
+                                                                                   ("6"
+                                                                                    (skolem
+                                                                                     -1
+                                                                                     an)
+                                                                                    (("6"
+                                                                                      (instantiate
+                                                                                       1
+                                                                                       an)
+                                                                                      (("6"
+                                                                                        (assert)
+                                                                                        (("6"
+                                                                                          (instantiate
+                                                                                           1
+                                                                                           x!1)
+                                                                                          (("6"
+                                                                                            (propax)
+                                                                                            nil
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil)
+                                                                                   ("7"
+                                                                                    (skolem
+                                                                                     -1
+                                                                                     an)
+                                                                                    (("7"
+                                                                                      (instantiate
+                                                                                       1
+                                                                                       an)
+                                                                                      (("7"
+                                                                                        (assert)
+                                                                                        (("7"
+                                                                                          (instantiate
+                                                                                           1
+                                                                                           x!1)
+                                                                                          (("7"
+                                                                                            (propax)
+                                                                                            nil
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil)
+                                                                                   ("8"
+                                                                                    (skolem
+                                                                                     -1
+                                                                                     an)
+                                                                                    (("8"
+                                                                                      (instantiate
+                                                                                       1
+                                                                                       an)
+                                                                                      (("8"
+                                                                                        (assert)
+                                                                                        (("8"
+                                                                                          (instantiate
+                                                                                           1
+                                                                                           x!1)
+                                                                                          (("8"
+                                                                                            (propax)
+                                                                                            nil
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil)
+                                                                         ("2"
+                                                                          (expand
+                                                                           map
+                                                                           1)
+                                                                          (("2"
+                                                                            (expand
+                                                                             image
+                                                                             1)
+                                                                            (("2"
+                                                                              (expand
+                                                                               domain
+                                                                               1)
+                                                                              (("2"
+                                                                                (decompose-equality
+                                                                                 1)
+                                                                                (("2"
+                                                                                  (bddsimp
+                                                                                   1)
+                                                                                  (("1"
+                                                                                    (skolem
+                                                                                     -1
+                                                                                     an)
+                                                                                    (("1"
+                                                                                      (flatten)
+                                                                                      (("1"
+                                                                                        (instantiate
+                                                                                         1
+                                                                                         an)
+                                                                                        (("1"
+                                                                                          (propax)
+                                                                                          nil
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil)
+                                                                                   ("2"
+                                                                                    (skolem
+                                                                                     -1
+                                                                                     an)
+                                                                                    (("2"
+                                                                                      (instantiate
+                                                                                       1
+                                                                                       an)
+                                                                                      (("2"
+                                                                                        (assert)
+                                                                                        (("2"
+                                                                                          (instantiate
+                                                                                           1
+                                                                                           x!1)
+                                                                                          (("2"
+                                                                                            (propax)
+                                                                                            nil
+                                                                                            nil))
+                                                                                          nil))
+                                                                                        nil))
+                                                                                      nil))
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil)
+                                                                   ("2"
+                                                                    (expand
+                                                                     dom)
+                                                                    (("2"
+                                                                      (expand
+                                                                       domain)
+                                                                      (("2"
+                                                                        (propax)
+                                                                        nil
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil)
+         ("2" (skolem 1 (it its))
+          (("2" (flatten)
+            (("2" (skolem 1 (c amt1 amt2))
+              (("2" (flatten) (("2" (postpone) nil nil)) nil)) nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   nil shostak))
+ (wfCK_TCC1 0
+  (wfCK_TCC1-1 nil 3596278242 ("" (subtype-tcc) nil nil)
+   ((wfTree const-decl "bool" FeatureModel nil)) nil)))
+

@@ -1,0 +1,19 @@
+CKselect: THEORY
+BEGIN
+  IMPORTING AssetMapping
+  
+  AssetNames: TYPE = finite_sets[AssetName].finite_set
+
+  t: VAR AssetNames
+  am,amt: VAR AM
+  assets: VAR finite_sets[Asset].finite_set 
+
+  selectAssets(t,am,amt):AM = 
+    overw(filter(t,am),amt)
+
+  selectAssetsPreserves: LEMMA
+    FORALL (am1: AM, am2: AM, t: AssetNames, amt1: AM, amt2: AM):
+      (am1 |> am2) AND (amt1 |> amt2) =>
+       (selectAssets(t, am1, amt1) |> selectAssets(t, am2, amt2));
+
+END CKselect
