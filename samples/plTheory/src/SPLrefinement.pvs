@@ -1,28 +1,27 @@
-bplist00Ñ_WebMainResourceÕ	
-_WebResourceData_WebResourceMIMEType_WebResourceTextEncodingName_WebResourceFrameName^WebResourceURLO'P<html><head></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">SPLrefinement: THEORY
+SPLrefinement: THEORY
 BEGIN
  
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %%%%%%%%%%%%%%%%%%%%%% FEATURE MODELS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  % Assumption &lt;Feature model semantics&gt;
+  % Assumption <Feature model semantics>
   Conf: TYPE
   FM: TYPE
-  {||} : [FM -&gt; set[Conf]]
+  {||} : [FM -> set[Conf]]
   %permite FM vazio - que nao gera nenhum produto - eh um problema?
 
   fm,fm1,fm2: VAR FM
   c,c1,c2,c3: VAR Conf
 
-  % Definition &lt;Feature model refinement&gt; -- definir com forall e exists?
+  % Definition <Feature model refinement> -- definir com forall e exists?
   |=(fm1,fm2): bool = 
     subset?({| fm1 |},{| fm2 |})
 
-  % Definition &lt;Feature model equivalence&gt;
+  % Definition <Feature model equivalence>
   equivalentFMs(fm1,fm2): bool = {|fm1|}={|fm2|}
 
-  % Theorems &lt;Feature model equivalence and refinement properties&gt;
+  % Theorems <Feature model equivalence and refinement properties>
   eqFM:  THEOREM relations[FM].equivalence?( equivalentFMs ) 
   refFM: THEOREM orders[FM].preorder?( |= ) 
   %mostrar que refinamento de FMs eh partial order nao rola, pois no caso a gente so tem que a semantica seria igual, nao implica que x e y sao iguais
@@ -46,19 +45,19 @@ BEGIN
   as1,as2,p,p1,p2: VAR finite_sets[Asset].finite_set
   prods,ps,ps1,ps2: VAR finite_sets[finite_sets[Asset].finite_set].finite_set
 
-  % Assumption &lt;Assets refinement&gt;
-  |- : [set[Asset],set[Asset]-&gt;bool]
+  % Assumption <Assets refinement>
+  |- : [set[Asset],set[Asset]->bool]
 
-  wfProduct : [set[Asset]-&gt;bool]
+  wfProduct : [set[Asset]->bool]
   Product: TYPE = (wfProduct)
 
-  % Axiom &lt;Asset refinement is pre-order&gt;
+  % Axiom <Asset refinement is pre-order>
   assetRefinement: AXIOM orders[set[Asset]].preorder?( |- ) 
 
-  % Axiom 5 &lt;Asset refinement compositionality&gt;
+  % Axiom 5 <Asset refinement compositionality>
   asRefCompositional: AXIOM
     FORALL(S1,S2,aSet):
-      ( S1 |- S2 ) and wfProduct( union(S1,aSet) ) =&gt;
+      ( S1 |- S2 ) and wfProduct( union(S1,aSet) ) =>
         wfProduct( union(S2,aSet) ) and ((union(S1,aSet)) |- (union(S2,aSet)))
 
 
@@ -67,21 +66,21 @@ BEGIN
 
   am,am1,am2: VAR AM
 
-  % Definition &lt;Asset mapping refinement&gt;
-  |&gt;(am1,am2): bool =
+  % Definition <Asset mapping refinement>
+  |>(am1,am2): bool =
     (dom(am1)=dom(am2) AND
-    (FORALL an: dom(am1)(an) =&gt; 
+    (FORALL an: dom(am1)(an) => 
       EXISTS a1,a2: (am1(an,a1)) AND (am2(an,a2)) AND |-(a1,a2)))
 
-  % Theorems 7-8 &lt;Asset mapping refinement is pre-order&gt;
-  assetMappingRefinement: THEOREM orders[AM].preorder?( |&gt; ) 
+  % Theorems 7-8 <Asset mapping refinement is pre-order>
+  assetMappingRefinement: THEOREM orders[AM].preorder?( |> ) 
 
-  % Lemma &lt;Asset mapping compositionality&gt;
+  % Lemma <Asset mapping compositionality>
   amRefCompositional: LEMMA
-    FORALL(am1,am2): |&gt;(am1,am2) =&gt;
+    FORALL(am1,am2): |>(am1,am2) =>
       FORALL(anSet):
         FORALL(aSet): 
-          wfProduct( union(aSet,map(am1,anSet)) ) =&gt;
+          wfProduct( union(aSet,map(am1,anSet)) ) =>
 	    wfProduct( union(aSet,map(am2,anSet)) ) AND |-( union(aSet,map(am1,anSet)) , union(aSet,map(am2,anSet)) )
 
 
@@ -90,28 +89,28 @@ BEGIN
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   CK: TYPE
-  [||] : [CK-&gt;[AM-&gt;[Conf-&gt;finite_sets[Asset].finite_set]]]
+  [||] : [CK->[AM->[Conf->finite_sets[Asset].finite_set]]]
 
   % Axiom over ck evaluation 
   amRef: AXIOM
-    FORALL(am1,am2): |&gt;(am1,am2) =&gt;
+    FORALL(am1,am2): |>(am1,am2) =>
       FORALL(K:CK,c:Conf): 
       	 wfProduct(([| K |](am1))(c)) 
-      =&gt; wfProduct(([| K |](am2))(c)) AND
+      => wfProduct(([| K |](am2))(c)) AND
       	    (([| K |](am1))(c) |- ([| K |](am2))(c) ) 
   
   ck,ck1,ck2,ck3: VAR CK
 
-  % Definition &lt;CK equivalence&gt;
+  % Definition <CK equivalence>
   equivalentCKs(ck1,ck2): bool =
     [|ck1|]=[|ck2|]
 
-  % Theorem &lt;CK equivalence properties&gt;
+  % Theorem <CK equivalence properties>
   eqCK: THEOREM relations[CK].equivalence?( equivalentCKs ) 
 
   weakerEqCK(fm,ck1,ck2): bool =
     FORALL am: 
-      FORALL c: {| fm |}(c) =&gt; ([| ck1 |](am))(c) = ([| ck2 |](am))(c)
+      FORALL c: {| fm |}(c) => ([| ck1 |](am))(c) = ([| ck2 |](am))(c)
 
   % Weak Equivalence properties - reflexive
   weakerEqReflexive: THEOREM
@@ -121,12 +120,12 @@ BEGIN
   % Weak Equivalence properties - symmetric
   weakerEqSymmetric: THEOREM
     FORALL(fm, ck1,ck2):
-    	weakerEqCK(fm,ck1,ck2) =&gt; weakerEqCK(fm,ck2,ck1)
+    	weakerEqCK(fm,ck1,ck2) => weakerEqCK(fm,ck2,ck1)
 
   % Weak Equivalence properties - transitive
   weakerEqTransitive: THEOREM
     FORALL(fm, ck1,ck2,ck3):
-    	(weakerEqCK(fm,ck1,ck2) and weakerEqCK(fm,ck2,ck3)) =&gt; weakerEqCK(fm,ck1,ck3)
+    	(weakerEqCK(fm,ck1,ck2) and weakerEqCK(fm,ck2,ck3)) => weakerEqCK(fm,ck1,ck3)
 
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -135,13 +134,13 @@ BEGIN
  
   ArbitrarySPL : TYPE = [# F:FM, A:AM, K:CK #]
 
-  % Definition &lt;Well-formed SPL&gt;
+  % Definition <Well-formed SPL>
   wfPL(pl:ArbitrarySPL): bool =
-    (FORALL c : {| F(pl) |}(c) =&gt;  
+    (FORALL c : {| F(pl) |}(c) =>  
 		  wfProduct( ([| K(pl) |](A(pl)))(c) ) )
 
 
-  % Definition &lt;Product line&gt; 
+  % Definition <Product line> 
   PL : TYPE = (wfPL)
   pl,pl1,pl2: VAR PL
 
@@ -150,10 +149,10 @@ BEGIN
  %%%%%%%%%%%%%%%%% PL REFINEMENT DEFINITION AND PROPERTIES %%%%%%%%%%%%%%%%%%%%
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  % Definition &lt;Product line refinement&gt;
+  % Definition <Product line refinement>
   % checar se ainda ha simbolo para ser usado aqui
   plRefinement(pl1,pl2) : bool =
-    (FORALL c1: {|F(pl1)|}(c1) =&gt; 
+    (FORALL c1: {|F(pl1)|}(c1) => 
     		(EXISTS c2: {|F(pl2)|}(c2) AND
 		    (
 		    	( ([| K(pl1) |] (A(pl1))) (c1) )
@@ -162,14 +161,14 @@ BEGIN
     		    )
      ))
 
-  % Theorem &lt;Product line refinement is a pre-order&gt;
+  % Theorem <Product line refinement is a pre-order>
   plRef: THEOREM orders[PL].preorder?( plRefinement ) 
 
   products(pl) : set[finite_sets[Asset].finite_set] = 
     { p |  EXISTS (c:Conf) : ({|F(pl)|}(c)) AND (p=( ([| K(pl) |] (A(pl))) (c))) }
 
   plRefinementAlt(pl1,pl2) : bool =
-    (FORALL p1: products(pl1)(p1) =&gt; 
+    (FORALL p1: products(pl1)(p1) => 
     		(EXISTS p2: products(pl2)(p2) AND
 		    (
 		    	( p1 )
@@ -181,13 +180,13 @@ BEGIN
   plRefAlt: THEOREM orders[PL].preorder?( plRefinementAlt ) 
 
   plRefEq: THEOREM
-    FORALL(pl1,pl2): (plRefinement(pl1,pl2)) &lt;=&gt; (plRefinementAlt(pl1,pl2))
+    FORALL(pl1,pl2): (plRefinement(pl1,pl2)) <=> (plRefinementAlt(pl1,pl2))
 
   subsetProducts(prods,pl1):bool = 
     subset?(prods,products(pl1))
 
   plWeakRefinement(pl1,pl2:PL,prods:{ps | subset?(ps,products(pl1))}) : bool = 
-    (FORALL p1: prods(p1) =&gt; 
+    (FORALL p1: prods(p1) => 
     		(EXISTS p2: products(pl2)(p2) AND
 		    (
 		    	( p1 )
@@ -198,7 +197,7 @@ BEGIN
 
 
   strongerPLrefinement(pl1,pl2:PL) : bool = 
-    (FORALL c1: {|F(pl1)|}(c1) =&gt; 
+    (FORALL c1: {|F(pl1)|}(c1) => 
     		({|F(pl2)|}(c1) AND
 		    (
 		    	( ([| K(pl1) |] (A(pl1))) (c1) )
@@ -210,7 +209,7 @@ BEGIN
   strongerPLref: THEOREM orders[PL].preorder?( strongerPLrefinement ) 
 
   plStrongSubset: THEOREM
-    FORALL(pl1,pl2): (strongerPLrefinement(pl1,pl2)) =&gt; (subset?({|F(pl1)|},{|F(pl2)|}))
+    FORALL(pl1,pl2): (strongerPLrefinement(pl1,pl2)) => (subset?({|F(pl1)|},{|F(pl2)|}))
 
 
  % PL Refinement compositionality
@@ -218,27 +217,27 @@ BEGIN
     FORALL(pl,fm):
     ( 
       (F |= fm) AND wfPL(pl2)
-     =&gt; 
+     => 
         plRefinement(pl,pl2) 
     )
     WHERE F=F(pl),pl2=(# F := fm, A := A(pl), K := K(pl) #)
 
-  % Theorem &lt;Feature model equivalence compositionality&gt;
+  % Theorem <Feature model equivalence compositionality>
   fmEquivalenceCompositionality: THEOREM
     FORALL(pl,fm):
     ( 
       equivalentFMs(F,fm) 
-     =&gt; 
+     => 
         plRefinement(pl,pl2) AND wfPL(pl2)
     )
     WHERE F=F(pl),pl2=(# F := fm, A := A(pl), K := K(pl) #)
 
-  % Theorem &lt;CK equivalence compositionality&gt;
+  % Theorem <CK equivalence compositionality>
   ckEquivalenceCompositionality: THEOREM
     FORALL(pl,ck):
     ( 
       equivalentCKs(K,ck)
-     =&gt; 
+     => 
         plRefinement(pl,pl2) AND wfPL(pl2)
     )
     WHERE K=K(pl),pl2=(# F := F(pl), A := A(pl), K := ck #)
@@ -247,57 +246,57 @@ BEGIN
     FORALL(pl,ck):
     ( 
       weakerEqCK(F,K,ck)
-     =&gt; 
+     => 
         plRefinement(pl,pl2) AND wfPL(pl2)
     )
     WHERE F=F(pl), K=K(pl), pl2=(# F := F(pl), A := A(pl), K := ck #)
 
-  % Theorem &lt;Asset mapping refinement compositionality&gt;
+  % Theorem <Asset mapping refinement compositionality>
   amRefinementCompositionality: THEOREM
     FORALL(pl,am):
     ( 
-      |&gt;(A,am)
-      =&gt; 
+      |>(A,am)
+      => 
         plRefinement(pl,pl2) AND wfPL(pl2)
     )
     WHERE A=A(pl),pl2=(# F := F(pl), A := am, K := K(pl) #)
 
-  % Theorem &lt;Full compositionality&gt;
+  % Theorem <Full compositionality>
   % Este teorema exige a equivalencia forte do CK
   fullCompositionality: THEOREM
     FORALL(pl,fm,am,ck):
     ( 
       equivalentFMs(F,fm) AND
       equivalentCKs(K,ck) AND
-      |&gt;(A,am)
-      =&gt; 
+      |>(A,am)
+      => 
         plRefinement(pl,pl2) AND wfPL(pl2)
     )
     WHERE F=F(pl),K=K(pl),A=A(pl),pl2=(# F := fm, A := am, K := ck #)
 
-  % Theorem &lt;Full compositionality&gt;
+  % Theorem <Full compositionality>
   % Este teorema ainda usa a equivalencia forte de CK, em conjunto com refinamento de FMs, exige boa formacao da linha final
   weakFullCompositionality: THEOREM
     FORALL(pl,fm,am,ck):
     ( 
       (F |= fm) AND
       equivalentCKs(K,ck) AND
-      |&gt;(A,am) AND wfPL(pl2)
-      =&gt; 
+      |>(A,am) AND wfPL(pl2)
+      => 
         plRefinement(pl,pl2) 
     )
     WHERE F=F(pl),K=K(pl),A=A(pl),pl2=(# F := fm, A := am, K := ck #)
 
 
-  % Theorem &lt;Full compositionality&gt;
+  % Theorem <Full compositionality>
   % Este teorema exige a equivalencia mais fraca de CK e equivalencia de FMs
   fullCompositionality2: THEOREM
     FORALL(pl,fm,am,ck):
     ( 
       equivalentFMs(F,fm) AND
       weakerEqCK(F,K,ck) AND
-      |&gt;(A,am)
-      =&gt; 
+      |>(A,am)
+      => 
         plRefinement(pl,pl2) AND wfPL(pl2)
     )
     WHERE F=F(pl),K=K(pl),A=A(pl),pl2=(# F := fm, A := am, K := ck #)
@@ -308,8 +307,8 @@ BEGIN
     ( 
       (F |= fm) AND
       weakerEqCK(F,K,ck) AND
-      |&gt;(A,am) AND wfPL(pl2)
-      =&gt; 
+      |>(A,am) AND wfPL(pl2)
+      => 
         plRefinement(pl,pl2) 
     )
     WHERE F=F(pl),K=K(pl),A=A(pl),pl2=(# F := fm, A := am, K := ck #)
@@ -328,7 +327,6 @@ BEGIN
 %	(products(pl1)(p1)) AND
 %	(products(pl2)(p2))
 %      )
-%      =&gt; (plRefinement(pl1,pl2) &lt;=&gt;  ((p1) |- (p2)) )
+%      => (plRefinement(pl1,pl2) <=>  ((p1) |- (p2)) )
 
 END SPLrefinement
-</pre></body></html>Ztext/plainUUTF-8P_bhttps://raw.githubusercontent.com/spgroup/theory-pl-refinement/multiproductlines/SPLrefinement.pvs    ( : P n … ”'è'ó'ù'ú                           (_

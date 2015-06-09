@@ -1,0 +1,20 @@
+FMpInst: THEORY
+BEGIN
+  IMPORTING FeatureModelSemantics
+
+  IMPORTING FMint{{ 
+  	    FMi:=FeatureModel.FM, 
+  	    Feature:=Name.Name, 
+  	    [||]:=FeatureModelSemantics.semantics, 
+  	    wf:=FeatureModelSemantics.wfFM, 
+  	    wt:=FormulaTheory.wt, 
+
+  	    getFeatures:=FeatureModelSemantics.getFeatures
+%	    , 
+%  	    addMandatory:=CKtrans.Item, 
+%  	    addOptional:=CKtrans.CK, 
+%	    addOR:=CKtrans.exps, 
+%	    addAlternative := CKtrans.getExp
+  }}
+
+END FMpInst

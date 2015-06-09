@@ -1,0 +1,23 @@
+SpecificFMiCKi: THEORY
+BEGIN
+  IMPORTING FMint,FeatureExpression, AssetMapping, CK
+
+  am,am1,am2: VAR AM
+  a1,a2,a3: VAR Asset
+  an,an1,an2: VAR AssetName
+  anSet: VAR finite_sets[AssetName].finite_set
+  aSet,S1,S2: VAR finite_sets[Asset].finite_set
+  pair: VAR [AssetName,Asset]
+  pairs: VAR finite_sets[[AssetName,Asset]].finite_set
+  fm,fm1,fm2: VAR FMi
+  ck,ck1,ck2: VAR CK
+  item,it,item1,item2: VAR Item
+  items,its,its1,its2: VAR list[Item]
+  c,c1,c2: VAR Configuration
+  e,e1,e2: VAR FeatureExpression
+  f,f1,f2: VAR Feature
+  p,p1,p2: VAR Feature
+
+  addItemsFeature(ck,it,f): CK
+
+End SpecificFMiCKi

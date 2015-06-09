@@ -1,0 +1,217 @@
+CK[Configuration:TYPE, 
+   FeatureExpression:TYPE,
+   sat: [FeatureExpression,Configuration -> boolean],
+   FMi:TYPE, 
+   Feature:TYPE, 
+   [||] : [FMi -> set[Configuration]],
+   wf: [FMi -> boolean],
+   wt: [FMi, FeatureExpression -> boolean],
+   genFeatureExpression: [Feature -> FeatureExpression],
+   getFeatures: [FMi -> set[Feature]],
+   addMandatory: [FMi, FMi, Feature, Feature -> bool],
+%   addOR: [FMi, FMi, Feature, Feature -> bool],
+%   addAlternative: [FMi, FMi, Feature, Feature -> bool],
+   addOptional: [FMi, FMi, Feature, Feature -> bool]
+   ]: THEORY
+BEGIN
+
+  IMPORTING AssetMapping
+  IMPORTING FMint[Configuration,FeatureExpression,sat]{{ 
+    FMi:=FMi,
+    Feature:=Feature,
+    [||]:=[||],
+    wf:=wf,
+    wt:=wt,
+%    genFeatureExpression:=genFeatureExpression,
+    getFeatures:=getFeatures,
+    addMandatory:=addMandatory,
+%    addOR:=addOR,
+%    addAlternative:=addAlternative,
+    addOptional:=addOptional
+  }}
+
+  RightSide: TYPE+
+  Item: TYPE% = [# exp:FeatureExpression, right:RightSide #]
+  CK: TYPE
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VARIABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+  am,am1,am2,pairs: VAR AM
+  a1,a2,a3: VAR Asset
+  an,an1,an2: VAR AssetName
+  anSet: VAR finite_sets[AssetName].finite_set
+  aSet,S1,S2: VAR finite_sets[Asset].finite_set
+  pair: VAR [AssetName,Asset]
+%  pairs: VAR finite_sets[[AssetName,Asset]].finite_set
+  fm,fm1,fm2: VAR FMi
+  ck,ck1,ck2: VAR CK
+  item,it,item1,item2: VAR Item
+  its,its1,its2: VAR set[Item]
+  c,c1,c2: VAR Configuration
+  e,e1,e2: VAR FeatureExpression
+  f,f1,f2: VAR Feature
+  p,p1,p2: VAR Feature
+
+  exps(ck) : set[FeatureExpression]
+  items(ck) : set[Item]
+
+  getExp(item) : FeatureExpression
+  getRS(item) : RightSide
+
+  wfCK(fm,am,ck) : bool
+
+  semantics(ck)(am)(c): finite_sets[Asset].finite_set
+
+  notshowupItem(it,an): bool
+  showupItem(it,an): bool
+
+  notshowup(ck,an): bool =
+  	FORALL it: items(ck)(it) => notshowupItem(it,an)
+  showup(ck,an): bool =
+  	EXISTS it: items(ck)(it) AND showupItem(it,an)
+
+  itsFeature(its,f): bool = 
+    (FORALL c : FORALL it : its(it) AND sat(getExp(it),c) => sat(genFeatureExpression(f),c))
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% REPLACE FEATURE EXPRESSION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  syntaxReplaceFeatureExp(ck1,ck2,item1,item2,its) : bool =
+    items(ck1) = add(item1,its) AND                        
+    items(ck2) = add(item2,its) AND                        
+    getRS(item1) = getRS(item2);
+
+  conditionsReplaceFeatureExp(fm,item1,item2) : bool =
+    wt(fm,getExp(item2)) AND
+    FORALL c: [||](fm)(c) => (sat(getExp(item1),c)<=>sat(getExp(item2),c))
+  
+  % When two CKs differ only by an equivalent feature expression of 
+  % an item, CK evaluation remains the same
+  replaceFeatureExp_EqualCKeval: AXIOM
+    FORALL(fm,am,ck1,ck2,item1,item2,its):
+    (
+      (
+      wfCK(fm,am,ck1) AND
+      syntaxReplaceFeatureExp(ck1,ck2,item1,item2,its) AND
+      conditionsReplaceFeatureExp(fm,item1,item2)
+      )
+      =>
+        FORALL c: [||](fm)(c) => semantics(ck1)(am)(c) = semantics(ck2)(am)(c)
+    )  
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%% DELETE ASSET NOT REFERRED IN CK %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  syntaxSimpleDeleteAsset(ck,am1,am2,an) : bool =
+    dom(am1)(an) AND
+    am2 = rm(an,am1) AND
+    notshowup(ck,an);
+
+
+  % When an asset name is not referred to in the CK,
+  % we can remove it from the AM and CK evaluation remains the same
+  simpleDeleteAsset_EqualCKeval: AXIOM
+    FORALL(fm,ck,am1,am2,an):
+    (
+      (
+      wfCK(fm,am1,ck) AND
+      syntaxSimpleDeleteAsset(ck,am1,am2,an)
+      )
+      =>
+        FORALL c: [||](fm)(c) => semantics(ck)(am1)(c) = semantics(ck)(am2)(c)
+    )  
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DELETE ASSET %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  reference(a1,a2):bool
+
+
+%  syntaxDeleteAsset(ck1,ck2,item1,item2,its,am1,an1,a1) : bool =
+%    items(ck1) = union(item1,its) AND                        
+%    items(ck2) = union(item2,its) AND                        
+%    showup(item1,an1) AND
+%    dom(am1)(an1) AND
+%    a1 = map(am1,singleton(an1)) AND
+%    notshowup(item2,an1);
+
+
+%  conditionsDeleteAsset(am1,an1,a1,its) : bool =
+%    (FORALL an: (dom(am1)(an) AND NOT(an=an1)) => 
+%      EXISTS a2: am1(an,a2) AND NOT(reference(a2,a1)) )
+%    AND notshowup(its,an1);
+
+%  deleteAsset_EqualCKeval: AXIOM
+%    FORALL(fm,am,ck1,ck2,item1,item2,its,an1,a1):
+%    (
+%      (
+%      wfCK(fm,am,ck1) AND
+%      syntaxDeleteAsset(ck1,ck2,item1,item2,its,am1,an1,a1) AND
+%      conditionsDeleteAsset(am,an1,a1,its)
+%      )
+%      =>
+%        FORALL c: [||](fm)(c) AND NOT((semantics(ck1)(am)(c))(a1))  => semantics(ck1)(am)(c) = semantics(ck2)(am)(c)
+%    )  
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ADD MANDATORY FEATURE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  syntaxAddMandatory(fm1,fm2,p,f) : bool =
+    getFeatures(fm1)(p) AND                        
+    NOT(getFeatures(fm1)(f)) AND                        
+    addMandatory(fm1,fm2,p,f);
+
+  %% ADICIONAR QUALQUER FEATURE, AO INVES DE AMARRAR COM MANDATORY
+  % Simply adding a mandatory feature does not impact CK evaluation
+  addMandatory_EqualCKeval: AXIOM
+    FORALL(fm1,fm2,am,ck,p,f):
+    (
+      (
+      wfCK(fm1,am,ck) AND
+      syntaxAddMandatory(fm1,fm2,p,f)
+      )
+      =>
+        FORALL c1: [||](fm1)(c1) => (EXISTS c2: [||](fm2)(c2) AND semantics(ck)(am)(c1) = semantics(ck)(am)(c2))
+    )  
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ADD OPTIONAL FEATURE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  syntaxAddOptional(fm1,fm2,p,f,ck1,ck2,its,am1,am2,pairs) : bool =
+    getFeatures(fm1)(p) AND                        
+    NOT(getFeatures(fm1)(f)) AND                        
+    addOptional(fm1,fm2,p,f) AND
+    items(ck2) = union(items(ck1),its) AND
+    am2=union(am1,pairs) AND
+    (FORALL an: dom(pairs)(an) => NOT (dom(am1)(an))) AND 
+    itsFeature(its,f);
+
+
+
+  % Adding an optional feature to the FM, new assets to the AM, and new CK items
+  % guarded by the new feature does not impact CK evaluation for existing products 
+  addOptional_EqualCKeval: AXIOM
+    FORALL(fm1,fm2,am1,am2,ck1,ck2,p,f,its,pairs):
+    (
+      (
+      wfCK(fm1,am1,ck1) AND
+      syntaxAddOptional(fm1,fm2,p,f,ck1,ck2,its,am1,am2,pairs)
+      )
+      =>
+        FORALL c: [||](fm1)(c) => [||](fm2)(c) AND semantics(ck1)(am1)(c) = semantics(ck2)(am2)(c)
+    )  
+
+
+
+End CK

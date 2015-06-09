@@ -1,0 +1,171 @@
+ConfigKnowledgeLaws: THEORY
+ BEGIN 
+  IMPORTING FeatureModel, FeatureModelSemantics, Name, ConfigurationKnowledge
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%% LAW 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  %syntax law 1
+  syntaxLaw1(item1,item2:Item, ck1,ck2:CK):boolean =
+    ck1(item1) AND                        
+    ck2(item2) AND
+    (NOT ck1(item2)) AND
+    (NOT ck2(item1)) AND
+    (FORALL (i:Item): ck1(i) AND (i/=item1) => ck2(i)) AND
+    (FORALL (i:Item): ck2(i) AND (i/=item2) => ck1(i)) AND
+    assets(item1)=assets(item2)
+
+  %conditions law 1
+  conditionsLaw1(it1,it2:Item, fm: WFM):boolean =
+    FORALL (c: Configuration): 
+      semantics(fm)(c) => (satisfies(exp(it1),c)<=>satisfies(exp(it2),c))
+
+  %law 1
+  simplifyFeatureExpressionNew: THEOREM
+    FORALL(item1,item2:Item, fm: WFM, A:AM, ck1,ck2:CK):
+    ( 
+      wfCK(fm,A,ck1) AND wfCK(fm,A,ck2) AND 
+      %syntax
+      syntaxLaw1(item1,item2,ck1,ck2) AND
+      %conditions
+      conditionsLaw1(item1,item2,fm)
+    )
+    => ckEq(fm,A,ck1,ck2)
+
+  syntaxLaw1alt(item1,item2:Item, items:finite_sets[Item].finite_set, ck1,ck2:CK):boolean =
+    ck1 = union(item1,items) AND                        
+    ck2 = union(item2,items) AND                        
+    assets(item1)=assets(item2)
+
+  %law 1
+%  simplifyFeatureExpressionNew2: THEOREM
+%    FORALL(item1,item2:Item, fm: WFM, A:AM, ck1,ck2:CK):
+%    ( 
+%      wfCK(fm,A,ck1) AND wfCK(fm,A,ck2) AND 
+%      %syntax
+%      syntaxLaw1alt(item1,item2,ck1,ck2) AND
+%      %conditions
+%      conditionsLaw1(item1,item2,fm)
+%    )
+%    => ckEq2(ck1,ck2)
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%% LAW 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %syntax law 2
+  syntaxLaw2(it1,it2,it3:Item, ck1,ck2:CK):boolean =
+    ck1(it1) AND
+    ck1(it2) AND
+    ck2(it3) AND
+    (NOT ck1(it3)) AND
+    (NOT ck2(it1)) AND
+    (NOT ck2(it2)) AND
+    assets(it3) = (union(assets(it1),assets(it2))) AND
+    exp(it1) = exp(it3) AND
+    (FORALL (i:Item): ck1(i) AND (i/=it1) AND (i/=it2) => ck2(i)) AND
+    (FORALL (i:Item): ck2(i) AND (i/=it3) => ck1(i))
+
+  %conditions law 2
+  conditionsLaw2(it1,it2:Item, fm: WFM):boolean =
+    FORALL (c: Configuration): 
+      semantics(fm)(c) => (satisfies(exp(it1),c)<=>satisfies(exp(it2),c))
+									 
+  %law 2
+  equivalentFeatureExpressions: THEOREM
+    FORALL(it1,it2,it3:Item, fm: WFM, A:AM, ck1,ck2:CK):
+    (
+      wfCK(fm,A,ck1) AND wfCK(fm,A,ck2) AND 
+      %syntax
+      syntaxLaw2(it1,it2,it3,ck1,ck2) AND 
+      %conditions
+      conditionsLaw2(it1,it2,fm)
+    )
+    => ckEq(fm,A,ck1,ck2)
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%% LAW 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %syntax law 3
+  syntaxLaw3(it1,it2,it3:Item, ck1,ck2:CK):boolean =
+    ck1(it1) AND
+    ck1(it2) AND
+    ck2(it3) AND
+    (NOT ck1(it3)) AND
+    (NOT ck2(it1)) AND
+    (NOT ck2(it2)) AND
+    (assets(it1) = assets(it2)) AND 
+    (assets(it2) = assets(it3)) AND
+    (assets(it1) = assets(it3)) AND
+    (exp(it3) = IMPLIES_FORMULA(NOT_FORMULA(exp(it1)),exp(it2))) AND
+    (FORALL (i:Item): ck1(i) AND (i/=it1) AND (i/=it2) => ck2(i)) AND
+    (FORALL (i:Item): ck2(i) AND (i/=it3) => ck1(i))
+
+  duplicatedTasks2: THEOREM
+    FORALL(it1,it2,it3:Item, fm: WFM, A:AM, ck1,ck2:CK):
+    ( 
+      wfCK(fm,A,ck1) AND wfCK(fm,A,ck2) AND  
+      %syntax
+      syntaxLaw3(it1,it2,it3,ck1,ck2) 
+    )
+    => ckEq2(ck1,ck2)
+	 
+  %law 3
+  duplicatedTasks: THEOREM
+    FORALL(it1,it2,it3:Item, fm: WFM, A:AM, ck1,ck2:CK):
+    ( 
+      wfCK(fm,A,ck1) AND wfCK(fm,A,ck2) AND  
+      %syntax
+      syntaxLaw3(it1,it2,it3,ck1,ck2) 
+    )
+    => ckEq(fm,A,ck1,ck2)
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%% LAW 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %syntax law 4
+  syntaxLaw4(item:Item, ck1,ck2:CK):boolean =
+    ck1(item) AND
+    (NOT ck2(item)) AND
+    (FORALL (i:Item): ck1(i) AND (i/=item) => ck2(i)) AND
+    (FORALL (i:Item): ck2(i) => ck1(i))
+
+  %conditions law 4
+  conditionsLaw4(item:Item, fm: WFM):boolean =
+    FORALL (c: Configuration): 
+      semantics(fm)(c) => NOT (satisfies(exp(item),c))
+									 
+  %law 4
+  deadFeatureExpression: THEOREM
+    FORALL(item:Item, fm: WFM, A:AM, ck1,ck2:CK):
+    ( 
+      wfCK(fm,A,ck1) AND 
+      %syntax
+      syntaxLaw4(item,ck1,ck2) AND 
+      %conditions
+      conditionsLaw4(item,fm)
+    )
+    => ckEq(fm,A,ck1,ck2)
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%% LAW 5 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  changeOrder: THEOREM
+    FORALL(fm: WFM, A:AM, ck1,ck2:CK):
+    ( 
+      wfCK(fm,A,ck1) AND 
+      %syntax
+      ck1 = ck2
+    )
+    => ckEq(fm,A,ck1,ck2)
+
+%  moveAsset : THEOREM
+%    FORALL(fm: {featMod: FM | wf(featMod)}, A:AM, ck1,ck2:CK, f,g:Name, it1,it2:Item, S:finite_sets[Item].finite_set):
+%    ( 
+%      wfCK(fm,A,ck1) AND 
+%      wfCK(fm,A,ck2) AND
+
+%      ck1) = union(it1,S) AND
+%      ck2) = union(it2,S) AND
+%      (NOT member(it1,ck2))) AND
+%      (NOT member(it2,ck1))) AND
+%      (assets(it1)=assets(it2)) AND
+%      (FORALL (c:Configuration) : satisfies(exp(it1),c) => satisfies(NAME_FORMULA(f),c)) AND
+%      (FORALL (c:Configuration) : satisfies(exp(it2),c) => satisfies(NAME_FORMULA(g),c)) AND
+%      (formulae(fm)(IMPLIES_FORMULA(NAME_FORMULA(g),NAME_FORMULA(f)))) AND 
+%      (formulae(fm)(IMPLIES_FORMULA(NAME_FORMULA(f),NAME_FORMULA(g)))) 
+%    ) => 
+%        ckEq(fm,A,ck1,ck2)
+
+End ConfigKnowledgeLaws

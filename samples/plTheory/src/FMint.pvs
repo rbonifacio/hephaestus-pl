@@ -1,0 +1,28 @@
+FMint[
+	Configuration:TYPE, 
+	FeatureExpression:TYPE,
+	sat: [FeatureExpression,Configuration -> boolean]
+
+]: THEORY
+BEGIN
+  IMPORTING FeatureExpression[Configuration]{{ 
+    FeatureExpression:=FeatureExpression,
+    sat:=sat
+  }}
+
+  % Assumption <Feature model semantics>
+  FMi: TYPE
+  Feature : TYPE
+  [||] : [FMi -> set[Configuration]]
+
+  wf(fm:FMi):boolean
+  wt(fm:FMi, f:FeatureExpression):boolean
+  genFeatureExpression(f:Feature):FeatureExpression
+  getFeatures(fm:FMi):set[Feature]
+  addMandatory(fm1:FMi, fm2:FMi, p:Feature, f:Feature):bool
+  addOptional(fm1:FMi, fm2:FMi, p:Feature, f:Feature):bool
+  addOR(fm1:FMi, fm2:FMi, p:Feature, f:Feature):bool
+  addAlternative(fm1:FMi, fm2:FMi, p:Feature, f:Feature):bool
+%  sat(f:FeatureExpression, c:Configuration): boolean
+
+END FMint

@@ -8,10 +8,18 @@
 	</configuration>
 	
 	<configuration>
+	  <expression>assets</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>maps, AssetMapping, Assets</args>
+	  </transformation>
+	</configuration>
+	
+	<configuration>
 	  <expression>populations</expression>
 	  <transformation>
 	    <name>selectComponents</name>
-	    <args>Population</args>
+	    <args>Population, PopulationTemplates</args>
 	  </transformation>
 	</configuration>
 	
@@ -24,10 +32,18 @@
 	</configuration>
 
 	<configuration>
+	  <expression>intermediateFM</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>FMint, Configuration, FeatureExpression</args>
+	  </transformation>
+	</configuration>
+
+	<configuration>
 	  <expression>propositionalFM</expression>
 	  <transformation>
 	    <name>selectComponents</name>
-	    <args>FeatureModel, FeatureModelSemantics, FeatureModelRefinements</args>
+	    <args>FeatureModel, FeatureModelSemantics, FeatureModelRefinements, FMpInst</args>
 	  </transformation>
 	</configuration>
 
@@ -35,7 +51,7 @@
 	  <expression>Or(propositionalFM, propositionalFE)</expression>
 	  <transformation>
 	    <name>selectComponents</name>
-	    <args>Formula_, FormulaTheory,Name</args>
+	    <args>Formula_, FormulaTheory, Name</args>
 	  </transformation>
 	</configuration>
 
@@ -62,12 +78,21 @@
 	    <args>RenamingAssets</args>
 	  </transformation>
 	</configuration>
+	
+
+	<configuration>
+	  <expression>intermediateCK</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>CK</args>
+	  </transformation>
+	</configuration>
 
 	<configuration>
 	  <expression>compositional</expression>
 	  <transformation>
 	    <name>selectComponents</name>
-	    <args>ConfigurationKnowledge, CKinst</args>
+	    <args>ConfigurationKnowledge, CKinst, ConfigKnowledgeLaws</args>
 	  </transformation>
 	</configuration>
 
@@ -83,7 +108,7 @@
 	  <expression>selectAssets</expression>
 	  <transformation>
 	    <name>selectComponents</name>
-	    <args>CKselect, CKselectInst</args>
+	    <args>CKselect</args>
 	  </transformation>
 	</configuration>
 
@@ -92,6 +117,46 @@
 	  <transformation>
 	    <name>selectComponents</name>
 	    <args>CKifdef</args>               
+	  </transformation>
+	</configuration>
+
+	<configuration>
+	  <expression>And(selectAssets,preprocess)</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>CKtransMultiple</args>
+	  </transformation>
+	</configuration>
+
+	<configuration>
+	  <expression>And(intermediateFM,intermediateCK)</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>Specific_FMiCKi</args>
+	  </transformation>
+	</configuration>
+
+	<configuration>
+	  <expression>And(propositionalFM,intermediateCK)</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>Specific_FMpCKi</args>
+	  </transformation>
+	</configuration>
+
+	<configuration>
+	  <expression>And(propositionalFM,transformation)</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>Specific_FMpCKt</args>
+	  </transformation>
+	</configuration>
+
+	<configuration>
+	  <expression>And(propositionalFM,compositional)</expression>
+	  <transformation>
+	    <name>selectComponents</name>
+	    <args>Specific_FMpCKc</args>
 	  </transformation>
 	</configuration>
 

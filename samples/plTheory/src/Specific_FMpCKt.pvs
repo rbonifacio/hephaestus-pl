@@ -1,0 +1,182 @@
+Specific_FMpCKt: THEORY
+BEGIN
+  IMPORTING FeatureModelRefinements
+  IMPORTING Assets, AssetMapping, CKtrans
+
+  CONVERSION+ singleton
+
+  fm,fm1,fm2: VAR WFM
+  am,am1,am2,amt,amt1,amt2,pairs: VAR AM
+  ck,ck1,ck2: VAR CK
+  item,item1,item2: VAR Item
+  items,items1,items2: VAR finite_sets[Item].finite_set
+  its: VAR CK
+  c,c1,c2: VAR Configuration
+  exp: VAR Formula_;
+  F,G,H,opt: VAR Name
+  a,a1,a2,a3: VAR Asset
+  an,an1,an2: VAR AssetName
+  pair: VAR [AssetName,Asset]
+  A2: VAR finite_sets[[AssetName,Asset]].finite_set
+  prod,prod1,prod2: VAR Product
+
+  IMPORTING SPLrefinement{{ 
+  	    FM:=WFM, Conf:=Configuration, {||} := semantics,
+  	    AssetName:=Assets.AssetName, Asset:=Assets.Asset, |- := Assets.|-,
+	    CK:=CK, [||] := semantics
+  }}
+
+  pl,pl1,pl2: VAR PL
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% REPLACE FEATURE EXPRESSION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  syntaxReplaceFeatureExp(ck1,ck2,item1,item2,its) : bool =
+    ck1 = cons(item1,its) AND                        
+    ck2 = cons(item2,its) AND                        
+    tasks(item1)=tasks(item2);
+
+  conditionsReplaceFeatureExp(fm,item1,item2) : bool =
+    wt(fm,exp(item2)) AND
+    FORALL c: semantics(fm)(c) => (satisfies(exp(item1),c)<=>satisfies(exp(item2),c))
+  
+
+
+  replaceFeatureExp_EqualCKeval: THEOREM
+    FORALL(pl,ck2,item1,item2,its):
+    (
+      (
+      wfCK(F(pl),A(pl),K(pl)) AND
+      syntaxReplaceFeatureExp(K(pl),ck2,item1,item2,its) AND
+      conditionsReplaceFeatureExp(F(pl),item1,item2)
+      )
+      =>
+        FORALL c: semantics(F(pl))(c) => semantics(K(pl))(A(pl))(c) = semantics(ck2)(A(pl))(c)
+    )  
+
+
+  % MOVE ASSET TO AN EQUIVALENT FEATURE EXPRESSION IN THE CK
+  replaceFeatureExpression: THEOREM
+    FORALL(pl,ck2,item1,item2,its):
+    (
+      (
+      wfCK(F(pl),A(pl),K(pl)) AND
+      syntaxReplaceFeatureExp(K(pl),ck2,item1,item2,its) AND
+      conditionsReplaceFeatureExp(F(pl),item1,item2)
+      )
+      =>
+        plRefinement(pl,pl2) AND wfCK(F(pl),A(pl),ck2) AND wfPL(pl2) 
+    )  WHERE pl2=(# F:=F(pl), A:=A(pl), K:=ck2 #);
+
+
+
+  %% FOR ALL PRODUCTS OF A FM, EVALUATING THE CK WITH A DEAD FEATURE IS EQUIVALENT TO EVALUATING THE CK WITHOUT IT
+  evalCKdeadFeature : THEOREM
+    FORALL(fm,am,ck,opt,amt):
+      (NOT features(fm)(opt)) AND 
+      wfCK(fm,am,ck) 
+      => 
+        (FORALL (c): semantics(fm)(c) 
+	  => 
+	    semanticsCK(ck,am,c,amt) = semanticsCK(ck,am,union(c,singleton(opt)),amt));
+
+  syntaxConditionsAddMandatoryFeat(fm1,fm2,F,G) : bool =
+        addMandatoryNode(fm1,fm2,F,G) 
+
+  % ADDING A MANDATORY FEATURE G WITHOUT CHANGING CK AND AM IS PL REFINEMENT
+  addMandatoryFeat: THEOREM
+    FORALL(pl,F,G,fm2): 
+      (
+        syntaxConditionsAddMandatoryFeat(F(pl),fm2,F,G) AND
+        wfCK(F(pl),A(pl),K(pl)) 
+        =>
+        plRefinement(pl,pl2) AND wfCK(fm2,A(pl),K(pl)) AND wfPL(pl2)
+      )
+      WHERE pl2=(# F:=fm2, A:=A(pl), K:=K(pl) #)
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    ADD OPTIONAL FEATURE    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+  syntaxAddOptionalFeature(fm1,am1,ck1,fm2,A2,ck2,F,G,its,pairs):bool =
+    features(fm2) = union(features(fm1),singleton(G)) AND
+    features(fm1)(F) AND 
+    formulae(fm2) = union(formulae(fm1), singleton(IMPLIES_FORMULA(NAME_FORMULA(G),NAME_FORMULA(F)))) AND
+    A2=union(am1,pairs) AND
+    ck2 = append(ck1,its)
+    AND
+    unique(pairs) AND
+    (FORALL an: dom(pairs)(an) => NOT (dom(am1)(an))) AND 
+    wfPL((# F:=fm2, A:=A2, K:=ck2 #)) AND
+    wfCK(fm2,A2,ck2) AND
+    (NOT features(fm1)(G)) AND
+    (FORALL c : FORALL exp : exps(its)(exp) AND satisfies(exp,c) => satisfies(NAME_FORMULA(G),c))
+
+%  conditionsAddOptionalFeature(fm1,am1,fm2,A2,ck2,G,items,pairs):bool = 
+%    wfPL((# F:=fm2, A:=A2, K:=ck2 #)) AND
+%    wfCK(fm2,A2,ck2) AND
+%    unique(pairs) AND
+%    (FORALL an: dom(pairs)(an) => NOT (dom(am1)(an))) AND 
+%    (NOT features(fm1)(G)) AND
+%    (FORALL c : FORALL exp : exps(items)(exp) AND satisfies(exp,c) => satisfies(NAME_FORMULA(G),c))
+
+  semanticEmpty : LEMMA
+  FORALL(fm,am,ck,G,amt):
+    (NOT features(fm)(G)) AND
+    (FORALL c : FORALL exp : exps(ck)(exp) AND satisfies(exp,c) => satisfies(NAME_FORMULA(G),c))
+    =>   (FORALL(c:Configuration): semantics(fm)(c) => 
+       				 semanticCK(ck,am,c,amt) = amt)
+
+
+  semanticsEmpty : LEMMA
+  FORALL(fm,am,ck,G,amt):
+    (NOT features(fm)(G)) AND
+    (FORALL c : FORALL exp : exps(ck)(exp) AND satisfies(exp,c) => satisfies(NAME_FORMULA(G),c))
+    =>   (FORALL(c:Configuration): semantics(fm)(c) => 
+       				 semanticsCK(ck,am,c,amt) = image(amt))
+
+  semanticRelation : LEMMA
+  FORALL(am,ck,amt,c):
+	semanticsCK(ck,am,c,amt) = image(semanticCK(ck,am,c,amt))
+
+  semanticsAppend : LEMMA
+  FORALL(am,ck1,ck2,amt,c):
+	semanticsCK(append(ck1,ck2),am,c,amt) = semanticsCK(ck2,am,c,semanticCK(ck1,am,c,amt))
+
+
+  mapSubsetAM : LEMMA
+    FORALL(fm,am1,am2,ck,amt) :
+      (FORALL an: dom(am2)(an) => NOT (dom(am1)(an))) AND wfCK(fm,am1,ck)
+    =>
+      (FORALL(c): semantics(fm)(c) => semanticsCK(ck,am1,c,amt) = semanticsCK(ck,union(am1,am2),c,amt));
+
+
+  addOptionalFeatureEqualProducts : THEOREM
+    FORALL(pl, fm2,A2,ck1,ck2, F,G, its, pairs,amt):
+      wfCK(F(pl),A(pl),K(pl)) AND
+      K(pl)=ck1 AND
+      syntaxAddOptionalFeature(F(pl),A(pl),K(pl),fm2,A2,ck2,F,G,its,pairs) 
+      %AND conditionsAddOptionalFeature(F(pl),A(pl),fm2,A2,ck2,G,items,pairs)
+      => 
+       (FORALL(c:Configuration): semantics(F(pl))(c) => 
+       				 semanticsCK(K(pl),A(pl),c,amt) = semanticsCK(ck2,A2,c,amt))
+
+  addOptionalFeature : THEOREM
+    FORALL(pl,fm2,A2,ck2, F,G, its, pairs):
+        ( 
+          wfCK(F(pl),A(pl),K(pl)) AND
+          syntaxAddOptionalFeature(F(pl),A(pl),K(pl),fm2,A2,ck2,F,G,its,pairs)
+	  %AND conditionsAddOptionalFeature(F(pl),A(pl),fm2,A2,ck2,G,items,pairs)
+	
+          => 
+           plRefinement(pl,pl2) AND wfCK(fm2,A2,ck2) AND wfPL(pl2)
+	)
+        WHERE pl2=(# F:=fm2, A:=A2, K:=ck2 #)
+
+
+
+END Specific_FMpCKt

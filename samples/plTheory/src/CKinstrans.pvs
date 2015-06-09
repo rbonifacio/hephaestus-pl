@@ -1,0 +1,20 @@
+CKinstrans: THEORY
+BEGIN
+  IMPORTING AssetMapping
+  
+  AssetNames: TYPE = finite_sets[AssetName].finite_set
+
+  t: VAR AssetNames
+  am,amt: VAR AM
+  assets: VAR finite_sets[Asset].finite_set 
+
+  selectAssets(t,am,amt):AM = 
+    overw(filter(t,am),amt)
+
+
+  IMPORTING CKtrans{{
+  	    Transformation:=AssetNames,
+	    transform:=selectAssets
+  }}
+
+END CKinstrans

@@ -1,0 +1,95 @@
+PopulationTemplates: THEORY
+BEGIN
+  IMPORTING FeatureModelRefinements
+  IMPORTING Assets, AssetMapping, ConfigurationKnowledge
+
+  CONVERSION+ singleton
+
+  fm,fm1,fm2,fm3: VAR WFM
+  am,am1,am2,am3,pairs: VAR AM
+  ck,ck1,ck2,ck3: VAR CK
+  item,item1,item2: VAR Item
+  items,items1,items2: VAR finite_sets[Item].finite_set
+  c,c1,c2: VAR Configuration
+  exp: VAR Formula_;
+  F,G,H,root,opt: VAR Name
+  a,a1,a2,a3: VAR Asset
+  an,an1,an2: VAR AssetName
+  pair,pair1,pair2: VAR [AssetName,Asset]
+  A2: VAR finite_sets[[AssetName,Asset]].finite_set
+  prod,prod1,prod2: VAR Product
+
+  IMPORTING SPLrefinement{{ 
+  	    FM:=WFM, Conf:=Configuration, {||} := semantics,
+  	    AssetName:=Assets.AssetName, Asset:=Assets.Asset, |- := Assets.|-,
+	    CK:=CK, [||] := semantics
+  }}
+
+  pl,pl1,pl2,pl3: VAR PL
+  pop,pop1,pop2,pop3: VAR Population
+
+  addPL : THEOREM
+     FORALL(pl,pop):
+      (
+%        member(pl,pop) 
+%        => 
+          popRefinement(pop,add(pl,pop))
+      ) 
+
+  clonePL : THEOREM
+     FORALL(pl,pop):
+      (
+        member(pl,pop) 
+        => 
+          popRefinement(pop,add(pl,pop))
+      ) 
+
+
+  syntaxMerge(fm1,fm2,fm3,F,G,root,ck1,ck2,ck3,item1,item2,items,am1,am2,am3,an1,an2,a1,a2,pairs):bool = 
+    features(fm1)(root) AND features(fm1)(F) AND
+    features(fm2)(root) AND features(fm2)(G) AND
+    features(fm3)(root) AND features(fm3)(F) AND features(fm3)(G) AND
+    formulae(fm1)(NAME_FORMULA(root)) AND formulae(fm1)(IMPLIES_FORMULA(NAME_FORMULA(F),NAME_FORMULA(root))) AND formulae(fm1)(IMPLIES_FORMULA(NAME_FORMULA(root),NAME_FORMULA(F))) AND
+    formulae(fm2)(NAME_FORMULA(root)) AND formulae(fm2)(IMPLIES_FORMULA(NAME_FORMULA(G),NAME_FORMULA(root))) AND formulae(fm2)(IMPLIES_FORMULA(NAME_FORMULA(root),NAME_FORMULA(G))) AND
+    formulae(fm3)(NAME_FORMULA(root)) AND formulae(fm3)(IMPLIES_FORMULA(NAME_FORMULA(root),IMPLIES_FORMULA(NOT_FORMULA(NAME_FORMULA(F)),NAME_FORMULA(G)))) AND 
+    formulae(fm3)(IMPLIES_FORMULA(NAME_FORMULA(root),NOT_FORMULA(AND_FORMULA(NAME_FORMULA(F),NAME_FORMULA(G))))) AND
+    formulae(fm3)(IMPLIES_FORMULA(NAME_FORMULA(F),NAME_FORMULA(root))) AND formulae(fm3)(IMPLIES_FORMULA(NAME_FORMULA(G),NAME_FORMULA(root))) AND
+    ck1 = union(items,singleton(item1)) AND
+    ck2 = union(items,singleton(item2)) AND
+%    ( imgCK(ck1)=dom(am1) ) AND
+%    ( imgCK(ck2)=dom(am2) ) AND
+    ck3 = union(items,union(singleton(item1),singleton(item2))) AND
+%    (FORALL c : FORALL exp : exps(items)(exp) AND satisfies(exp,c) => satisfies(NAME_FORMULA(root),c)) AND
+    ( imgCK(items)=dom(pairs) ) AND
+    item1 = (# exp:=NAME_FORMULA(F), assets:=singleton(an1) #) AND
+    item2 = (# exp:=NAME_FORMULA(G), assets:=singleton(an2) #) AND
+%Trocar union por ow (o operador de mais com circulo)
+    am1=union((an1,a1),pairs) AND
+    am2=union((an2,a2),pairs) AND
+    am3=union(pairs,union((an1,a1),(an2,a2))) AND
+%    unique(pairs) AND
+    (FORALL an: dom(pairs)(an) => ((NOT(an=an1)) AND (NOT(an=an2))) ) AND 
+    (NOT(an1=an2)) AND
+    (NOT(F=G)) AND
+    (NOT(root=F)) AND
+    (NOT(root=G)) 
+
+%  Merge2PL : THEOREM
+%    FORALL(pl1,pl2,pl3, fm1,fm2,fm3,F,G,root,ck1,ck2,ck3,item1,item2,items,am1,am2,am3,an1,an2,a1,a2,pairs):
+%     FORALL(pl1,pl2, fm1,fm2,fm3,F,G,root,ck1,ck2,ck3,item1,item2,items,am1,am2,am3,an1,an2,a1,a2,pairs):
+%      (
+%        syntaxMerge(fm1,fm2,fm3,F,G,root,ck1,ck2,ck3,item1,item2,items,am1,am2,am3,an1,an2,a1,a2,pairs) AND
+%        F(pl1) = fm1 AND
+%        F(pl2) = fm2 AND
+%        F(pl3) = fm3 AND
+%        A(pl1) = am1 AND
+%        A(pl2) = am2 AND
+%        A(pl3) = am3 AND
+%        K(pl1) = ck1 AND
+%        K(pl2) = ck2 %AND
+%        K(pl3) = ck3 
+%        => 
+%          popRefinement(union(pl1,pl2),pl3) AND wfPL(pl3)
+%      ) WHERE pl3=(# F:=fm3, A:=am3, K:=ck3 #)
+
+END PopulationTemplates

@@ -1,0 +1,10 @@
+(FMint
+ (addMandatory_TCC1 0
+  (addMandatory_TCC1-1 nil 3593789229
+   ("" (existence-tcc)
+    (("" (instantiate 1 "LAMBDA(x:FMi,f,g:Feature):x")
+      (("" (propax) nil nil)) nil))
+    nil)
+   ((Feature type-decl nil FMint nil) (FMi type-decl nil FMint nil))
+   nil)))
+

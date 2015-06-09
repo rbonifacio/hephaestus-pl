@@ -17,9 +17,9 @@
 
   	<feature min="1" max="1" name="Assets"  id="assets">
 
-	    <featureGroup min="1" max="2" >
+	    <featureGroup min="0" max="2" >
 	      <feature min="0" max="1" name="ifdef" id="ifdef"/>
-              <feature min="0" max="1" name="renaming" id="renaming"/>
+          <feature min="0" max="1" name="renaming" id="renaming"/>
 	    </featureGroup>
 
 	</feature>
