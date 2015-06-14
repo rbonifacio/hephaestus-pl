@@ -6,7 +6,16 @@ clean:
 	@cd src/meta-hephaestus; make clean
 	
 %-build:
-	@cd src/meta-hephaestus; make $*-build	
+	@cd src/meta-hephaestus; make $*-build
+	
+test:
+	@cd src/meta-hephaestus; make test
+	
+test-products:
+	make productUcmBpm-build
+	make productReq-build	
+	make productDtmc-build
+	make productCloud-build	
 
 push:
 	git commit -a

@@ -3,11 +3,11 @@ ghc: 7.6
 sudo: required
 
 before_install:
-  - apt-get update -qy
-  - apt-get install -qq build-essential libghc-ncurses-dev ncurses-dev
+  - sudo apt-get update -qy
+  - sudo apt-get install -qq build-essential libghc-ncurses-dev ncurses-dev
 
 script:
   - cabal install bimap bitset parse-dimacs hxt-relaxng
   - cabal install hatt fgl graphviz
   - cabal install syb MissingH
-
+  - make test-products
