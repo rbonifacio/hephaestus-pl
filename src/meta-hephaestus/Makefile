@@ -37,7 +37,10 @@ productCode-build:
 productDtmc-build:
 	make BuildDTMCProduct.drive
 	make LoadTest.drive
-
+	
+productCloud-build:
+	make BuildCloudProduct.drive
+	make LoadTest.drive
 
 productAllfeatures-build:
 	make BuildAllFeatures.drive

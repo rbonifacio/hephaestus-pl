@@ -27,7 +27,7 @@ configurationKnowledge
        [
          BindProductName "Hephaestus",
          SelectAsset "Hephaestus",
-	 RemoveProductMainFunction
+         RemoveProductMainFunction
        ]
      ),      
      (
@@ -77,9 +77,16 @@ configurationKnowledge
      (
        And (FeatureRef "DTMC") (FeatureRef "DtmcToDot"),
        [SelectExport "DtmcToDot"]
+     ),
+     (
+       FeatureRef "Cloud",
+       [SelectAsset "Cloud"]
+     ),
+     (
+       And (FeatureRef "Cloud") (FeatureRef "DeploymentFile"),
+       [SelectExport "DeploymentFile"]
      )
    ]
-
 
 --
 -- Metadata about this assets used during composition.
@@ -107,9 +114,9 @@ assetMetaData = fromList
        --"bindParameter _ " must be before than "bindParameter [x,y]".
        assetLstTransf = [("evaluateAspects", "EvaluateAspects", "ids", "ids", "Success"),
                          ("bindParameter", "BindParameter", "_", " ", "Fail"),
-			 ("bindParameter", "BindParameter", "[x,y]", "x y", "Success"),
-			 ("selectUseCases", "SelectUseCases", "ids", "ids", "Success"),
-			 ("selectScenarios", "SelectScenarios", "ids", "ids", "Success") ] 
+                         ("bindParameter", "BindParameter", "[x,y]", "x y", "Success"),
+                         ("selectUseCases", "SelectUseCases", "ids", "ids", "Success"),
+                         ("selectScenarios", "SelectScenarios", "ids", "ids", "Success") ] 
     }
   ),
   ( "BusinessProcess",
@@ -130,11 +137,34 @@ assetMetaData = fromList
        --assetParamParser = "(ns bpSchema) (snd " ++ assetVarProperty ++ ")",
        assetParamParser = "(ns bpSchema) (snd bModel)",
        assetLstTransf = [("bindParameterBpm", "BindParameterBpm", "_", " ", "Fail"),
-			 ("bindParameterBpm", "BindParameterBpm", "[np,vp]", "np (Value vp)", "Success"),
-			 ("evaluateAdvice", "EvaluateAdvice", "[id]", "id", "Success"),
-			 ("selectBusinessProcess", "SelectBusinessProcess", "[id]", "id", "Success") ]  
+                         ("bindParameterBpm", "BindParameterBpm", "[np,vp]", "np (Value vp)", "Success"),
+                         ("evaluateAdvice", "EvaluateAdvice", "[id]", "id", "Success"),
+                         ("selectBusinessProcess", "SelectBusinessProcess", "[id]", "id", "Success") ]  
     }
   ),
+--
+  ( "Cloud",
+    AssetMetaData {
+       assetModuleType = "Cloud.Types",
+       assetModuleParser = "Cloud.Parsers.Yaml",
+       assetModule = "Clouds",
+       assetModel = "CloudModel",
+       assetSelector = [("cloud","CloudModel")],
+       assetSelector' = [("splCloud","CloudModel")],
+       assetEmpty = "emptyCloud",
+       assetXType = "CloudTransformation",
+       assetXFun = "transformCloud",
+       assetVarProperty = "cModel",
+       assetNameProperty = "cloud-model",
+       assetXFunParser = "parseCloudModel",
+       assetVarParser = "cloudpl",
+       assetParamParser = "(snd cModel)",       
+       assetLstTransf = [("removeClouds", "RemoveClouds", "ids", "ids", "Success"),
+                         ("selectCloud", "SelectClouds", "ids", "ids", "Success"),                                      
+                         ("selectAllClouds", "SelectAllClouds", "_", "", "Success")]
+    }
+  ),  
+--  
   ( "DTMC",
     AssetMetaData {
        assetModuleType = "DTMC.Types",
@@ -174,8 +204,8 @@ assetMetaData = fromList
        --assetParamParser = "(ns reqSchema) (snd " ++ assetVarProperty++")",
        assetParamParser = "(ns reqSchema) (snd rModel)",
        assetLstTransf = [("removeRequirements", "RemoveRequirements", "ids", "ids", "Success"),
-			 ("selectRequirements", "SelectRequirements", "ids", "ids", "Success"),
-			 ("selectAllRequirements", "SelectAllRequirements", "_", " ", "Success") ]  
+                         ("selectRequirements", "SelectRequirements", "ids", "ids", "Success"),
+                         ("selectAllRequirements", "SelectAllRequirements", "_", " ", "Success") ]  
     }
   ),
   ( "Code",
@@ -194,7 +224,7 @@ assetMetaData = fromList
        assetXFunParser = "parseComponentModel",
        assetVarParser = "comppl",
        --assetParamParser = "(snd " ++ assetVarProperty++")",
-       assetParamParser = "(snd compModel)",	 
+       assetParamParser = "(snd compModel)",         
        assetLstTransf = [("preprocessFiles", "PreProcessor", "e", "e", "Success"),
                          ("createBuildEntries", "CreateBuildEntries", "e", "e", "Success"),
                          ("selectAndMoveComponent", "SelectAndMoveComponent", "_", " ", "Fail"),
@@ -222,7 +252,7 @@ assetMetaData = fromList
                           ("removeProductMainFunction", "RemoveProductMainFunction", "_", " ", "Success"),
                           ("bindProductName", "BindProductName", "[id]", "id", "Success"),
                           ("selectExport", "SelectExport", "[id]", "id", "Success"),
-			  ("selectAsset", "SelectAsset", "[id]", "id", "Success"),
+                          ("selectAsset", "SelectAsset", "[id]", "id", "Success"),
                           ("selectBaseProduct", "SelectBaseProduct", "_", " ", "Success") ]
     }
   )
@@ -276,6 +306,15 @@ exportMetaData = fromList
        exportXFun = "exportReqToLatex",
        exportXExt = ".tex",
        exportSelector = "req"
+    }
+  ),
+  ( "DeploymentFile",
+    ExportMetaData {
+       exportModule   = "Cloud.PrettyPrinter.DeploymentFile",
+       exportXType    = "ExportCloudDeployment",
+       exportXFun     = "exportCloudDeployment",
+       exportXExt     = ".sh",
+       exportSelector = "cloud"
     }
   )
  ]

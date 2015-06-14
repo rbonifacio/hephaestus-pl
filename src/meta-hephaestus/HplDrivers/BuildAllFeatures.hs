@@ -16,7 +16,8 @@ main = buildHpl fcAllIn
                                   Leaf $ f { fId = "BusinessProcess" }, 
                                   Leaf $ f { fId = "DTMC" },
                                   Leaf $ f { fId = "Code" },
-                                  Leaf $ f { fId = "Requirement" }],
+                                  Leaf $ f { fId = "Requirement" },
+                                  Leaf $ f { fId = "Cloud" }],
 	 Root 
          (f { fId = "OutpuFormat" }) [
                                   Leaf $ f { fId = "UcmToXML" },
