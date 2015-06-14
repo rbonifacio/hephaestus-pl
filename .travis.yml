@@ -1,5 +1,7 @@
 ghc: 7.6
 
+sudo: true
+
 before_install:
   - apt-get update -qy
   - apt-get install -qq build-essential libghc-ncurses-dev ncurses-dev
