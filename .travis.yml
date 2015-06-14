@@ -1,6 +1,6 @@
 ghc: 7.6
 
-sudo: true
+sudo: required
 
 before_install:
   - apt-get update -qy
