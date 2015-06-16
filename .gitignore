@@ -5,3 +5,8 @@ cabal-dev
 *.chi
 *.chs.h
 .virthualenv
+.dist-buildwrapper/
+.project
+.settings/
+.DS_STORE
+

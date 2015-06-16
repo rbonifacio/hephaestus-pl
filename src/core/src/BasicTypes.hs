@@ -24,7 +24,7 @@ type Path = String
 --   Since parsers usually have to perform some kind of IO, the ParserResult 
 --   data type shuld be an instance of Monad.
 -- 
---   As a final remark, the result of a parser might be either a Sucess or a Fail.
+--   As a final remark, the result of a parser might be either a Success or a Fail.
     
 data ParserResult a = Success a | Fail String
  deriving (Read, Show, Eq, Ord)

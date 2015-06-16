@@ -1,3 +1,3 @@
 clean:
-	@rm -f BuildHephaestus BuildTestProduct LoadAssets LoadBaseProduct LoadHephaestus LoadTestProduct BuildTest BuildDTMCProduct BuildAllFeatures
+	@rm -f BuildHephaestus BuildTestProduct LoadAssets LoadBaseProduct LoadHephaestus LoadTestProduct BuildTest BuildDTMCProduct BuildCloudProduct BuildAllFeatures
 

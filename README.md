@@ -13,7 +13,7 @@ How does it work?
 
 ### Setting up the environment
 
-Hephaestus-PL stands on the shoulders of [Haskell][haskell-lang], a purely functional language with a powerful type system, which helps in achieving robustness, terseness and readability of code at the same time. To build it, you'll need some Haskell tools:
+Hephaestus-PL stands on the shoulders of [Haskell][haskell-lang], a purely functional language with a powerful type system, which helps on achieving robustness, terseness and readability of code at the same time. To build it, you'll need some Haskell tools:
 
 - A compiler. **GHC** is the _de facto_ standard, and we have built Hephaestus-PL with its 7.6.3 version.
 - Haskell's package manager, **cabal**.
@@ -33,6 +33,11 @@ If you want to build derivation tools with support for FDTMCs, you will also nee
 $ cabal install hatt
 $ cabal install fgl
 $ cabal install graphviz
+```
+
+```bash
+$ cabal install syb
+$ cabal install MissingH
 ```
 
 **TODO:** Add some straight-to-the-point compilation instructions. Preferably a build script or cabal configuration file.
